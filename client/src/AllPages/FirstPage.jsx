@@ -5,7 +5,7 @@ import Head from '../Head'
 function FirstPage() {
   return (
     <div>
-       Content over here.
+       Content page is this.
       </div>
   )
 }

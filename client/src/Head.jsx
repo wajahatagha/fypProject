@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { UserContext } from './UserContext'
 
 function Head() {
+
+const {user} = useContext(UserContext)
+
+
   return (
     <div>
        <header className='flex justify-between'>
@@ -27,6 +32,13 @@ function Head() {
 </svg>
 
 </button>
+{  //**********NEED TO UNDERSTAND THIS PART!!!!!!!!!! */
+  user ? (
+    <div>
+      {user.name}
+    </div>
+  ) : <p>Please Log in.</p>
+}
 
 </Link>
         </header>

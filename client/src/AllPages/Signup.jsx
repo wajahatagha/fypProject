@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import axios from 'axios';
 
 
@@ -8,7 +8,7 @@ function Signup() {
 const [name, setName] = useState('')
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
-
+const [navigate, setNavigate] = useState(false)
 
 
 
@@ -22,16 +22,20 @@ async function Signing(ev){
         email,
         password
     })
-    .then(res =>{console.log(res)})
+    
     alert('Registration Completed');
+    setNavigate(true)
     } catch (error) {
       alert('There was a problem in registration')
     }
   
     
     
-}
-
+  }
+  
+  if(navigate){
+    return <Navigate to={'/logging'} />
+  }
 // axios.get('/test')
 
 
@@ -43,11 +47,11 @@ async function Signing(ev){
         
         <div>
         Name     
-        <input type="text" placeholder='Enter your name' value={name} onChange={(event)=>setName(event.target.value)} className='block my-2 border rounded-full py-2 pl-[32.75px] pr-[100.75px]'/>    
+        <input type="text" placeholder='Enter your name' value={name} onChange={(event)=>setName(event.target.value)} className='block my-2 border rounded-full py-2 pl-[32.75px] pr-[100.75px]' required />    
         Email Address 
-        <input type="email" placeholder='Enter your email' value={email} onChange={(event)=>setEmail(event.target.value)} className='block my-2 border rounded-full py-2 pl-[32.75px] pr-[100.75px]'/>
+        <input type="email" placeholder='Enter your email' value={email} onChange={(event)=>setEmail(event.target.value)} className='block my-2 border rounded-full py-2 pl-[32.75px] pr-[100.75px]' required />
         Password
-        <input type="password" placeholder='Enter your password' value={password} onChange={(event)=>setPassword(event.target.value)} className='block my-2 border rounded-full py-2 pl-[32.75px] pr-[100.75px]'/>
+        <input type="password" placeholder='Enter your password' value={password} onChange={(event)=>setPassword(event.target.value)} className='block my-2 border rounded-full py-2 pl-[32.75px] pr-[100.75px]' required />
         </div>
         <button className='bg-primary w-full border rounded-full mt-3 py-2' >
             Signup

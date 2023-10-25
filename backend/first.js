@@ -5,12 +5,18 @@ require('dotenv').config()
 const User = require('./dataModels/User.js')
 const bcrypt = require('bcryptjs')
 const jsonToken = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 
 const jsonSecret = 'asbcnkvjnaknvka'
 
+// const nodemailer = require('nodemailer')
+// const jwt = require('jsonwebtoken');
+
+
 
 const app = express(); 
-app.use(express.json()) //the request comes over here to parse the string data in the json format
+app.use(cookieParser()) //this middleware is used to read cookie which contains the token
+app.use(express.json()) //middleware used so that the request comes over here to parse the string data in the json format
 app.use(cors({
     credentials:true,
     origin:'http://127.0.0.1:5173'
@@ -24,7 +30,7 @@ const secretSalt = bcrypt.genSaltSync(12)
 
 mongoose.connect(process.env.MONGO_URL)
 
-console.log(process.env.MONGO_URL)
+// console.log(process.env.MONGO_URL)
 
 app.post('/signup', async (req,res)=>{
     const {name,email,password} = req.body 
@@ -34,6 +40,7 @@ app.post('/signup', async (req,res)=>{
             email,
             password:bcrypt.hashSync(password,secretSalt),
         })
+        console.log(userDetails.name)
         // console.log('====================================');
         // console.log(req.body);
         // console.log('====================================');
@@ -60,19 +67,27 @@ app.post('/logging', async (req, res) => {
         }
 
         const passCheck = bcrypt.compareSync(password, userDetails.password);
-
+        
         if (passCheck) {
             // Passwords match, issue a token and respond to the user
             // jsonToken.sign({ email: userDetails.email, id: userDetails._id }, jsonSecret, {}, (error, token) => {
             //     if (error) {
             //         throw error;
             //     } else {
-            //         res.cookie('token', token).json('Passwords Match');
-            //     }
-            // }) // Create a JSON Web Token and set a cookie
+                //     }
+                // }) // Create a JSON Web Token and set a cookie
+        
+               const token =  jsonToken.sign({name:userDetails.name,email:userDetails.email,id:userDetails._id},jsonSecret)
 
-            console.log("Passwords Match");
-            res.json('Passwords Match');
+                res.cookie('token', token);
+                res.json(userDetails)
+                console.log('====================================');
+                console.log("Token is generated",token);
+                console.log('====================================');
+               
+        
+            // console.log("Passwords Match");
+            // res.json('Passwords Match');
         } else {
             // Passwords do not match
             res.status(422).json('Passwords do not match');
@@ -85,6 +100,33 @@ app.post('/logging', async (req, res) => {
         res.status(500).json('Internal Server Error');
     }
 });
+
+app.get('/profile', (req,res)=>{
+   
+   const {token} = req.cookies;
+   
+    if(token){
+       
+        try {
+            const user = jsonToken.verify(token, jsonSecret);
+            res.json(user);
+          } catch (err) {
+            // Handle the error here
+            res.status(500).json({ error: 'Token verification failed' });
+          }
+       
+    }
+    else{
+        res.json(null);
+    }
+
+
+    //res.json({token})
+})
+
+
+//////////////////////////////////////////////////
+
 
 
 

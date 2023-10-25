@@ -9,10 +9,12 @@ import Logging from './AllPages/Logging'
 import Structure from './Structure'
 import Signup from './AllPages/Signup'
 import axios from 'axios'
+import UserContextProvider from './UserContext'
 
 
-axios.defaults.baseURL = 'http://localhost:4000';
 
+axios.defaults.baseURL = 'http://127.0.0.1:4000';
+axios.defaults.withCredentials= true;
 
 function App() {
   
@@ -20,6 +22,7 @@ function App() {
   return (
     
     <>
+  <UserContextProvider> 
    <Routes>
 
     <Route path='/' element={<Structure />}>
@@ -28,7 +31,7 @@ function App() {
    <Route path='/signup' element={<Signup />}/>
    </Route>
    </Routes>
-      
+  </UserContextProvider>    
    </>
   )
 }
