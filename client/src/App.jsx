@@ -10,6 +10,7 @@ import Structure from './Structure'
 import Signup from './AllPages/Signup'
 import axios from 'axios'
 import UserContextProvider from './UserContext'
+import Account from './AllPages/Account'
 
 
 
@@ -29,6 +30,7 @@ function App() {
    <Route path='' element={<FirstPage />}/>
    <Route path='/logging' element={<Logging />}/>
    <Route path='/signup' element={<Signup />}/>
+   <Route path='/accPage/:nestPage?' element={<Account />}/>
    </Route>
    </Routes>
   </UserContextProvider>    

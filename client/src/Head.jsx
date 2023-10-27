@@ -10,7 +10,7 @@ const {user} = useContext(UserContext)
   return (
     <div>
        <header className='flex justify-between'>
-          <p className='text-xl font-bold p-2'>PakVenues</p>
+          <Link to={'/'} className='text-xl font-bold p-2'>PakVenues</Link>
           <div className='flex rounded-full border border-gray-600 px-4 mt-2 mr-2 items-center shadow-md shadow-gray-400'>
            <div className='px-4'> Choose Place</div>
            <div className="border-l border-gray-300 h-8 w-2 p-2"></div>
@@ -24,21 +24,21 @@ const {user} = useContext(UserContext)
 
            </button>
           </div>
-          <Link to={'/logging'} className='flex  mt-2 mr-7 items-center '>
+          <Link to={user ? '/accPage' : '/logging'} className='flex  mt-2 mr-7 items-center '>
 
-<button>
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7">
+{/* <button> */}
+{/* This is Hamburger logo <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7">
   <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-</svg>
+</svg> */}
 
-</button>
 {  //**********NEED TO UNDERSTAND THIS PART!!!!!!!!!! */
   user ? (
     <div>
-      {user.name}
+      Welcome, {user.name}
     </div>
-  ) : <p>Please Log in.</p>
+  ) : <button className='bg-primary h-10 w-20 rounded-full'>Log in</button>
 }
+{/* </button> */}
 
 </Link>
         </header>
