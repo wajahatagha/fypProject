@@ -20,6 +20,7 @@ async function Login(ev){
     alert('Login was successful')
     console.log("login successfull")
     setNavigate(true)
+    
   } catch (error) {
     alert('Login was unsuccessful')
     console.log("login unsuccessfull")
@@ -28,7 +29,7 @@ async function Login(ev){
 }
 
 if(navigate){
-  return <Navigate to={'/'} />
+ return <Navigate to={'/'} />
 }
 
 

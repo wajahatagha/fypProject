@@ -6,9 +6,8 @@ function Head() {
 
 const {user} = useContext(UserContext)
 
-
   return (
-    <div>
+    <div className='container'>
        <header className='flex justify-between'>
           <Link to={'/'} className='text-xl font-bold p-2'>PakVenues</Link>
           <div className='flex rounded-full border border-gray-600 px-4 mt-2 mr-2 items-center shadow-md shadow-gray-400'>
@@ -33,7 +32,7 @@ const {user} = useContext(UserContext)
 
 {  //**********NEED TO UNDERSTAND THIS PART!!!!!!!!!! */
   user ? (
-    <div>
+    <div className='p-3 rounded-full bg-primary'  >
       Welcome, {user.name}
     </div>
   ) : <button className='bg-primary h-10 w-20 rounded-full'>Log in</button>

@@ -48,6 +48,7 @@ app.post('/signup', async (req,res)=>{
     } 
     catch (e) {
         res.status(422).json(e);
+        console.log(e)
     }
 })
 
@@ -77,7 +78,7 @@ app.post('/logging', async (req, res) => {
                 //     }
                 // }) // Create a JSON Web Token and set a cookie
         
-               const token =  jsonToken.sign({name:userDetails.name,email:userDetails.email,id:userDetails._id},jsonSecret)
+               const token =  jsonToken.sign({name:userDetails.name,email:userDetails.email,id:userDetails._id,password:userDetails.password},jsonSecret)
 
                 res.cookie('token', token);
                 res.json(userDetails)
@@ -110,6 +111,7 @@ app.get('/profile', (req,res)=>{
         try {
             const user = jsonToken.verify(token, jsonSecret);
             res.json(user);
+            
           } catch (err) {
             // Handle the error here
             res.status(500).json({ error: 'Token verification failed' });
@@ -122,6 +124,10 @@ app.get('/profile', (req,res)=>{
 
 
     //res.json({token})
+})
+
+app.post('/logout', (req,res)=>{
+    res.cookie('token', '').json(true);
 })
 
 

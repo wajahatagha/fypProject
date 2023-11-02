@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.bg-primary{
+    background: linear-gradient(to right, #debaf7, #83c8f9)!important;
+}
+
+.carousel{
+    margin-top: 10px;
+}
+.carousel .carousel-inner  .carousel-item img{
+    
+    height: 450px;
+}
+.cards{
+    display: flex ;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}

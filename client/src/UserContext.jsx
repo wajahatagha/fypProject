@@ -14,9 +14,12 @@ if(!user){
     //from /profile endpoint where the data is being get by reading the cookie through cookie parser middleware and through that it's extracting 
     //data from the token which doesn't get deleted even after the page gets refreshed
     setUser(data)
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
   })
 }
-  
+ 
 }, [])
 
 

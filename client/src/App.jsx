@@ -31,6 +31,7 @@ function App() {
    <Route path='/logging' element={<Logging />}/>
    <Route path='/signup' element={<Signup />}/>
    <Route path='/accPage/:nestPage?' element={<Account />}/>
+   <Route path='/accPage/:nestPage/:event' element={<Account />}/>
    </Route>
    </Routes>
   </UserContextProvider>    
