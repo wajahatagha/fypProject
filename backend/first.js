@@ -102,6 +102,8 @@ app.post('/logging', async (req, res) => {
     }
 });
 
+
+
 app.get('/profile', (req,res)=>{
    
    const {token} = req.cookies;

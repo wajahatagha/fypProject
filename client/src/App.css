@@ -1,6 +1,332 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+    --main-color: #8e44ad;
+    --black: #222;
+    --white: #fff;
+    --light-black: #777;
+    --light-white:#fff9;
+    --dark-bg: rgba(0,0,0,.7);
+    --light-bg: #eee;
+    --border: 1rem solid var(var(--black));
+    --box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
+    --text-shadow: 0 1.5rem 3rem rgba(0,0,0,.3);
+
+}
+
+html{
+    font-size: 80%;
+    overflow-x: hidden;
+}
+
+html::-webkit-scrollbar{
+    width: 1rem;
+}
+
+
+html::-webkit-scrollbar-track{
+    background-color: var(--white);
+}
+
+html::-webkit-scrollbar-thumb{
+    background-color: var(--main-color);
+}
+
+section{
+    padding: 5rem 10%;
+}
+
+.heading-title{
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 6rem;
+    text-transform: uppercase;
+    color: var(--black);
+}
+
+.header{
+    position: sticky;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background-color: var(--white);
+    display: flex;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    box-shadow: var(--box-shadow);
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header .logo{
+    font-size: 2rem;
+    color: var(--black);
+}
+
+
+
+.header .navbar div{
+    font-size: 1.5rem;
+    margin-left: 1.5rem;
+    color: var(--black);
+}
+
+.header .navbar div:hover{  
+    color:var(--main-color)
+}
+
+#login-btn{
+    font-size: 1.5rem;
+    cursor:pointer;
+    color:var(--black);
+}
+
+.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(./Pictures/bg2.jpg) no-repeat;
+    background-size: cover;
+    background-position:center;
+}
+.wrapper{
+    width: 420px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--box-shadow);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 30px 40px;
+}
+ 
+.wrapper h1{
+    font-size: 36px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.wrapper .input-box{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: var(--white);
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder{
+    color: var(--white);
+}
+
+.input-box i{
+    position: absolute;
+    right: 20px;
+    top: 30%;
+    transform: translate(-50%);
+    font-size: 20px;
+}
+
+.wrapper .btn{
+    width: 100%;
+    height: 45px;
+    background: var(--white);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--black);
+    font-weight: 600;
+}
+
+.wrapper .register-link{
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+/* #menu-btn{
+    font-size: 1.5rem;
+    cursor:pointer;
+    color:var(--black);
+    display: none;
+
+} */
+
+
+.services .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem,1fr));
+    gap:8rem;
+}
+
+.services .box-container .box{
+    padding: 3rem 2rem;
+    text-align: center;
+    background: var(--main-color);
+}
+
+.services .box-container .box  img{
+    height: 7rem;
+    align-items: center;
+    width: 22rem;
+    color: var(--white);
+
+}
+
+.services .box-container .box h3{
+    color: var(--black);
+    font-size: 1.7rem;
+}
+
+.contact-box{
+    background-color: var(--white);
+    display: flex;
+}
+
+.contact-left{
+    flex-basis: 60%;
+    padding: 40px 60px;
+}
+
+.contact-right{
+    flex-basis: 40%;
+    padding: 40px;
+    background: var(--main-color);
+    color: var(--white);
+}
+
+.input-row{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input-row .input-group{
+    flex-basis: 45%;
+}
+
+input{
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    padding-bottom: 5px;
+}
+
+textarea{
+    width: 100%;
+    border: 1px solid #ccc;
+    outline: none;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+label{
+    margin-bottom: 6px;
+    display: block;
+    color: var(--main-color)
+}
+.button{
+    background: var(--main-color);
+    width: 100px;
+    border: none;
+    outline: none;
+    color: var(--white);
+    height: 35px;
+    border-radius: 30px;
+    margin-top: 20px;
+    box-shadow: var(--box-shadow);
+}
+
+.contact-left h3{
+    color: var(--main-color);
+    /* font-weight: 600; */
+    margin-bottom: 30px;
+}
+
+/* .about-l{
+    margin: 30px;
+    padding: 5px;
+}
+
+.about-l h1{
+    text-align: center;
+    color: var(--black); 
+}
+
+.about-l p{
+    text-align: center;
+    padding: 3px;
+    color: var(--black);
+}
+
+.about-item{
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: var(--white);
+    padding: 80px, 30px;
+    box-shadow: var(--box-shadow);
+} */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.aboutt{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
+}
+
+.about-section{
+    background: url(./Pictures/about.webp) no-repeat left;
+    background-size: 55%;
+    background-color: #fdfdfd;
+    overflow: hidden;
+    padding: 100px 0;
+}
+
+.inner-container{
+    width: 55%;
+    float: right;
+    background-color: #fdfdfd;
+    padding: 150px;
+}
+
+.text{
+    font-size: 13px;
+    color: var(--black);
+    line-height: 30px;
+    text-align: justify;
+    margin-bottom: 40px;
+}
+
+.skills{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 13px;
+}
+
 .bg-primary{
     background: linear-gradient(to right, #debaf7, #83c8f9)!important;
 }
@@ -17,4 +343,149 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.footer{
+    background: url(./Pictures/foot2.avif) no-repeat;
+    background-size: cover;
+    background-position: center;
+   
+}
+
+.footer .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem,1fr));
+    gap:8rem;
+}
+
+.footer .box-container .box h3{
+    color: var(--white);
+    font-size: 2rem;
+    padding-bottom: 2rem;
+}
+
+.footer .box-container .box a{
+    color: var(--white);
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+    display: block;
+}
+
+.footer .box-container .box a i{
+    color: var(--main-color);
+    padding-right:.5rem;
+    transition: .2s linear;
+}
+
+.footer .box-container .box a:hover i{
+    padding-right: 2rem;
+}
+
+.footer .credit{
+    text-align:center;
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: 1rem solid var(--light-white);
+    font-size: 2rem;
+    color: var(--white);
+}
+
+.footer .credit span{
+    color: var(--main-color);
+}
+
+
+
+
+
+
+
+
+
+/* media responsive */
+
+@media (max-width:1200px){
+    section{
+        padding: 3rem 5%;
+    }
+}
+
+@media (max-width:991px){
+    html{
+        font-size:60%
+    }
+    section{
+        padding: 3rem 2rem;
+    }
+}
+
+@media (max-width:768px) {
+    .header .navbar{
+        position: absolute;
+        top: 99%; left: 0; right: 0;
+        background-color: var(--white);
+        border-top: var(--border);
+        padding: 2rem;
+    }
+
+    .header .navbar div{
+        display: block;
+        margin:1rem;
+        text-align: center;
+    }
+
+}
+
+@media (max-width:450px){
+    html{
+        font-size:50%
+    }
+    .heading-title{
+        font-size: 3.5rem;
+    }
+    
+}
+
+@media screen and (max-width:1200px){
+    .inner-container{
+      padding: 80px;
+    }
+}
+
+@media screen and (max-width:1000px) {
+    .about-section{
+        background-size: 100%;
+        padding: 100px 40px;
+    }
+    .inner-container{
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width:600px) {
+    .about-section{
+        padding: 0;
+    }
+    .inner-container{
+      padding: 60px;
+    }
 }

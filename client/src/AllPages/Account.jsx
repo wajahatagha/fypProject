@@ -1,12 +1,16 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../UserContext'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios';
 import Venues from './Venues';
 
 function Account() {
   
     const {user,setUser} = useContext(UserContext)
+    // const [first, setfirst] = useState(false)
+  
+    // const navigatee = useNavigate() 
+    
     console.log("account page user detail,",user)
     
     const [navigate, setNavigate] = useState(false)
@@ -34,8 +38,9 @@ function Account() {
 
     }
 
+      
     
-    
+
     
    
 
