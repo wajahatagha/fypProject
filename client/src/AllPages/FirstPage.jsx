@@ -109,17 +109,17 @@ function FirstPage() {
       <div className="box-container">
         <div className="box">
           <img src={img3} alt="" />
-          <h3 className='font-bold'>Search Venues</h3>
+          <h3 className='font-bold'>Use filtered search for desired venue</h3>
         </div>
 
         <div className="box">
           <img src={img4} alt="" />
-          <h3 className='font-bold'>Book Venues</h3>
+        <h3 className='font-bold'>Book Venues using Scheduling and rate them!</h3>
         </div>
 
         <div className="box">
           <img src={img5} alt="" />
-          <h3 className='font-bold'>Add Venues</h3>
+          <h3 className='font-bold'>Advertise your Venue</h3>
         </div>
       </div>
    </section>

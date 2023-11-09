@@ -28,8 +28,7 @@ const accountDetail=()=>{
 </svg>
 
            </button> */}
-          {/* </div> */}
-          {/* abhi comment kia hai */}
+          
 
 
 
@@ -41,7 +40,7 @@ const accountDetail=()=>{
 // abhi commment kia hai
   user ? (
     
-     <button onClick={accountDetail}> <div className='p-3 rounded-full bg-primary'>Welcome, {user.name}</div></button>
+     <button onClick={accountDetail} className='p-3 rounded-full bg-primary'> Welcome, {user.name}</button>
           
   ) : <button  id="login-btn" className=''>Log in</button>
 }

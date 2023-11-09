@@ -10,13 +10,13 @@ function Logging() {
 const navigatee = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-   const [navigate, setNavigate] = useState(false)
+  const [navigate, setNavigate] = useState(false)
   const {user, setUser} = useContext(UserContext); //destructuring setUser from UserContext.Provider in value prop
 
   useEffect(() => {
     if(user){
       console.log("USer found");
-      navigatee('/')
+      // navigatee('/')
       
     }
     else{
@@ -42,7 +42,7 @@ const navigatee = useNavigate()
    
     alert('Login was successful')
     console.log("login successfull")
-     setNavigate(true)
+    setNavigate(true)
     
     
   } catch (error) {
@@ -99,7 +99,7 @@ const navigatee = useNavigate()
               onChange={(ev)=>setEmail(ev.target.value)}
               required
           />
-          <i class='bx bxs-user'></i>
+          <i className='bx bxs-user'></i>
         </div>
 
         <div className="input-box">
@@ -108,7 +108,7 @@ const navigatee = useNavigate()
                 onChange={(ev)=>setPassword(ev.target.value)}
                 required
           />
-          <i class='bx bxs-lock-alt'></i>
+          <i className='bx bxs-lock-alt'></i>
         </div>
 
         <button className='btn'>

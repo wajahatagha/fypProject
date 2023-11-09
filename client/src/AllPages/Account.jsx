@@ -18,7 +18,7 @@ function Account() {
     const {nestPage} = useParams();
     
     function Linking(type=null) {
-        let cNames = 'inline-flex gap-1 py-2 px-6 ' 
+        let cNames = 'inline-flex gap-1 py-2 px-6 font-bold ' 
         if(type == nestPage || (nestPage == undefined && type == nestPage)){
             cNames += 'bg-primary rounded-full';
         }
@@ -78,11 +78,27 @@ function Account() {
 
                 <div className='w-full text-center mt-20'>
 
-                   <p> Name = {user.name}</p>
+                   {/* <p> Name = {user.name}</p>
                    <p> Email = {user.email}</p>
-                   <p> User ID = {user.id}</p>
+                   <p> User ID = {user.id}</p> */}
+
+
+                  <div className='account'>
+                      <div className="acc-wrapper">
+                          <h1>User Details</h1>
+                          <div className='para'>
+                            <p> Name: {user.name}</p>
+                            <p> Email: {user.email}</p>
+                            <p> User ID: {user.id}</p>
+                          </div>
+
+                      
+
+
                    {/* <p> Password = {user.password}</p> */}
-                   <button onClick={Logout} className='bg-primary rounded-full p-3 mt-8'>Logout</button>
+                   <button onClick={Logout} className='btnn'>Logout</button>
+                   </div>
+                    </div>
                 </div>
 
 

@@ -83,13 +83,13 @@ section{
 }
 
 .login{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: url(./Pictures/bg2.jpg) no-repeat;
-    background-size: cover;
-    background-position:center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: url(./Pictures/bg2.jpg) no-repeat;
+        background-size: cover;
+        background-position:center;
 }
 .wrapper{
     width: 420px;
@@ -166,6 +166,317 @@ section{
     display: none;
 
 } */
+
+
+/* .signup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(./Pictures/bg2.jpg) no-repeat;
+    background-size: cover;
+    background-position:center;
+}
+
+.signup .wrapper{
+    width: 420px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--box-shadow);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 30px 50px;
+}
+
+.signup .wrapper .input-box{
+    position: relative;
+    width: 100%;
+    height: 30px;
+    margin: 70px 0;
+}
+
+.signup .input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: var(--white);
+    padding: 20px 45px 20px 20px;
+} */
+
+
+.signup{
+    background: url(./Pictures/bg2.jpg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    background-position:center;
+}
+
+.signup .wrapper{
+    width: 420px;
+    padding: 2rem 1rem;
+    margin: 50px auto;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--box-shadow);
+    color: var(--white);
+    border-radius: 10px;
+
+}
+.signup h1{
+    margin-bottom: 1.2rem;
+}
+
+.signup form input{
+    width: 90%;
+    margin: 20px 0 20px 20px;
+    outline: none;
+    border: 2px solid rgba(255,255,255,.2);
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 40px;
+    background: transparent;
+    color: var(--white);
+    font-size: 16px;
+}
+.signup input::placeholder{
+    color: var(--white);
+}
+
+.signup .wrapper .btn{
+    width: 90%;
+    height: 45px;
+    margin: 20px 0 20px 20px;
+    padding: 12px 20px;
+    background: var(--white);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--black);
+    font-weight: 600;
+}
+
+.venues{
+    background: url(./Pictures/back.jpg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    background-position:center;
+}
+
+
+.venues .venue-wrapper{
+    width: 800px;
+    height: 700px;
+    padding: 2rem 1rem;
+    margin: 50px auto;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--box-shadow);
+    color: var(--white);
+    border-radius: 10px;
+}
+
+.venues .venue-wrapper  h1{
+    margin-bottom: 1.2rem;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.venue-wrapper label{
+    display: block;
+    font-weight: bold;
+    color: var(--white);
+    font-size: 16px;
+
+}
+
+.venue-wrapper .options{
+    display: flex;
+    align-items: center;
+
+}
+
+.venue-wrapper .options label{
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    margin-right: 70px;
+    font-size: 16px;
+}
+
+.venue-wrapper .options input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.venue-wrapper .venue-details span {
+    color: var(--white);
+    font-weight: bold;
+    font-size: 16px;
+
+}
+.venue-wrapper .venue-details input{
+    border: 2px solid rgba(255,255,255,.2);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background: transparent;
+}
+
+.venue-wrapper .venue-details input::placeholder{
+    color: var(--white);
+    font-size: 14px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3px;
+  }
+  
+  .button-container button {
+    width: 47%;
+    padding: 10px 20px;
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  .venue-wrapper .venue-details textarea{
+    border-radius: 20px ;
+  }
+
+  .venue-wrapper .options-opt{
+    display: flex;
+    align-items: center;
+
+}
+
+.venue-wrapper .options-opt label{
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+    font-size: 14px;
+}
+
+.venue-wrapper .options-opt input[type="checkbox"] {
+    margin-right: 2px;
+}
+
+.venues .venue-wrapper .btnn{
+    width: 90%;
+    height: 60px;
+    margin: 20px 0 20px 20px;
+    padding: 12px 20px;
+    background: var(--white);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--black);
+    font-weight: 600;
+    text-align: center;
+
+}
+
+.account{
+    background: url(./Pictures/bg4.jpg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    background-position:center;
+}
+
+.account .acc-wrapper{
+    width: 500px;
+    height: 320px;
+    padding: 2rem 1rem;
+    margin: 50px auto;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--box-shadow);
+    color: var(--white);
+    border-radius: 10px;
+
+}
+
+.account .acc-wrapper  h1{
+    margin-bottom: 1.2rem;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+
+.account .acc-wrapper .para p{
+    margin-bottom: 1.4rem;
+    font-size: 15px;
+    font-weight: bold;
+    align-items: center;
+    text-align: center;
+}
+
+
+.account .acc-wrapper .btnn{
+    width: 100%;
+    height: 60px;
+    margin: 20px 0 20px 20px;
+    padding: 12px 20px;
+    margin-left: 3px;
+    background: var(--white);
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--black);
+    font-weight: 600;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
 
 
 .services .box-container{
@@ -257,6 +568,24 @@ label{
     color: var(--main-color);
     /* font-weight: 600; */
     margin-bottom: 30px;
+}
+
+.contact-right a{
+    color: var(--white);
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+    display: block;
+    padding: 5px;
+}
+
+.contact-right a i{
+    color: var(--white);
+    padding-right:.5rem;
+    transition: .2s linear;
+}
+
+.contact-right a:hover i{
+    padding-right: 2rem;
 }
 
 /* .about-l{
@@ -420,12 +749,308 @@ label{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* media responsive */
 
 @media (max-width:1200px){
     section{
         padding: 3rem 5%;
     }
+    .wrapper{
+        width: 320px;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,.2);
+        backdrop-filter: blur(20px);
+        box-shadow: var(--box-shadow);
+        color: var(--white);
+        border-radius: 10px;
+        padding: 20px 20px;
+    }
+    .wrapper h1{
+        font-size: 26px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .wrapper .input-box{
+        position: relative;
+        width: 80%;
+        height: 30px;
+        margin: 20px 0;
+    }
+    
+    .input-box input{
+        width: 80%;
+        height: 60%;
+        background: transparent;
+        border: none;
+        outline: none;
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 40px;
+        font-size: 10px;
+        color: var(--white);
+        padding: 10px 35px 10px 10px;
+    }
+    
+    .input-box input::placeholder{
+        color: var(--white);
+    }
+    
+    .input-box i{
+        position: absolute;
+        right: 10px;
+        top: 20%;
+        transform: translate(-50%);
+        font-size: 15px;
+    }
+    
+    .wrapper .btn{
+        width: 80%;
+        height: 35px;
+        background: var(--white);
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        box-shadow: var(--box-shadow);
+        cursor: pointer;
+        font-size: 10px;
+        color: var(--black);
+        font-weight: 600;
+    }
+    
+    .wrapper .register-link{
+        font-size: 10.5px;
+        text-align: center;
+        margin: 20px 0 15px;
+    }
+
+    .signup .wrapper{
+        width: 420px;
+        padding: 2rem 1rem;
+        margin: 50px auto;
+        background: transparent;
+        border: 2px solid rgba(255,255,255,.2);
+        backdrop-filter: blur(20px);
+        box-shadow: var(--box-shadow);
+        color: var(--white);
+        border-radius: 10px;
+    
+    }
+    .signup h1{
+        margin-bottom: 1rem;
+    }
+    
+    .signup form input{
+        width: 60%;
+        margin: 20px 0 20px 20px;
+        outline: none;
+        border: 1px solid rgba(255,255,255,.2);
+        padding: 9px 10px;
+        margin-bottom: 10px;
+        border-radius: 40px;
+        background: transparent;
+        color: var(--white);
+        font-size: 10px;
+    }
+    .signup input::placeholder{
+        color: var(--white);
+    }
+    
+    .signup .wrapper .btn{
+        width: 60%;
+        height: 35px;
+        margin: 20px 0 20px 20px;
+        padding: 10px 10px;
+        background: var(--white);
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        box-shadow: var(--box-shadow);
+        cursor: pointer;
+        font-size: 10px;
+        color: var(--black);
+        font-weight: 600;
+    }
+
+    .venues{
+        background: url(./Pictures/bg2.jpg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-size: cover;
+        background-position:center;
+    }
+    
+    
+    .venues .venue-wrapper{
+        width: 400px;
+        height: 200px;
+        padding: 2rem 1rem;
+        margin: 30px auto;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,.2);
+        backdrop-filter: blur(20px);
+        box-shadow: var(--box-shadow);
+        color: var(--white);
+        border-radius: 10px;
+    }
+    
+    .venues .venue-wrapper  h1{
+        margin-bottom: 1.2rem;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .venue-wrapper label{
+        display: block;
+        font-weight: bold;
+        color: var(--white);
+        font-size: 16px;
+    
+    }
+    
+    .venue-wrapper .options{
+        display: flex;
+        align-items: center;
+    
+    }
+    
+    .venue-wrapper .options label{
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        margin-right: 30px;
+        font-size: 16px;
+    }
+    
+    .venue-wrapper .options input[type="checkbox"] {
+        margin-right: 3px;
+    }
+    
+    .venue-wrapper .venue-details span {
+        color: var(--white);
+        font-weight: bold;
+        font-size: 8px;
+    
+    }
+    .venue-wrapper .venue-details input{
+        border: 2px solid rgba(255,255,255,.2);
+        padding: 6px 8px;
+        margin-bottom: 6px;
+        border-radius: 20px;
+        background: transparent;
+    }
+    
+    .venue-wrapper .venue-details input::placeholder{
+        color: var(--white);
+        font-size: 8px;
+    }
+    
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2px;
+      }
+      
+      .button-container button {
+        width: 37%;
+        padding: 10px 20px;
+        background: var(--white);
+        color: var(--black);
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+    
+      .venue-wrapper .venue-details textarea{
+        border-radius: 20px ;
+      }
+    
+      .venue-wrapper .options-opt{
+        display: flex;
+        align-items: center;
+    
+    }
+    
+    .venue-wrapper .options-opt label{
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        margin-right: 70px;
+        font-size: 10px;
+    }
+    
+    .venue-wrapper .options-opt input[type="checkbox"] {
+        margin-right: 2px;
+    }
+    
+    .venues .venue-wrapper .btnn{
+        width: 70%;
+        height: 40px;
+        margin: 20px 0 20px 20px;
+        padding: 12px 20px;
+        background: var(--white);
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        box-shadow: var(--box-shadow);
+        cursor: pointer;
+        font-size: 18px;
+        color: var(--black);
+        font-weight: 600;
+        text-align: center;
+    
+    }
+    
 }
 
 @media (max-width:991px){

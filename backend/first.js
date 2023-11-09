@@ -22,13 +22,19 @@ app.use(cors({
     origin:'http://127.0.0.1:5173'
 }))
 
-// app.get('/run', (req,res)=> {
-//     res.json('running'); 
-// })
+app.get('/run', (req,res)=> {
+    res.json('running'); 
+})
 
 const secretSalt = bcrypt.genSaltSync(12)
 
 mongoose.connect(process.env.MONGO_URL)
+
+app.get('/test', (req,res) =>{
+    res.json('test ok');
+})
+    
+
 
 // console.log(process.env.MONGO_URL)
 
@@ -40,7 +46,7 @@ app.post('/signup', async (req,res)=>{
             email,
             password:bcrypt.hashSync(password,secretSalt),
         })
-        console.log(userDetails.name)
+       
         // console.log('====================================');
         // console.log(req.body);
         // console.log('====================================');
