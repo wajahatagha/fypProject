@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useContext, useEffect } from 'react'
+import { toast} from 'react-toastify'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import { UserContext } from '../UserContext';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -12,6 +14,7 @@ const navigatee = useNavigate()
   const [password, setPassword] = useState('');
   const [navigate, setNavigate] = useState(false)
   const {user, setUser} = useContext(UserContext); //destructuring setUser from UserContext.Provider in value prop
+  
 
   useEffect(() => {
     if(user){
@@ -32,26 +35,35 @@ const navigatee = useNavigate()
     navigatee('/')
   }
   
+  const showToastMessage = (isSuccess) => {
+    if (isSuccess === true) {
+      toast.success( "Success Notification !", { position: toast.POSITION.TOP_CENTER })
+      console.log("IsSuccess",isSuccess);
+      
+    } if(isSuccess === false ) {
+      toast.error("Login unsuccessful", { position: toast.POSITION.TOP_CENTER });
+    }
+  };
   async function Login(ev){
     ev.preventDefault()
   try {
 
     
    const LoginInfo = await axios.post('/logging', {email,password}) //putting the data that we are getting from api response into login info which puts it in the User Context
-   setUser(LoginInfo.data);
    
-    alert('Login was successful')
-    console.log("login successfull")
-    setNavigate(true)
-    
-    
+   setUser(LoginInfo.data);
+   console.log("Logging in", LoginInfo.data);
+   console.log("login successfull")
+   setNavigate(true)
+   
+   
+   showToastMessage(true)
   } catch (error) {
-    alert('Login was unsuccessful')
+    showToastMessage(false)
     console.log("login unsuccessfull")
-
+    
   }
 }
-
 
 
 
@@ -111,8 +123,9 @@ const navigatee = useNavigate()
           <i className='bx bxs-lock-alt'></i>
         </div>
 
-        <button className='btn'>
+        <button className='btn' >
              Login 
+             
         </button>
 
         <div className='register-link'> 
@@ -120,6 +133,7 @@ const navigatee = useNavigate()
         </div>
       </form>
     </div>
+        
   </div>
   )
 }

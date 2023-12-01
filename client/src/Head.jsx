@@ -8,7 +8,7 @@ const {user} = useContext(UserContext)
 const navigate=useNavigate();
 const accountDetail=()=>{
   navigate('/accPage')
-    window.location.reload()
+    // window.location.reload()
 }
 
   return (

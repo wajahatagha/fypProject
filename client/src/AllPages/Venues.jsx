@@ -1,43 +1,83 @@
-import React, { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import PicturesComp from "../PicturesComp";
+import AmenityComp from "../AmenityComp";
+import VenueForm from "./VenueForm";
 
 function Venues() {
-  
-  
-  const {event} = useParams();
-  console.log(event);
-  
-  
-  
-  const [category, setCategory] = useState('');
-  const [title, setTitile] = useState('')
-  const [address, setAddress] = useState('')
-  const [exisingPhotos, setExistingPhotos] = useState([])
-  const [description, setDescription] = useState('')
-  const [amenities, setAmenities] = useState([])
-  const [addInfo, setAddInfo] = useState('')
-  const [guests, setGuests] = useState(1)
-  
-  
-  
-  const handleOptionChange = (event) => {
-    setCategory(event.target.value);
-  };
-    return (
+  const { event } = useParams();
+  const [venueData, setVenueData] = useState([])
+  // console.log(event);
+  useEffect(() => {
+    try {
+      
+      axios
+        .get("/display")
+        .then(({data}) => { //data comes is an object key which has an array of objects, so we are destructuring data first then setting the array to setVenueData as it is
+          
+          console.log(data)
+          return setVenueData(data) 
+        })
+    } catch (error) {
+      console.log(error)
+    }
+      
+  }, []);
+
+  return (
     <div>
-        {event !== 'new' && (
-
-
-      <div className='text-center mt-6'>
-<Link className='inline-flex gap-1 items-center bg-primary py-1 px-6 rounded-full text-center' to={'/accPage/venues/new'}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-</svg>Add a Venue</Link>
-      </div>
-        )}
-        {event == 'new' && (
+      {event !== "new" && (
         <div>
-            {/* <form>
+          <div className="text-center mt-6">
+          <div className="text-2xl flex text-center justify-center p-3">
+              List of your all venues
+              {
+                venueData.map((data)=>{
+                  return (
+                    <div className="">
+                      {
+                        data.title 
+                        
+                      }
+                      {data.existingPhotos.length > 0 && data.existingPhotos.map((data) => {
+                      return(
+                      <div key={data} className='flex h-32'>
+                      <img src={`http://127.0.0.1:4000/photoUploads/${data}`} className=' w-full rounded-2xl'/>
+                      </div>
+                      )
+                    })}
+                    </div>
+                  )
+                })
+              }
+             </div> 
+            <Link
+              className="inline-flex gap-1 items-center bg-primary py-2 m-4 px-6 rounded-full text-center text-xl font-bold"
+              to={"/accPage/venues/new"}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-8 h-8"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+              Add a Venue
+            </Link>
+          </div>
+        </div>
+      )}
+      {event == "new" && (
+        <div>
+          {/* <form>
             <h2>What best describes your Venue?</h2>
             <div>
               <label className='flex'>
@@ -133,139 +173,11 @@ Wifi</span>
             </div>
             </form> */}
 
-            <div className='venues'>
-              
-               <div className="venue-wrapper">
-                    <h1>Create your Venue</h1>
-                    <form>
-                    <label for="venue-description">What describes your venue best?</label>
-                    <div class="options">
-                        <label>
-                            
-                            <input type="checkbox"
-                            checked={category === "Farm"} //checks if the value in the state is equal to Farm
-                            value="Farm"
-                            onChange={handleOptionChange} //it ticks the box
-                            /> 
-                            Farm Houses
-                        </label>
-                        <label>
-                            
-                            <input type="checkbox"
-                            checked={category === "Wedding Halls"}
-                            value="Wedding Halls"
-                            onChange={handleOptionChange}
-                            /> 
-                            Wedding Halls
-                        </label>
-                        <label>
-                           
-                            <input type="checkbox"
-                            checked={category === "Beach Huts"}
-                            value="Beach Huts"
-                            onChange={handleOptionChange}
-                            /> 
-                            Beach Huts
-                        </label>
-                    </div>
-
-
-
-
-                      <div className="venue-details">
-                        <span className='details'>Title</span>
-                        <input type="text" placeholder='Title of Venue '/>
-                      </div>
-
-                      <div className="venue-details">
-                        <span className='details'>Address</span>
-                        <input type="text" placeholder='Venue Address'/>
-                      </div>
-
-                      <div className="venue-details">
-                        <span className='details'>Photos</span>
-                        <input type="text" placeholder='Add a photo using link'/>
-                      </div>
-
-
-                      <div className="button-container">
-                        <button className="left-button">Upload Photo</button>
-                        <button className="right-button">Upload by Link</button>
-                      </div>
-                      
-                      <div className='venue-details'>
-                        <span className='details'>Description</span>
-                        <textarea rows="5" placeholder='Enter Your Message'></textarea>
-                      </div>
-
-
-                      <label for="venue-description">Select the amenities provided on venue</label>
-                      <div class="options-opt">
-                        <label>
-                            
-                            <input type="checkbox"/> 
-                            Wifi
-                        </label>
-                        <label>
-                            
-                            <input type="checkbox"/> 
-                            Swimming Pool
-                        </label>
-                        <label>
-                           
-                            <input type="checkbox"/> 
-                            Air Conditioning
-                        </label>
-                        <label>
-                           
-                            <input type="checkbox"/> 
-                            BBQ grill
-                        </label>
-                        <label>
-                           
-                            <input type="checkbox"/> 
-                            Board games
-                        </label>
-                        <label>
-                           
-                            <input type="checkbox"/> 
-                            Kitchen cutlury
-                        </label>
-                    </div>
-                    {/* <div className='venue-details'>
-                        <span className='details'>Any additional Information for customers</span>
-                        <textarea rows="5" placeholder='Enter Your Message'></textarea>
-                      </div> */}
-                      {/* <div>
-                        <div>
-                        <p>Add the date you want to book on.</p>
-                        <input type='text' />
-                        </div>
-                        <div>
-                        <p>Maximum Guests</p>
-                        <input type='text' />
-                        </div>
-                      </div> */}
-                      
-
-                    <div className="btnn">
-                      <button>Add Venue</button>
-                    </div>
-
-
-                      
-
-                    </form>
-               </div>
-            </div>
-
-
-
-        </div>    
-        )}
-      
+          <VenueForm />
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default Venues
+export default Venues;

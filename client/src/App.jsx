@@ -14,6 +14,8 @@ import UserContextProvider from './UserContext'
 import Account from './AllPages/Account'
 import Contact from './AllPages/Contact'
 import About from './AllPages/About'
+import { ToastContainer } from 'react-toastify'
+import ProfileDetail from './ProfileDetail'
 
 
 
@@ -43,6 +45,7 @@ function App() {
    </Route>
    
    </Routes>
+   <ToastContainer />
   </UserContextProvider>    
    </>
   )
