@@ -279,7 +279,7 @@ app.post('/venues', async (req,res)=>{
 
 })
 
-app.get('/display', async (req,res)=>{
+app.get('/myVenues', async (req,res)=>{
 
     const {token} = req.cookies;
     const {id} = jsonToken.verify(token, jsonSecret)
@@ -299,6 +299,19 @@ console.log("Endpoint working");
     }
 
 
+
+})
+
+app.get('/displayAds', async (req,res)=>{
+
+    try {
+        
+        const ad = await Venue.find();
+        res.status(200).json(ad)
+        
+    } catch (error) {
+        res.status(400).json(error);
+    }
 
 })
 

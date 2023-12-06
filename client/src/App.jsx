@@ -16,6 +16,7 @@ import Contact from './AllPages/Contact'
 import About from './AllPages/About'
 import { ToastContainer } from 'react-toastify'
 import ProfileDetail from './ProfileDetail'
+import Ads from './AllPages/Ads'
 
 
 
@@ -37,6 +38,7 @@ function App() {
     <Route path='/' element={<Structure />}>
    <Route path='' element={<FirstPage />}/>
    <Route path='/logging' element={<Logging />}/>
+   <Route path='/ads' element={<Ads />}/>
    <Route path='/signup' element={<Signup />}/>
    <Route path='/accPage/:nestPage?' element={<Account />}/>
    <Route path='/accPage/:nestPage/:event' element={<Account />}/>

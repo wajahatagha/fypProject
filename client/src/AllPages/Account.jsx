@@ -92,7 +92,7 @@ function Account() {
           )}
 
           {nestPage == "venues" && (
-            <div className="w-full ">
+            <div className="flex flex-col items-start justify-start w-1/2 ">
              
                
               <Venues />

@@ -59,8 +59,9 @@ function FirstPage() {
             </button>
         </div>
    </div> */}
-
-
+<div className='flex m-6 items-center justify-center '>
+<Link className='p-3 text-lg font-bold bg-primary rounded-md ' to={'/ads'}>Browse Venues</Link>
+</div>
 <Carousel data-bs-theme="dark">
       <Carousel.Item>
         <img
