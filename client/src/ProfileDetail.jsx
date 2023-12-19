@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { Link,  useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Account from "./AllPages/Account";
 
 function ProfileDetail() {
  
@@ -42,6 +43,7 @@ function ProfileDetail() {
 
     return (
       <div className="w-full text-center mt-20">
+        
       {edit == true ? <div className="flex items-center p-7 font-bold text-xl">
         Enter New Name<input type="text" className="w-1/2  border rounded-full shadow-lg p-3 " value={name1} onChange={(ev)=>setName1(ev.target.value)}/>
         Enter New Password<input type="password" className="w-1/2 border rounded-full shadow-lg p-3" value={password1} onChange={(ev)=>setPassword1(ev.target.value)} />

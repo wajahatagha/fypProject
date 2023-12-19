@@ -11,15 +11,23 @@ function Account() {
 
   // const navigatee = useNavigate()
 
+  
+  
+
   console.log("account page user detail,", user);
 
  
   const { nestPage } = useParams();
 
+
+
+
+
+
   function Linking(type = null) {
     let cNames = "inline-flex gap-1 py-2 px-6 font-bold text-3xl ";
     if (type == nestPage || (nestPage == undefined && type == nestPage)) {
-      cNames += "bg-primary rounded-full";
+      cNames += "bg-purple-700 text-white rounded-full";
     }
     return cNames;
   }
@@ -28,6 +36,7 @@ function Account() {
   return (
     <div>
       {user ? (
+        <>
         <div className="flex flex-wrap mt-20 justify-center w-full gap-2">
           <nav>
             <Link to={"/accPage"} className={Linking(undefined)}>
@@ -47,7 +56,7 @@ function Account() {
               </svg>
               User Profile
             </Link>
-            <Link to={"/accPage/venues"} className={Linking("venues")}>
+            <Link to={"/venues"} className={Linking("venues")}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -87,18 +96,21 @@ function Account() {
               My Bookings
             </Link>
           </nav>
+          
+          </div>
           {nestPage == undefined && (
             <ProfileDetail />
-          )}
+            )}
+          
 
           {nestPage == "venues" && (
-            <div className="flex flex-col items-start justify-start w-1/2 ">
+            <div className="flex item-start flex-col mt-3 w-1/2 ">
              
                
               <Venues />
             </div>
           )}
-        </div>
+          </>
       ) : (
         <Link to={"/logging"} />
       )}

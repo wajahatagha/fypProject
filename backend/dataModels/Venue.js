@@ -12,6 +12,8 @@ const VenueSchema = new mongoose.Schema({
     timeFrom: Number,
     timeTo: Number,
     capacity: Number,
+    dayPrice: Number,
+    nightPrice: Number
 });;
 
 const venueModel = mongoose.model('Venue', VenueSchema);

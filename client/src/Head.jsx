@@ -14,7 +14,7 @@ const accountDetail=()=>{
   return (
     <section className='header'>
       
-          <Link to={'/'} className='logo font-bold'>Pak-Venues</Link>
+          <Link to={'/'} className='text-4xl text-purple-900 font-bold '>Pak-Venues</Link>
           {/* <div className='flex rounded-full border border-gray-600 px-4 mt-2 mr-2 items-center shadow-md shadow-gray-400'> */}
           <nav className='navbar'>
           <div><Link to ={'/'} className='px-4 font-bold'>Home</Link></div> 
@@ -40,7 +40,7 @@ const accountDetail=()=>{
 // abhi commment kia hai
   user ? (
     
-     <button onClick={accountDetail} className='p-3 rounded-full bg-primary'> Welcome, {user.name}</button>
+     <button onClick={accountDetail} className='p-3 rounded-full bg-purple-700 text-white text-lg'> Welcome, {user.name}</button>
           
   ) : <button  id="login-btn" className=''>Log in</button>
 }

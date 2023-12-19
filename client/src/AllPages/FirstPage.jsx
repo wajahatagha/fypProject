@@ -60,7 +60,7 @@ function FirstPage() {
         </div>
    </div> */}
 <div className='flex m-6 items-center justify-center '>
-<Link className='p-3 text-lg font-bold bg-primary rounded-md ' to={'/ads'}>Browse Venues</Link>
+<Link className='p-3 text-3xl font-bold bg-purple-700 text-white rounded-xl ' to={'/ads'}>Browse Venues</Link>
 </div>
 <Carousel data-bs-theme="dark">
       <Carousel.Item>

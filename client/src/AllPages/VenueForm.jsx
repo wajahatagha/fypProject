@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState,useEffect } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams, useLocation } from 'react-router-dom'
 import PicturesComp from '../PicturesComp';
 import AmenityComp from '../AmenityComp';
 function VenueForm() {
@@ -19,9 +19,46 @@ function VenueForm() {
     const [timeFrom, setTimeFrom] = useState('')
     const [timeTo, setTimeTo] = useState('')
     const [capacity, setCapacity] = useState(1)
+  const [dayPrice, setDayPrice] = useState(10000)
+  const [nightPrice, setNightPrice] = useState(10000)
+    
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const idFromQuery = searchParams.get('id');
+    console.log(idFromQuery);
+    
+    useEffect( () => {
+ 
+      if (!idFromQuery) {
+        return;
+      }
+      
+    try {
+      
+      axios.get('/getMyVenue/'+idFromQuery).then(response=>{
+        const{data} = response;
+        setCategory(data.category)
+        setTitle(data.title)
+        setAddress(data.address)
+        setDescription(data.description)
+        setAmenities(data.amenities)
+        setExistingPhotos(data.existingPhotos)
+        setAddInfo(data.addInfo)
+        setTimeFrom(data.timeFrom)
+        setTimeTo(data.timeTo)
+        setCapacity(data.capacity)
+        setDayPrice(data.dayPrice)
+        setNightPrice(data.nightPrice)
+      })
+    } catch (error) {
+     console.log("Error in getting form data", error); 
+    }
   
-    
-    
+     
+    }, [idFromQuery])
+
+
     
     const handleOptionChange = (event) => {
       setCategory(event.target.value);
@@ -30,19 +67,24 @@ function VenueForm() {
   
   
   
-  async function addVenue(ev){
+  async function savingVenue(ev){
   ev.preventDefault() //we do not want to use default functionality of form
   const info = {
     category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
-    timeTo, capacity
+    timeTo, capacity, dayPrice, nightPrice
   }
-  const {data} =  await axios.post('/venues',{info}) //not destructuring {data} bec we don't want to use response
+
+  if(idFromQuery){
+    axios.put('/updateMyVenue/'+idFromQuery,{info}) //if info not sent in an object then it will show undefined at endpoint.
+  }
+  else{
+  const {data} =  await axios.post('/createMyVenue',{info}) //not destructuring {data} bec we don't want to use response
   console.log(data);
   setRedirect(true)
-  
+
   }
   
-  
+}
     
   
   
@@ -56,8 +98,8 @@ function VenueForm() {
     <div className='venues'>
               
                <div className="venue-wrapper">
-                    <h1>Create your Venue</h1>
-                    <form onSubmit={addVenue}>   
+                    <h1>Your Venue</h1>
+                    <form onSubmit={savingVenue}>   
                       {/* default behavior of form is any button clicked on it would refresh the page if there is no ev.preventDefault on the buttons onClick */}
                     <label htmlFor="venue-description">What describes your venue best?</label>
                     <div className="options">
@@ -131,6 +173,14 @@ function VenueForm() {
                         <div>
                         <p>Guests Capacity</p>
                         <input className='text-black' value={capacity} onChange={ev=>setCapacity(ev.target.value)} type='number' />
+                        </div>
+                        <div>
+                        <p>Price of Day booking</p>
+                        <input className='text-black' value={dayPrice} onChange={ev=>setDayPrice(ev.target.value)} type='number' />
+                        </div>
+                        <div> 
+                        <p>Price of Night booking</p>
+                        <input className='text-black' value={nightPrice} onChange={ev=>setNightPrice(ev.target.value)} type='number' />
                         </div>
                       </div>
                       

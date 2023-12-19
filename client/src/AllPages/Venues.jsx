@@ -4,11 +4,14 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import PicturesComp from "../PicturesComp";
 import AmenityComp from "../AmenityComp";
 import VenueForm from "./VenueForm";
+import Account from "./Account";
 
 function Venues() {
   const { event } = useParams();
   const [venueData, setVenueData] = useState([])
   // console.log(event);
+
+
   useEffect(() => {
     try {
       
@@ -30,8 +33,9 @@ function Venues() {
       {event !== "new" && (
         
           <>
+         
             <Link
-              className="inline-flex gap-1 items-center bg-primary py-2 m-4 px-6 rounded-full text-center text-xl font-bold"
+              className="inline-flex gap-1 items-center bg-purple-700 text-white py-2 m-4 px-6 rounded-full text-center text-xl font-bold"
               to={"/accPage/venues/new"}
             >
               <svg
@@ -50,32 +54,41 @@ function Venues() {
               </svg>
               Add a Venue
             </Link>
-          <div className="m-6  flex flex-col items-start ">
-              <h1 className="text-2xl font-bold m-3 ">List of your all venues</h1>
+          <div className="m-6  flex flex-col items-start">
+              <h1 className="text-4xl font-bold m-3 ">List of your all venues</h1>
               {
                 venueData.map((data)=>{
                   return (
-                    
-                    <div key={data._id} className=" text-2xl m-2 shadow-md rounded-md overflow-hidden bg-white flex flex-col items-start">
-                      <br />
-                      <div className="m-2 flex flex-col ">
+                     
+                    // <div key={data._id} className=" text-2xl m-2 shadow-md rounded-md overflow-hidden bg-white flex flex-col items-start">
+                    //   <br />
+                    //   <Link to={`/accPage/venues/${data._id}`} className="m-2 flex flex-col ">
                       
-                        {data.category}
-                        <br />
-                        {data.title} 
+                    //     {data.category}
+                    //     <br />
+                    //     {data.title} 
                         
                       
 
-                      </div>
-                      {data.existingPhotos.length > 0 && data.existingPhotos.map((data) => {
-                      return(
-                      <div key={data} className='flex h-40 '>
-                      <img src={`http://127.0.0.1:4000/photoUploads/${data}`} className=' w-full rounded-2xl'/>
-                      </div>
-                      )
-                    })}
-                    </div>
-                   
+                    //   </Link>
+                    //   {data.existingPhotos.length > 0 && 
+                      
+                    //   <div key={data} className='flex h-40 '>
+                    //   <img src={`http://127.0.0.1:4000/photoUploads/${data.existingPhotos[0]}`} className=' w-full rounded-2xl'/>
+                    //   </div>
+                      
+                    // }
+                    // </div>
+
+                    <div className="card m-2  shadow-lg rounded-xl text-2xl" style={{ width: '18rem' }}>
+  <img src={`http://127.0.0.1:4000/photoUploads/${data.existingPhotos[0]}`} className="card-img-top" alt="..." />
+  <div className="card-body">
+    <h5 className="card-title">{data.title}</h5>
+    <p className="card-text">{data.description}</p>
+    <Link to={`/accPage/venues/new?id=${data._id}`} className="mt-2 btn bg-purple-700 text-white text-xl">{data.category}</Link>
+  </div>
+</div>
+                    
                   )
                 })
               }

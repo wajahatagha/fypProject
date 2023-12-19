@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root{
-    --main-color: #8e44ad;
+    --main-color: 'bg-primary';
     --black: #222;
     --white: #fff;
     --light-black: #777;
@@ -658,7 +658,7 @@ label{
 }
 
 .bg-primary{
-    background: linear-gradient(to right, #debaf7, #83c8f9)!important;
+    background-color: '7B1FA2';
 }
 
 .carousel{

@@ -1,3 +1,6 @@
+//npm init -y installs package.json file
+//to execute application, we need 2 things, route and app.listen()
+
 const express = require('express') 
 const cors = require('cors');
 const { default: mongoose } = require('mongoose');
@@ -10,17 +13,17 @@ const cookieParser = require('cookie-parser')
 const imageDl = require('image-downloader')//this is a middleware for downloading photos using a link in backend folder
 const multer = require('multer') //multer is a middleware
 const fy = require('fs');
-const { log } = require('console');
+const { log, info } = require('console');
 const path = require('path');
 
 const jsonSecret = 'asbcnkvjnaknvka'
 
-// const nodemailer = require('nodemailer')
-// const jwt = require('jsonwebtoken');
+//app.use is used to handle middleware functionss
+//through middleware functions app can use their functionality while passing through req res streams
 
-// git repo12345
 
-const app = express(); 
+
+const app = express(); //app object calling express constructor enabling express functionality in the app
 app.use(cookieParser()) //this middleware is used to read cookie which contains the token
 app.use(express.json()) //middleware used so that the request comes over here to parse the string data in the json format
 app.use('/photoUploads', express.static(__dirname+'/photoUploads')) //*****NEED TO UNDERSTAND THIS LINE */
@@ -30,7 +33,7 @@ app.use(cors({
     origin:'http://127.0.0.1:5173'
 }))
 
-app.get('/run', (req,res)=> {
+app.get('/run', (req,res)=> { //in get method, parameters are passed by binding them into URL
     res.json('running'); 
 })
 
@@ -46,7 +49,7 @@ app.get('/test', (req,res) =>{
 
 // console.log(process.env.MONGO_URL)
 
-app.post('/signup', async (req,res)=>{
+app.post('/signup', async (req,res)=>{ //in post method, parameters are binded with the page headers and then set
     const {name,email,password} = req.body 
     try {
         const userDetails = await User.create({
@@ -94,7 +97,7 @@ app.post('/logging', async (req, res) => {
                 // }) // Create a JSON Web Token and set a cookie
         
                const token =  jsonToken.sign({name:userDetails.name,email:userDetails.email,id:userDetails._id,password:userDetails.password},jsonSecret)
-
+                console.log(token);
                 res.cookie('token', token);
                 res.json({ id: userDetails._id,
                     name: userDetails.name,
@@ -125,7 +128,7 @@ app.post('/logging', async (req, res) => {
 app.get('/profile', (req,res)=>{
    
    const {token} = req.cookies;
-   
+    
     if(token){
        
         try {
@@ -153,7 +156,7 @@ app.get('/profile', (req,res)=>{
 })
 
 // console.log('====================================');
-// console.log({__dirname});
+// console.log({__dirname});sgsdg
 // console.log('====================================');
 
 app.post('/photo-link', async (req,res)=>{
@@ -225,8 +228,7 @@ app.post('/editProfile',async (req,res)=>{
             user.password = newPw;
         }
         //
-        await user.save();
-
+        
         const newToken = jsonToken.sign(
             {
               name: user.name,
@@ -236,6 +238,7 @@ app.post('/editProfile',async (req,res)=>{
            jsonSecret, 
              
           );
+        await user.save();
 
           
       
@@ -255,49 +258,114 @@ app.post('/editProfile',async (req,res)=>{
 
 
 
-app.post('/venues', async (req,res)=>{
+app.post('/createMyVenue', async (req,res)=>{
     const {info} = req.body
     const {category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
-        timeTo, capacity} = info;
+        timeTo, capacity, dayPrice, nightPrice} = info;
     const {token} = req.cookies;
-    console.log("this is title",title); 
+    // console.log("this is title",title); 
     try {
         
         const {id} = jsonToken.verify(token, jsonSecret)
        const venueDetails = await Venue.create({
             owner:id,
             category, title, address, description, amenities, existingPhotos, addInfo, timeFrom,
-        timeTo, capacity,
+        timeTo, capacity, dayPrice, nightPrice
     
         })
         res.json(venueDetails);
-        console.log("This is venue", venueDetails);
+        // console.log("This is venue", venueDetails);
     } catch (e) {
-        res.status(400).json(e);
+        res.status(400).json({e:'Error in adding venue'});
+        console.log("Error in venue form");
     }
  
 
 })
 
-app.get('/myVenues', async (req,res)=>{
-
-    const {token} = req.cookies;
-    const {id} = jsonToken.verify(token, jsonSecret)
-console.log("Endpoint working");
+app.get('/myVenues', async (req, res) => {
     try {
+        const { token } = req.cookies;
+
+        if (!token) {
+            // If there is no token provided in the request, respond with an error
+            return res.status(401).json({ error: 'Token is missing' });
+        }
+
+        const { id } = jsonToken.verify(token, jsonSecret);
+
         const venue = await Venue.find({ owner: id });
+
         if (venue.length > 0) {
             res.status(200).json(venue);
-            console.log("finding venues", venue);
         } else {
             res.status(404).json({ error: 'No venues found for the user' });
         }
-        
     } catch (error) {
-        res.status(400).json("ERROR")
-        
+        res.status(400).json({ error: 'Error processing the request' });
     }
+});
 
+
+app.get('/getMyVenue/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const vDetail = await Venue.findById(id);
+  
+      if (!vDetail) {
+        // Log that the venue was not found
+        console.log(`Venue not found for ID: ${id}`);
+        return res.status(404).json({ error: 'Venue not found' });
+      }
+  
+      // Log the successful retrieval of venue details
+      console.log(`Venue details retrieved for ID: ${id}`);
+      return res.json(vDetail);
+    } catch (error) {
+      console.error('Error fetching venue details:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+
+app.put('/updateMyVenue/:id',async (req,res)=>{
+    const {id} = req.params
+   // console.log("this is id",id); 
+
+    const {info} = req.body
+
+    const {
+        category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
+timeTo, capacity, dayPrice, nightPrice
+    } = info;
+    
+
+        // console.log('this is info',info);
+        const {token} = req.cookies;
+        
+        const userDoc = jsonToken.verify(token, jsonSecret)
+        
+        
+        const venueDoc = await Venue.findById(id)
+        console.log(userDoc.id);;
+        try {
+            
+            if(venueDoc.owner.toString() == userDoc.id){ //venueDoc.owner byy default returnss id in the form of ObjectId(id) so we have to convert it into string
+                
+                
+                venueDoc.set({
+                    category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
+            timeTo, capacity, dayPrice, nightPrice
+                })
+    
+               await venueDoc.save()
+                res.status(200).json('Venue Updated')
+            }
+
+        } catch (error) {
+            res.status(400).json({error:'error in updating venue'})
+        }
 
 
 })
@@ -311,6 +379,24 @@ app.get('/displayAds', async (req,res)=>{
         
     } catch (error) {
         res.status(400).json(error);
+    }
+
+})
+
+app.put('/getAd/:id', async (req,res)=>{
+
+    const {id} = req.params;
+    console.log('====================================');
+    console.log("getting add",id);
+    console.log('====================================');
+    try {
+        if(id){
+            const ad = await Venue.findById(id)
+            res.status(200).json(ad)
+        }
+        
+    } catch (error) {
+        res.status(400).json("Cannot fetch ad data", error)
     }
 
 })
