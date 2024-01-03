@@ -7,19 +7,28 @@ function Ads() {
   const [active, setActive] = useState('');
   
   const infoRef = useRef([])
+  const [removeFilter, setRemoveFilter] = useState([])
   
   useEffect(() => {
     axios.get("/displayAds").then((response) => {
       const { data } = response;
       // console.log(data);
       infoRef.current = data;
+      setRemoveFilter(data)
       return setAds(data);
     });
   }, []);
-
+  console.log('====================================');
+  console.log("remove filter",removeFilter);
+  console.log('====================================');
   const categories = (type)=>{
     setActive(type)
     setAds([...infoRef.current.filter((item)=> item.category===type)])
+  }
+
+  const RemovingFilter = () =>{
+    setActive('')
+    return setAds(removeFilter)
   }
 
   return (
@@ -56,6 +65,11 @@ function Ads() {
           onClick={() => {categories('Wedding Halls')}}
         >
           Wedding Halls
+        </div>
+        <div className="flex items-center text-xl font-bold p-2 ml-auto bg-gray-200 rounded-full cursor-pointer" onClick={RemovingFilter}>
+          Show 
+         All
+         Venues
         </div>
       </div>
       <div className="flex flex-wrap justify-start pl-32 ">

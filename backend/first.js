@@ -3,10 +3,12 @@
 
 const express = require('express') 
 const cors = require('cors');
-const { default: mongoose } = require('mongoose');
+const { default: mongoose } = require('mongoose');//mongoose is the driver used to access NoSQL database through schema
+//MongoDB provides NoSQL architecture and it doesn't access data through schema but through mongoose we can do it.
 require('dotenv').config()
 const User = require('./dataModels/User.js')
 const Venue = require('./dataModels/Venue.js')
+const Booking = require('./dataModels/Booking.js')
 const bcrypt = require('bcryptjs')
 const jsonToken = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
@@ -15,6 +17,7 @@ const multer = require('multer') //multer is a middleware
 const fy = require('fs');
 const { log, info } = require('console');
 const path = require('path');
+const ws =require('ws')
 
 const jsonSecret = 'asbcnkvjnaknvka'
 
@@ -266,9 +269,10 @@ app.post('/createMyVenue', async (req,res)=>{
     // console.log("this is title",title); 
     try {
         
-        const {id} = jsonToken.verify(token, jsonSecret)
+        const {id,name} = jsonToken.verify(token, jsonSecret)
        const venueDetails = await Venue.create({
             owner:id,
+            ownerName:name,
             category, title, address, description, amenities, existingPhotos, addInfo, timeFrom,
         timeTo, capacity, dayPrice, nightPrice
     
@@ -392,6 +396,7 @@ app.put('/getAd/:id', async (req,res)=>{
     try {
         if(id){
             const ad = await Venue.findById(id)
+            console.log(ad)
             res.status(200).json(ad)
         }
         
@@ -416,4 +421,109 @@ app.post('/logout', (req,res)=>{
 // app.get('/test', (req,res)=>{
 //     res.json({"user": ["userOne", "userTwo", "userThree"]});
 // })
+
+app.put('/getOwner/:id', async (req,res)=>{
+    const {id} = req.params;
+    try {
+        if(id){
+            const userDoc = await User.findById(id)
+            res.status(200).json(userDoc)
+        }
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
+
+app.post('/bookingReq', async (req,res)=>{
+    const {title1, priceCheck, category1, ownerId, approval} = req.body; 
+   
+
+    const {token} = req.cookies;
+    const user = jsonToken.verify(token, jsonSecret)
+    console.log(user)
+    try {
+        if (user){
+            const bookingDetail = await Booking.create({
+                ownerId: ownerId, userId: user.id, Price:priceCheck, title:title1, category:category1, approval:approval 
+            })
+    
+            console.log(bookingDetail)
+            res.status(200).json(bookingDetail)
+        }
+        else{
+            res.status(400).json('User Not Found')
+        }
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error:'Server Error'})
+    }
+})
+
+app.get('/getReservation/:id', async (req,res)=>{
+    const {id} = req.params;
+    console.log(id)
+
+    try {
+        if(id){
+            const details = await Booking.find({userId:id})
+            console.log(details)
+            res.status(200).json(details)
+        }
+        
+
+    } catch (error) {
+        res.status(400).json({error:'Server Error'})
+    }
+})
+
+
+
+
 app.listen(4000, ()=> console.log("Server started at port 4000"));
+
+
+
+
+
+// const webSoc = new ws.WebSocketServer({server})
+
+// webSoc.on('connection',async (connection,req)=>{ //this connection is between our server and one specific client 
+// console.log('====================================');
+// console.log('connected');
+// console.log('====================================');
+// // const cookie = req.headers.cookie;
+// // const queryParameters = url.parse(req.url, true).query;
+// //   const owner = queryParameters.id;
+// //   const ownerDoc = await User.findById(owner)
+// //   console.log(ownerDoc.name)
+// //   console.log(owner)
+//   if (cookie) {
+//     const token = cookie.split('=')[1];
+
+//     try {
+//       const userDoc = jsonToken.verify(token, jsonSecret);
+
+//       const { id, name } = userDoc;
+
+//       connection.id = id;
+//       connection.name = name;
+//     }
+//     catch (error) {
+//               console.error('Error verifying token:', error);
+//             }
+//         }
+//        console.log('====================================');
+//        webSoc.clients.forEach(client => {    //we use forEach and not map bec it does not create a new array when executing a function on each element
+//         // Broadcast the array of client names to all connected clients
+//         client.send(JSON.stringify({ active:[...webSoc.clients].map(c =>( {id:c.id,name:c.name} ))}));
+//         //JSON.Stringify is used to convert JS object into string to the client 
+//         //data is sent typically as string bec websocket msgs support text frames
+//     });
+        
+        
+//        console.log('====================================');
+// }
+// )
+
+

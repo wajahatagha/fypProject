@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const VenueSchema = new mongoose.Schema({
     owner:{type: mongoose.Schema.Types.ObjectId, ref:'User'},
+    ownerName: String,
     category: String,
     title: String,
     address: String,
@@ -14,7 +15,7 @@ const VenueSchema = new mongoose.Schema({
     capacity: Number,
     dayPrice: Number,
     nightPrice: Number
-});;
+});
 
 const venueModel = mongoose.model('Venue', VenueSchema);
 

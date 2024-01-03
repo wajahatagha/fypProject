@@ -18,7 +18,7 @@ if(!user){
     setUser(data)
     
     console.log('====================================');
-    console.log("this user logged in",data);
+    console.log("this user logged in",user);
     console.log('====================================');
     
     
