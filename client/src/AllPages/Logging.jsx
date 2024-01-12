@@ -5,6 +5,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import { UserContext } from '../UserContext';
 import 'react-toastify/dist/ReactToastify.css';
+import '../Login.css'
 
 
 
@@ -102,6 +103,13 @@ const navigatee = useNavigate()
 
 
   <div className='login'>
+    <div className="row">
+    <div className="col-md-6 parnt-1">
+      <div className='child1-login'>
+
+      </div>
+    </div>
+    <div className="col-md-6 parnt-1">
     <div className="wrapper">
       <form onSubmit={Login}>
         <h1 className=''>Login</h1>
@@ -133,6 +141,9 @@ const navigatee = useNavigate()
         </div>
       </form>
     </div>
+    </div>
+    </div>
+   
         
   </div>
   )

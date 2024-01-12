@@ -141,6 +141,7 @@ app.get('/profile', (req,res)=>{
 
             //     const {name,email,_id} = await User.findOne({email}) 
                 console.log("console rocks",name,email,id);
+                
             // })
             res.json({name,email,id});
 
@@ -450,7 +451,6 @@ app.put('/getOwner/:id', async (req,res)=>{
 app.post('/bookingReq', async (req,res)=>{
     const {title1, priceCheck, category1, ownerId, approval} = req.body; 
    
-
     const {token} = req.cookies;
     const user = jsonToken.verify(token, jsonSecret)
     console.log(user)
@@ -476,6 +476,7 @@ app.post('/bookingReq', async (req,res)=>{
 app.get('/getReservation/:id', async (req,res)=>{
     const {id} = req.params;
     console.log(id)
+    
 
     try {
         if(id){
@@ -521,8 +522,9 @@ app.delete('/cancelBooking/:id',async (req,res)=>{
 
 })
 
-app.delete('/cancelReservation:id', async (req,res)=>{
+app.delete('/cancelReservation/:id', async (req,res)=>{
 const {id} = req.params 
+
 console.log(id)    
 
 try {
@@ -535,6 +537,29 @@ try {
     res.status(400).json('Deletion unsuccessful')
 }
 
+
+})
+
+app.put('/approveBooking/:id',async (req,res)=>{
+    const {id} = req.params
+    console.log('booking id',id)
+    try {
+        
+        const bookings = await Booking.findById(id) 
+    
+        if(!bookings){
+            res.status(400).json({message: 'Could not find Booking'})
+        }
+    
+        bookings.approval = true;
+    
+        bookings.save();
+        res.status(200).json(bookings)
+    }
+     catch (error) {
+        res.status(500).json({error:'Internal Server Error'})
+
+}
 
 })
 

@@ -1,0 +1,142 @@
+.accountbody {
+    width: 600px !important;
+    height: 64vh;
+}
+.userpng{
+    color: white;
+    font-size: 35px;
+}
+.accname{
+    font-size: 25px;
+}
+.accemail{
+    font-size: 20px;
+}
+.edit-btn{
+    color: white;
+    border: 1px solid white;
+    border-radius: 20px;
+    font-size: 15px;
+    padding: 8px 20px;
+}
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
+.edit-btn:hover{
+    background: white;
+    color: rgb(110, 1, 110);
+    font-weight: bold;
+}
+.viewadd-btn{
+    font-size: 18px;
+}
+.viewadd-btn-child{
+    font-size: 14px;
+}
+.btn-parent:hover{
+    background: #591c879a !important;
+    scale: 1.05;
+    transition: 0.4s;
+    margin: 5px;
+}
+.btn-parent:hover .viewadd-btn{
+    color: white;
+}
+.btn-parent:hover .viewadd-btn-child{
+    color: white;
+}
+.btn-parent:hover .eyefont{
+    color: white;
+}
+.eyefont{
+    color: black;
+    font-size: 15px;
+    padding: 10px;
+}
+.accback{
+    background: #581c87 !important;
+}
+.dropdowncustom{
+    background: #581c87 !important;
+}
+.bookingdesign{
+    text-align: left;
+}
+.editformsequence{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  
+}
+.editformsequence div input{
+    font-size: 21px;
+}
+.editformsequence div label{
+    font-size: 18px;
+}
+.fullscreenview {
+    padding: 20px;
+    width: 900px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+    margin: 10px;
+    border-radius: 10px;
+}
+.cubmitbtn-save{
+    padding: 8px 50px !important;
+    border-radius: 5px;
+    font-size: 17px;
+}
+.cubmitbtn-save:hover{
+    scale: 1.1;
+    transition: 0.4s;
+}
+.form-parent-edit{
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.profilemenubtns{
+background: #581c87;
+color: white !important;
+width: 130%;
+border-radius: 20px;
+margin: 5px;
+text-align: center;
+}
+.profilemenubtns:hover{
+    background: #581c87;
+    scale: 1.2;
+    transition: 0.4s;
+    font-weight: bold;
+}
+.dop-parent{
+    background: transparent;
+    border: 0px;
+}
+.cardparaheight1:hover{
+    scale: 1.101;
+    transition: 0.4s;
+}
+.name-input{
+    width: 100%;
+}
+.btn-parent2{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    width: 500px;
+}
+.btn-parent2 button{
+    padding: 10px 50px !important;
+    font-size: 18px;
+}
+.edit-label-name{
+    font-size: 20px;
+    margin: 5px;
+}

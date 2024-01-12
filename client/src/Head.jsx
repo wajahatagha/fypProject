@@ -18,6 +18,7 @@ const accountDetail=()=>{
           {/* <div className='flex rounded-full border border-gray-600 px-4 mt-2 mr-2 items-center shadow-md shadow-gray-400'> */}
           <nav className='navbar'>
           <div><Link to ={'/'} className='px-4 font-bold'>Home</Link></div> 
+           <div><Link to={'/ads'} className='px-4 font-bold' >Venues</Link></div>
            <div><Link to={'/about'} className='px-4 font-bold'>About us</Link></div>
            <div><Link to={'/contact'} className='px-4 font-bold' >Contact us</Link></div>
            </nav>

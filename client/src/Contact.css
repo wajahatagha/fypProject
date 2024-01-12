@@ -1,0 +1,146 @@
+
+.contact-body{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contact-right {
+    width: 400px;
+    padding: 40px 30px;
+}
+.contact-box{
+    display: flex;
+}
+
+.contact-left{
+    flex-basis: 60%;
+    padding: 40px 60px;
+    background: linear-gradient(to right,#EE9CA7,#FFDDE1);
+    border-top-right-radius: 60px;
+}
+
+.input-row{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input-row .input-group{
+    flex-basis: 45%;
+}
+
+input{
+    width: 100%;
+    border: none;
+    outline: none;
+    padding-bottom: 5px;
+}
+
+textarea{
+    width: 100%;
+    outline: none;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+label{
+    margin-bottom: 6px;
+    display: block;
+    color: var(--main-color)
+}
+.button{
+    background: var(--main-color);
+    width: 100px;
+    border: none;
+    outline: none;
+    color: var(--white);
+    height: 35px;
+    border-radius: 30px;
+    margin-top: 20px;
+    box-shadow: var(--box-shadow);
+}
+
+.contact-left h3{
+    color: var(--main-color);
+    /* font-weight: 600; */
+    margin-bottom: 30px;
+}
+
+
+.contact-right a i{
+    /* inline=left + right */
+   padding-inline: 10px;
+    transition: .2s linear;
+    margin: 2px;
+}
+
+.contact-right a:hover i{
+    padding-right: 2rem;
+}
+.box{
+    display: flex;
+    flex-direction: column;
+}
+.box a{
+    font-size: 20px;
+    padding: 5px;
+    margin: 5px;
+    background: linear-gradient(to right, #fcb6d8, #6b1e8f); 
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.contact-right h3{
+    color: #6b1e8f;
+    font-family: sans-serif;
+    text-align: center;
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+.cntactback-pic{
+    width: 100%;
+}
+
+.input-group input{
+    padding: 10px 30px;
+    font-size: 15px;
+    border-radius: 20px;
+}
+.input-group:hover{
+    transition: 0.4s;
+    scale: 1.07;
+    border-top-right-radius: 20px;
+}
+.text-area{
+    padding: 10px 30px;
+
+}
+.text-area:hover{
+    transition: 0.4s;
+    scale: 1.07;
+    border-top-right-radius: 20px;
+}
+.text-area textarea{
+     padding: 10px 30px;
+    font-size: 15px;
+    border-radius: 20px;
+}
+.submit-btnnn{
+    display: flex;
+    justify-content: center;
+}
+.submit-btnnn button{
+    padding: 10px 60px !important;
+    font-size: 18px;
+    background: transparent;
+    border: 1px solid black;
+    color: black !important;
+}
+.submit-btnnn button:hover{
+    background: #6b1e8f;
+    color: white !important;
+    transition: 0.4s;
+    scale: 1.04;
+    border: 0px;
+}

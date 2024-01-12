@@ -60,6 +60,7 @@ export default function AdDetails() {
     }
    axios.post('/bookingReq', sendData).then((response)=>{
     const {data} = response;
+    
     setBookingDone(true);
     console.log(data)
    })

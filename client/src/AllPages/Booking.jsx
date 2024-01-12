@@ -14,6 +14,7 @@ const [ownerr, setOwnerr] = useState('')
 
 
 
+
 useEffect(  () => {
   
      axios.get(`/getBookings/${user.id}`).then((response=>{
@@ -26,7 +27,7 @@ if(data.length!=0){
   }, 1000);
 }
  setBookingsData(data)
-   console.log(bookingsData)
+   console.log('res ok',data)
    
 }))
   
@@ -44,12 +45,22 @@ async function Cancel(id) {
     // Handle error appropriately, e.g., show a notification to the user
   }
 }
+
+async function Approve(id){
+try {
+  const response = await axios.put(`/approveBooking/${id}`)
+  const {data} = response;
+  
+} catch (error) {
+  
+}
+}
   
 
   return (
     <>
         <p className='text-center font-bold text-5xl my-4'>Your Bookings</p>
-    {loading===true ? <p className='text-3xl flex text-center'>Waiting for data retrieval...</p> : ( bookingsData && bookingsData.length > 0 ? bookingsData.map((booking)=> {
+    {loading===true ? <p className='text-3xl flex justify-center'>Waiting for data retrieval...</p> : ( bookingsData && bookingsData.length > 0 ? bookingsData.map((booking)=> {
         return(
     <div key={booking._id} className='flex flex-col m-4'>
     <div className="card m-2  shadow-lg rounded-xl text-2xl bg-purple-700 text-white" >
@@ -58,7 +69,12 @@ async function Cancel(id) {
     <h5 className="card-title">{booking.category}</h5>
     <p className="card-text">{booking.title}</p>
     <p className='card-text text-3xl '>{booking.Price}</p>
+    { booking.approval == false ? 
+    <div>
     <button className=' mt-8 bg-red-600 p-3 rounded-xl' onClick={()=> Cancel(booking._id)}>Cancel Reservation</button>
+    <button className=' mt-8 bg-green-600 p-3 rounded-xl mx-3' onClick={()=> Approve(booking._id)}>Approve Reservation</button>
+    </div> : <button className='p-3 bg-gray-500 text-white'>End This Booking</button>
+    }
     {/* <Link to={`/accPage/venues/new?id=${data._id}`} className="mt-2 btn bg-purple-700 text-white text-xl">{data.category}</Link> */}
   </div>
 </div>
@@ -66,7 +82,7 @@ async function Cancel(id) {
         )
 })
 
-: (<p className='text-3xl flex items-center justify-center'>No Bookings to show</p>)
+: (<p className='text-3xl flex justify-center'>No Bookings to show</p>)
 
 )
     }
