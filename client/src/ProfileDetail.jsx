@@ -28,10 +28,7 @@ function ProfileDetail() {
     
       }
       
-      function EditProfile(){
-        setEdit(true);
-    
-      }
+      
     
       async function Logout() {
         await axios.post("/logout");
@@ -69,7 +66,7 @@ function ProfileDetail() {
           <button onClick={Logout} className="btnn">
             Logout
           </button>
-          <button onClick={EditProfile} className="btnn">
+          <button onClick={()=> setEdit(true)} className="btnn">
             Edit Profile
           </button>
         </div>

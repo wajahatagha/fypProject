@@ -18,6 +18,7 @@ const fy = require('fs');
 const { log, info } = require('console');
 const path = require('path');
 const ws =require('ws')
+const {getBill} = require('./Mail/MailMiddleware.js')
 
 const jsonSecret = 'asbcnkvjnaknvka'
 
@@ -374,6 +375,18 @@ timeTo, capacity, dayPrice, nightPrice
 
 })
 
+app.delete('/deleteVenue/:id',async (req,res)=>{
+    const {id} = req.params; 
+    try {
+        
+        const deleted = await Venue.findByIdAndRemove(id)
+        res.status(200).json(deleted)
+    } catch (error) {
+        res.status(400).json('deletion unsuccessful')
+    }
+
+})
+
 app.get('/displayAds', async (req,res)=>{
 
     try {
@@ -476,8 +489,54 @@ app.get('/getReservation/:id', async (req,res)=>{
         res.status(400).json({error:'Server Error'})
     }
 })
+app.get('/getBookings/:id',async (req,res)=>{
+    try {
+        const {id} = req.params;
+        const ownerData = await Booking.find({ownerId:id})
+        if(ownerData){
+            res.status(200).json(ownerData)
+        }
+    } catch (error) {
+        res.status(400).json({error:'server error'})   
+    }
+})
+
+app.post('/sendContactInfo', getBill,(req,res)=>{
+    
+})
+
+app.delete('/cancelBooking/:id',async (req,res)=>{
+    const {id} = req.params
+    console.log(id)
+
+    try {
+        const deleting = await Booking.findByIdAndRemove(id)
+        console.log(deleting)
+
+        res.status(200).json('Booking deleted')
+
+    } catch (error) {
+        res.status(400).json('Deletion unsuccessful')
+    }
+
+})
+
+app.delete('/cancelReservation:id', async (req,res)=>{
+const {id} = req.params 
+console.log(id)    
+
+try {
+    const deleting = await Booking.findByIdAndRemove(id)
+    console.log(deleting)
+
+    res.status(200).json('Booking deleted')
+
+} catch (error) {
+    res.status(400).json('Deletion unsuccessful')
+}
 
 
+})
 
 
 app.listen(4000, ()=> console.log("Server started at port 4000"));

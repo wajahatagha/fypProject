@@ -5,6 +5,7 @@ import axios from "axios";
 import Venues from "./Venues";
 import ProfileDetail from "../ProfileDetail";
 import Reservations from "./Reservations";
+import Booking from "./Booking";
 
 function Account() {
   const { user, setUser } = useContext(UserContext);
@@ -57,7 +58,7 @@ function Account() {
               </svg>
               User Profile
             </Link>
-            <Link to={"/venues"} className={Linking("venues")}>
+            <Link to={"/accPage/venues"} className={Linking("venues")}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -129,6 +130,9 @@ function Account() {
               <Venues />
             </div>
           )}
+          {nestPage == 'bookings' && (
+            <Booking />
+            )}
            {nestPage == 'reservations' && (
             <Reservations />
             )}

@@ -1,10 +1,30 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState, useContext } from 'react'
+import { UserContext } from "../UserContext";
 
-export default function Contact() {
+
+
+ function Contact() {
+    const {user} = useContext(UserContext)
   
+    const [subject, setSubject] = useState('')
+    const [message, setMessage] = useState('')
+    const [contactNum, setContactNum] = useState(0)
+    console.log('user here', user)
+    
+    useEffect(() => {
+        
+        console.log('user here',user)
   
+   
+  }, [user])
   
-  
+
+ 
+  async function SubmitContact (ev){
+    ev.preventDefault()
+    await axios.post('/sendContactInfo', {subject, message, contactNum, name:user.name, email:user.email})
+  }
   
   
   
@@ -63,29 +83,29 @@ export default function Contact() {
                     <div className="input-row">
                         <div className="input-group">
                             <label className='font-bold'>Name</label>
-                            <input type="text" placeholder='Enter Name' />
+                            <input value={user.name} type="text"  />
                         </div>
                         <div className="input-group">
                             <label className='font-bold'>Phone</label>
-                            <input type="number" placeholder='Enter Number' />
+                            <input value={contactNum} onChange={(event)=> setContactNum(event.target.value)} type="number" placeholder='Enter Number' />
                         </div>
                     </div>
 
                     <div className="input-row">
                         <div className="input-group">
                             <label className='font-bold'>Email</label>
-                            <input type="email" placeholder='Enter Email' />
+                            <input value={user.email} type="email"  />
                         </div>
                         <div className="input-group">
                             <label className='font-bold'>subject</label>
-                            <input type="text" placeholder='Enter Subject' />
+                            <input value={subject} onChange={(event)=> setSubject(event.target.value)} type="text" placeholder='Enter Subject' />
                         </div>
                     </div>
 
                     <label className='font-bold'>Message</label>
-                    <textarea rows="5" placeholder='Enter Your Message'></textarea>
+                    <textarea value={message} onChange={(event)=> setMessage(event.target.value)} rows="5" placeholder='Enter Your Message'></textarea>
 
-                    <button type='submit' className='button'>Send</button>
+                    <button type='submit' onClick={SubmitContact} className='text-white p-4 bg-purple-500 rounded-xl my-2'>Send</button>
                 </form>
 
             </div>
@@ -106,3 +126,5 @@ export default function Contact() {
     </>
   )
 }
+
+export default Contact 
