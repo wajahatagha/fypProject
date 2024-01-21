@@ -10,8 +10,8 @@ const VenueSchema = new mongoose.Schema({
     description: String,
     amenities: [String],
     addInfo: String,
-    timeFrom: Number,
-    timeTo: Number,
+    timeFrom: String,
+    timeTo: String,
     capacity: Number,
     dayPrice: Number,
     nightPrice: Number

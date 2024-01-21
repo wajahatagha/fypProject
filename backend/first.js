@@ -2,7 +2,7 @@
 //to execute application, we need 2 things, route and app.listen()
 
 const express = require('express') 
-const cors = require('cors');
+const cors = require('cors');//aik hee project meh 2 alag alag server call ker k unhe integrate nae ker sakte toh we use cors middleware to call apis from that serverr
 const { default: mongoose } = require('mongoose');//mongoose is the driver used to access NoSQL database through schema
 //MongoDB provides NoSQL architecture and it doesn't access data through schema but through mongoose we can do it.
 require('dotenv').config()
@@ -269,9 +269,11 @@ app.post('/createMyVenue', async (req,res)=>{
         timeTo, capacity, dayPrice, nightPrice} = info;
     const {token} = req.cookies;
     // console.log("this is title",title); 
+    // console.log(category,title,address,description,amenities,existingPhotos,addInfo,timeFrom,timeTo,capacity,dayPrice,nightPrice)
     try {
         
         const {id,name} = jsonToken.verify(token, jsonSecret)
+        
        const venueDetails = await Venue.create({
             owner:id,
             ownerName:name,
@@ -279,11 +281,11 @@ app.post('/createMyVenue', async (req,res)=>{
         timeTo, capacity, dayPrice, nightPrice
     
         })
-        res.json(venueDetails);
-        // console.log("This is venue", venueDetails);
+        res.status(200).json(venueDetails);
+         console.log("This is venue", venueDetails);
     } catch (e) {
         res.status(400).json({e:'Error in adding venue'});
-        console.log("Error in venue form");
+        console.log(e);
     }
  
 

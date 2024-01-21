@@ -26,6 +26,7 @@ import Inbox from './AllPages/Inbox'
 
 
 
+
 axios.defaults.baseURL = 'http://127.0.0.1:4000';
 axios.defaults.withCredentials= true;
 
@@ -37,8 +38,7 @@ function App() {
     <>
   <UserContextProvider> 
    <Routes>
-    
-  
+
     <Route path='/' element={<Structure />}>
    <Route path='' element={<FirstPage />}/>
    <Route path='/logging' element={<Logging />}/>
@@ -56,6 +56,7 @@ function App() {
    <Route path='/inbox/:id' element={<Inbox/>}/>
 
    </Route>
+  
    
    </Routes>
    <ToastContainer />
