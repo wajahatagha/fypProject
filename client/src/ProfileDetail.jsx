@@ -162,7 +162,7 @@ function ProfileDetail() {
                     </div>
                     </div>
                     <div class="border-b">
-                        <Link to="" >
+                        <Link to="/accPage/venues" >
                             <a class="btn-parent px-4 py-2 hover:bg-gray-100 flex">
                                 <div class="text-green-600">
                                 <i class="fa-solid fa-eye eyefont" ></i>
@@ -175,7 +175,7 @@ function ProfileDetail() {
                                 </div>
                             </a>
                         </Link>
-                        <Link href="" >
+                        <Link to="/accPage/bookings" >
                             <a class="btn-parent px-4 py-2 flex">
                                 <div class="text-gray-800">
                                 <i class="fa-regular fa-calendar-days eyefont"></i>

@@ -89,7 +89,7 @@ function Ads() {
                   <h5 className="card-title text-3xl font-semibold">
                     {data.title}
                   </h5>
-                  <p className="card-text text-gray-600 text-xl">{data.description}</p>
+                  <p className="card-text text-gray-600 text-xl">{data.address}</p>
                   <div className="flex items-center justify-between mt-4">
                     <p className="text-sm text-gray-500 text-xl">{data.category}</p>
                     <Link

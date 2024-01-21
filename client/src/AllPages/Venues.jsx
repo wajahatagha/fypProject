@@ -97,7 +97,7 @@ function Venues() {
   <img src={`http://127.0.0.1:4000/photoUploads/${data.existingPhotos[0]}`} className="card-img-top" alt="..." />
   <div className="card-body">
     <h5 className="card-title">{data.title}</h5>
-    <p className="card-text">{data.description}</p>
+    <p className="card-text text-sm">{data.address}</p>
     <div className="flex justify-between">
     <Link to={`/accPage/venues/new?id=${data._id}`} className="mt-2 btn bg-purple-700 text-white text-xl">{data.category}</Link>
     <button onClick={()=> deleting(data._id)} className="mt-2 ml-1 btn bg-red-600 text-white rounded-2xl"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.0} stroke="currentColor" className="w-6 h-6">

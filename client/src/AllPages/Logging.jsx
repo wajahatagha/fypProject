@@ -14,19 +14,7 @@ const navigatee = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {user, setUser} = useContext(UserContext); //destructuring setUser from UserContext.Provider in value prop
-  
-
-  // useEffect(() => {
-  //   if(user){
-  //     console.log("USer found");
-  //      navigatee('/')
-      
-  //   }
-  //   else{
-  //     console.log("USer not found");
-  //   }
-  // }, [user, navigatee])
-  
+    
   if(user){
     console.log("USer found");
      navigatee('/')

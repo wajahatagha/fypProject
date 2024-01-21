@@ -82,13 +82,13 @@ export default function AdDetails() {
     <div key={item._id} className="bg-gray-100 p-4 ">
   <div className="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md grid grid-cols-2">
     <h1 className="text-2xl font-bold mb-4">Venue Details</h1>
-<Link to={`/inbox/?id=${item.owner}`} className='flex justify-end items-center gap-2'>
+{/* <Link to={`/inbox/?id=${item.owner}`} className='flex justify-end items-center gap-2'>
   <span className='font-bold text-2xl'>Chat with Owner</span>
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
 </svg>
 
-</Link>
+</Link> */}
 
 
 
@@ -120,7 +120,7 @@ export default function AdDetails() {
       </div>
       <div>
         <p className="text-gray-600 font-bold text-xl">Location:</p>
-        <p className="text-black font-semibold">{item.location}</p>
+        <p className="text-black font-semibold">{item.address}</p>
       </div>
       </div>
 

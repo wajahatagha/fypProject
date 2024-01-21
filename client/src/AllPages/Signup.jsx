@@ -105,8 +105,13 @@ async function Signing(ev){
 
 
     <div className="signup">
-      <div className="wrapper">
-        <h1>Sign Up</h1>
+      <div>
+<div className="singup2"></div>
+      </div>
+      <div className="wrapper ">
+       <div>
+       <h1>Sign Up</h1>
+       
         <form onSubmit={Signing}>
           <div className='inpt'>
             <input type="text" placeholder='Name'
@@ -131,8 +136,11 @@ async function Signing(ev){
           <p>Already have an account?<Link to={'/logging'} className='ml-2 underline font-bold'>Login here.</Link></p>
           </div>
         </form>
-        
+       </div>
       </div>
+      
+      
+      
     </div>
   )
 }

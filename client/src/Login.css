@@ -20,7 +20,8 @@
     color: var(--white);
     border-radius: 10px;
     padding: 30px 40px;
-    background: linear-gradient(to right, #fcb6d8, #6b1e8f);
+    /* background: linear-gradient(to right, #fcb6d8, #6b1e8f); */
+    background: url('https://files.123freevectors.com/wp-content/original/177055-blue-purple-and-white-distressed-watercolour-background-image.jpg');
 
 }
  
@@ -46,12 +47,12 @@
     border: 2px solid rgba(255,255,255,.2);
     border-radius: 40px;
     font-size: 16px;
-    color: var(--white);
+    color: var(--black);
     padding: 20px 45px 20px 20px;
 }
 
 .input-box input::placeholder{
-    color: var(--white);
+    color: var(--black);
 }
 
 .input-box i{
@@ -60,6 +61,7 @@
     top: 30%;
     transform: translate(-50%);
     font-size: 20px;
+    color: black;
 }
 
 .wrapper .btn{

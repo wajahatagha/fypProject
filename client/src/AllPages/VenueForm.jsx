@@ -98,7 +98,7 @@ function VenueForm() {
     <div className='venues'>
               
                <div className="venue-wrapper">
-                    <h1>Your Venue</h1>
+                    <h1>Add Venue</h1>
                     <form onSubmit={savingVenue}>   
                       {/* default behavior of form is any button clicked on it would refresh the page if there is no ev.preventDefault on the buttons onClick */}
                     <label htmlFor="venue-description">What describes your venue best?</label>
@@ -165,9 +165,9 @@ function VenueForm() {
                       </div>
                       <div>
                         <div className='flex h-8 p-5 items-center justify-center'>
-                        <p className='p-3'>Start Time</p>
+                        <p className='p-3'>Day Time Slot</p>
                         <input className='text-black' value={timeFrom} onChange={ev=>setTimeFrom(ev.target.value)} type='text' />
-                        <p className='p-3'>End Time</p>
+                        <p className='p-3'>Night Time Slot</p>
                         <input className='text-black' value={timeTo} onChange={ev=>setTimeTo(ev.target.value)} type='text' />
                         </div>
                         <div>

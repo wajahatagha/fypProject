@@ -127,25 +127,24 @@ section{
     padding: 20px 45px 20px 20px;
 } */
 
-
 .signup{
-    background: url(./Pictures/bg2.jpg);
+    /* background: url(./Pictures/bg2.jpg); */
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
+    background-position: center;
     background-size: cover;
-    background-position:center;
+}
+.signup img{
+    width: 200px;
 }
 
 .signup .wrapper{
-    width: 420px;
     padding: 2rem 1rem;
     margin: 50px auto;
-    background: transparent;
-    border: 2px solid rgba(255,255,255,.2);
-    backdrop-filter: blur(20px);
-    box-shadow: var(--box-shadow);
+    /* backdrop-filter: blur(20px); */
+    /* background: linear-gradient(to right, #fcb6d8, #6b1e8f); */
+    background: url('https://files.123freevectors.com/wp-content/original/177055-blue-purple-and-white-distressed-watercolour-background-image.jpg');
     color: var(--white);
     border-radius: 10px;
 
@@ -163,13 +162,20 @@ section{
     margin-bottom: 10px;
     border-radius: 40px;
     background: transparent;
-    color: var(--white);
+    
+    color: black;
     font-size: 16px;
+    border: 1px solid;
 }
 .signup input::placeholder{
-    color: var(--white);
+    color: black;
 }
-
+.wrapper .register-link{
+    color: black;
+}
+.wrapper h1{
+    color: black !important;
+}
 .signup .wrapper .btn{
     width: 90%;
     height: 45px;
@@ -187,7 +193,8 @@ section{
 }
 
 .venues{
-    background: url(./Pictures/back.jpg);
+    /* background: linear-gradient(to right,rgb(251, 206, 251),white,rgb(248, 168, 248)); */
+    background: url('https://media.istockphoto.com/id/1171755644/photo/gray-color-gradient-abstract-background.jpg?s=612x612&w=0&k=20&c=umV42heOil2IKfiIAzbmSqTVsLTPOEYBggqtW6V7YDY=');
     display: flex;
     justify-content: center;
     align-items: center;
@@ -198,15 +205,15 @@ section{
 
 
 .venues .venue-wrapper{
-    width: 800px;
-    height: 700px;
+    /* width: 1000px; */
+    
     padding: 2rem 1rem;
     margin: 50px auto;
     background: transparent;
     border: 2px solid rgba(255,255,255,.2);
     backdrop-filter: blur(20px);
     box-shadow: var(--box-shadow);
-    color: var(--white);
+    color: var(--black);
     border-radius: 10px;
 }
 
@@ -220,7 +227,7 @@ section{
 .venue-wrapper label{
     display: block;
     font-weight: bold;
-    color: var(--white);
+    color: var(--black);
     font-size: 16px;
 
 }
@@ -241,10 +248,11 @@ section{
 
 .venue-wrapper .options input[type="checkbox"] {
     margin-right: 5px;
+    border: 1px solid !important;
 }
 
 .venue-wrapper .venue-details span {
-    color: var(--white);
+    color: var(--black);
     font-weight: bold;
     font-size: 16px;
 
@@ -255,10 +263,11 @@ section{
     margin-bottom: 10px;
     border-radius: 20px;
     background: transparent;
+    border: 1px solid;
 }
 
 .venue-wrapper .venue-details input::placeholder{
-    color: var(--white);
+    color: var(--black);
     font-size: 14px;
 }
 
@@ -636,7 +645,7 @@ section{
 
 /* media responsive */
 
-@media (max-width:1200px){
+/* @media (max-width:1200px){
     section{
         padding: 3rem 5%;
     }
@@ -757,7 +766,7 @@ section{
     }
 
     .venues{
-        background: url(./Pictures/bg2.jpg);
+        background: #777;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -950,4 +959,4 @@ section{
     .inner-container{
       padding: 60px;
     }
-}
+} */
