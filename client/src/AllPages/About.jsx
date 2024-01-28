@@ -61,7 +61,7 @@
 // }
 
 import React from 'react'
-import '../Account.css'
+// import '../Account.css'
 
 import { Link,  useParams, useNavigate } from "react-router-dom";
 
@@ -136,11 +136,11 @@ export default function About() {
             <span class="text-slate-500 rounded-xl border-slate-100 text-sm mt-2 pl-3 pr-3 border-[1px]">
                 <span class="bg-green-500 w-2 h-2 rounded-full mt-0.5 inline-block"></span> Current
             </span>
-            <button class="w-full gradient rounded-md text-white p-4 mt-4 hover:shadow-xl transition-all duration-200 ease-in">Send a message</button>
+            
         </div>
     </div>
 
-    <div class="w-full cardparaheight1  ml-1 mr-1 flex flex-col m-5 justify-center items-center sm:w-96 border-gray-700 text-center">
+    <div class="w-full cardparaheight1 ml-1 mr-1 flex flex-col m-5 justify-center items-center sm:w-96 border-gray-700 text-center">
         <div class="w-full rounded-2xl p-8 text-white bg-gradient-to-br from-[#5f99f9] to-[#8868dc] pb-44 relative">
         <h1 class="text-xl mb-2"><b>Pak-Venues</b></h1>
         <h1 class=" mb-4"><b>Vendors</b></h1>
@@ -154,7 +154,7 @@ export default function About() {
             <span class="text-slate-500 rounded-xl border-slate-100 text-sm mt-2 pl-3 pr-3 border-[1px]">
                 <span class="bg-green-500 w-2 h-2 rounded-full mt-0.5 inline-block"></span> Current
             </span>
-            <button class="w-full gradient rounded-md text-white p-4 mt-4 hover:shadow-xl transition-all duration-200 ease-in">Send a message</button>
+           
         </div>
     </div>
     <div class="w-full cardparaheight1  ml-1 mr-1 flex flex-col m-5 justify-center items-center sm:w-96 border-gray-700 text-center">
@@ -170,7 +170,7 @@ export default function About() {
             <span class="text-slate-500 rounded-xl border-slate-100 text-sm mt-2 pl-3 pr-3 border-[1px]">
                 <span class="bg-green-500 w-2 h-2 rounded-full mt-0.5 inline-block"></span> Current
             </span>
-            <button class="w-full gradient rounded-md text-white p-4 mt-4 hover:shadow-xl transition-all duration-200 ease-in">Send a message</button>
+            
         </div>
     </div>
 </div>

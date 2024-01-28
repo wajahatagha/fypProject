@@ -13,11 +13,11 @@ function VenueForm() {
     const [address, setAddress] = useState('')
     const [description, setDescription] = useState('')
     const [amenities, setAmenities] = useState([])
-    const [picLink,setPicLink] = useState('')
+    
     const [existingPhotos, setExistingPhotos] = useState([])
     const [addInfo, setAddInfo] = useState('')
-    const [timeFrom, setTimeFrom] = useState('')
-    const [timeTo, setTimeTo] = useState('')
+    const [timeFrom, setTimeFrom] = useState('09:00 AM - 06:00 PM')
+    const [timeTo, setTimeTo] = useState('09:00 PM - 06:00 AM')
     const [capacity, setCapacity] = useState(1)
   const [dayPrice, setDayPrice] = useState(10000)
   const [nightPrice, setNightPrice] = useState(10000)
@@ -67,7 +67,7 @@ function VenueForm() {
   
   
   
-  async function savingVenue(ev){
+  async function savingVenue (ev){
   ev.preventDefault() //we do not want to use default functionality of form
   const info = {
     category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
@@ -75,7 +75,11 @@ function VenueForm() {
   }
 
   if(idFromQuery){
-    axios.put('/updateMyVenue/'+idFromQuery,{info}) //if info not sent in an object then it will show undefined at endpoint.
+   const res = await axios.put('/updateMyVenue/'+idFromQuery,{info}) //if info not sent in an object then it will show undefined at endpoint.
+  if(res){
+    alert("Venue Updated")
+    setRedirect(true)
+  }
   }
   else{
   const {data} =  await axios.post('/createMyVenue',{info}) //not destructuring {data} bec we don't want to use response
@@ -146,7 +150,7 @@ function VenueForm() {
                       </div>
 
                    {/* Photos */}
-                   <PicturesComp picLink={picLink} setPicLink={setPicLink} existingPhotos={existingPhotos} setExistingPhotos={setExistingPhotos} />
+                   <PicturesComp  existingPhotos={existingPhotos} setExistingPhotos={setExistingPhotos} />
                       
                       <div className='venue-details'>
                         <span className='details'>Description</span>
@@ -164,21 +168,21 @@ function VenueForm() {
                         <textarea className="text-black"  value={addInfo} onChange={ev=>setAddInfo(ev.target.value)} rows="5" placeholder='Enter Your Message'></textarea>
                       </div>
                       <div>
-                        <div className='flex h-8 p-5 items-center justify-center'>
+                        <div className='flex h-8 p-5 items-center justify-center time'>
                         <p className='p-3'>Day Time Slot</p>
                         <input className='text-black' value={timeFrom} onChange={ev=>setTimeFrom(ev.target.value)} type='text' />
                         <p className='p-3'>Night Time Slot</p>
                         <input className='text-black' value={timeTo} onChange={ev=>setTimeTo(ev.target.value)} type='text' />
                         </div>
-                        <div>
+                        <div className="guest">
                         <p>Guests Capacity</p>
                         <input className='text-black' value={capacity} onChange={ev=>setCapacity(ev.target.value)} type='number' />
                         </div>
-                        <div>
+                        <div className="guest">
                         <p>Price of Day booking</p>
                         <input className='text-black' value={dayPrice} onChange={ev=>setDayPrice(ev.target.value)} type='number' />
                         </div>
-                        <div> 
+                        <div className="guest"> 
                         <p>Price of Night booking</p>
                         <input className='text-black' value={nightPrice} onChange={ev=>setNightPrice(ev.target.value)} type='number' />
                         </div>

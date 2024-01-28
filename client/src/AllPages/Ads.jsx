@@ -77,7 +77,7 @@ function Ads() {
         {ads.length > 0 &&
           ads.map((data) => {
             return (
-              <div className="card m-4  shadow-lg rounded-xl text-xl w-80">
+              <div key={data._id} className="card m-4  shadow-lg rounded-xl text-xl w-80">
                 <div className="relative ">
                   <img
                     src={`http://127.0.0.1:4000/photoUploads/${data.existingPhotos[0]}`}

@@ -8,7 +8,6 @@ const {user} = useContext(UserContext)
 
 const [bookingsData, setBookingsData] = useState([])
 const [loading, setLoading] = useState(false)
-const [ownerr, setOwnerr] = useState('')
 
 
 
@@ -49,11 +48,29 @@ async function Cancel(id) {
 async function Approve(id){
 try {
   const response = await axios.put(`/approveBooking/${id}`)
-  const {data} = response;
+  setBookingsData((prevItems) =>
+  prevItems.map((bookingItem) =>
+    bookingItem._id == id ? { ...bookingItem, approval: true } : bookingItem
+  )
+);
+  
+  // setBookingsData((prevItems)=> prevItems.map((booking)=>{
+  //   booking._id === id ? { ...booking, approval: true } : booking
+  // }))
   
 } catch (error) {
   
 }
+}
+
+async function End(id){
+  try {
+     await axios.delete(`/endBooking/${id}`)
+    setBookingsData((prevItems) => prevItems.filter((booking) => booking._id !== id));
+
+  } catch (error) {
+    console.log({error: 'Cannot end booking'})
+  }
 }
   
 
@@ -72,8 +89,8 @@ try {
     { booking.approval == false ? 
     <div>
     <button className=' mt-8 bg-red-600 p-3 rounded-xl' onClick={()=> Cancel(booking._id)}>Cancel Reservation</button>
-    <button className=' mt-8 bg-green-600 p-3 rounded-xl mx-3' onClick={()=> Approve(booking._id)}>Approve Reservation</button>
-    </div> : <button className='p-3 bg-gray-500 text-white'>End This Booking</button>
+    <button className=' mt-8 bg-green-600 p-3 rounded-xl mx-3' onClick={()=>  {Approve(booking._id)}}>Approve Reservation</button>
+    </div> : <button className='p-3 bg-gray-500 text-white' onClick={()=> End(booking._id)}>End This Booking</button>
     }
     {/* <Link to={`/accPage/venues/new?id=${data._id}`} className="mt-2 btn bg-purple-700 text-white text-xl">{data.category}</Link> */}
   </div>

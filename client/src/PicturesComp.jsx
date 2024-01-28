@@ -1,20 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 
-function PicturesComp({picLink,setPicLink, existingPhotos, setExistingPhotos}) {
-
-    // async function PhotoUrl(ev){
-    //     ev.preventDefault()
-    //     const {data} = await axios.post('/photo-link', {link: picLink}) //{data} is destructured from the response
-    //   // console.log('====================================');
-    //   // console.log(data);
-    //   // console.log('====================================');
-    //   setExistingPhotos(prev => {
-    //     return [...prev,data]
-    //   })
-    //   setPicLink('')
-    //   }
-      
+function PicturesComp({ existingPhotos, setExistingPhotos}) { 
       function Uploading(ev){
         const files = ev.target.files;
         console.log(files);
@@ -32,7 +19,7 @@ function PicturesComp({picLink,setPicLink, existingPhotos, setExistingPhotos}) {
         }
           )
       }
-
+          
       function picDelete(data){
         setExistingPhotos([...existingPhotos.filter((item)=> item!==data)])
       }
@@ -41,13 +28,13 @@ function PicturesComp({picLink,setPicLink, existingPhotos, setExistingPhotos}) {
     <>
        <div className="venue-details">
                         <div className='text-3xl font-bold'>Photos</div>
-                        {/* <input value={picLink} onChange={ev=>setPicLink(ev.target.value)} type="text"  placeholder='Add a photo using link'/> */}
+                        
                       </div>
 
                    <div className='flex flex-wrap'>
                     {existingPhotos.length > 0 && existingPhotos.map((data) => {
                       return(
-                      <div key={data} className='flex'>
+                      <div key={data._id} className='flex'>
                       <img src={`http://127.0.0.1:4000/photoUploads/${data}`} className=' w-96 h-80 rounded-2xl p-2'/>
                       <button className='bg-gray-600 flex items-center rounded-full p-4 h-8 absolute text-white' onClick={()=>{picDelete(data)}}>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

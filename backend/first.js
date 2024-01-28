@@ -1,10 +1,9 @@
-//npm init -y installs package.json file
-//to execute application, we need 2 things, route and app.listen()
+
 
 const express = require('express') 
-const cors = require('cors');//aik hee project meh 2 alag alag server call ker k unhe integrate nae ker sakte toh we use cors middleware to call apis from that serverr
-const { default: mongoose } = require('mongoose');//mongoose is the driver used to access NoSQL database through schema
-//MongoDB provides NoSQL architecture and it doesn't access data through schema but through mongoose we can do it.
+const cors = require('cors');
+const { default: mongoose } = require('mongoose');
+
 require('dotenv').config()
 const User = require('./dataModels/User.js')
 const Venue = require('./dataModels/Venue.js')
@@ -12,25 +11,16 @@ const Booking = require('./dataModels/Booking.js')
 const bcrypt = require('bcryptjs')
 const jsonToken = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
-const imageDl = require('image-downloader')//this is a middleware for downloading photos using a link in backend folder
-const multer = require('multer') //multer is a middleware
+const multer = require('multer') 
 const fy = require('fs');
-const { log, info } = require('console');
-const path = require('path');
-const ws =require('ws')
-const {getBill} = require('./Mail/MailMiddleware.js')
+
 
 const jsonSecret = 'asbcnkvjnaknvka'
 
-//app.use is used to handle middleware functionss
-//through middleware functions app can use their functionality while passing through req res streams
-
-
-
-const app = express(); //app object calling express constructor enabling express functionality in the app
-app.use(cookieParser()) //this middleware is used to read cookie which contains the token
-app.use(express.json()) //middleware used so that the request comes over here to parse the string data in the json format
-app.use('/photoUploads', express.static(__dirname+'/photoUploads')) //*****NEED TO UNDERSTAND THIS LINE */
+const app = express(); 
+app.use(cookieParser()) 
+app.use(express.json()) 
+app.use('/photoUploads', express.static(__dirname+'/photoUploads')) 
 
 app.use(cors({
     credentials:true,
@@ -99,8 +89,8 @@ app.post('/logging', async (req, res) => {
             //     } else {
                 //     }
                 // }) // Create a JSON Web Token and set a cookie
-        
-               const token =  jsonToken.sign({name:userDetails.name,email:userDetails.email,id:userDetails._id,password:userDetails.password},jsonSecret)
+        const time = { expiresIn: '1h' };
+               const token =  jsonToken.sign({name:userDetails.name,email:userDetails.email,id:userDetails._id,password:userDetails.password},jsonSecret,time)
                 console.log(token);
                 res.cookie('token', token);
                 res.json({ id: userDetails._id,
@@ -137,18 +127,12 @@ app.get('/profile', (req,res)=>{
        
         try {
             const {name,email,id} = jsonToken.verify(token, jsonSecret)
-            // , async (userr)=>{
-
-            //     const {name,email,_id} = await User.findOne({email}) 
-                console.log("console rocks",name,email,id);
-                
-            // })
             res.json({name,email,id});
 
             
           } catch (err) {
             // Handle the error here
-            res.status(500).json({ error: 'Token verification failed' });
+            res.status(400).json({ error: 'Token verification failed' });
           }
        
     }
@@ -157,32 +141,20 @@ app.get('/profile', (req,res)=>{
     }
 
 
-    //res.json({token})
-})
-
-// console.log('====================================');
-// console.log({__dirname});sgsdg
-// console.log('====================================');
-
-app.post('/photo-link', async (req,res)=>{
-    const {link} = req.body;
-    const add = 'picture' + Date.now() ; //if we write only .jpg here then it won't work, name is required with extensions
-    const options = ({
-        url: link,
-        dest: __dirname + "/photoUploads/" + add, //if we write /photoUploads then it will save in __dirname and the rest will assum as name of photo
-        extractFilename: false
-    })
-    await imageDl.image(options)
-    res.json(add)
-    console.log(options.dest);
+  
 })
 
 
-const multerData = multer({dest:'photoUploads'}); //intercepts incoming req before coming to route handler, processes and adds file info in req.files 
-app.post('/uploading',multerData.array('pictures',100),(req,res)=> {//multerData.array specifies that you expect multiple files to be uploaded and indicates the name of the field(which is 'pictures' in this case) in the form that contains files.
+
+
+
+
+const multerData = multer({dest:'photoUploads'}); 
+app.post('/uploading',multerData.array('pictures',100),(req,res)=> {
 
     //  const {files} = req.files; //req.body only contains field infos of form typically text, not fileskdkd
-     console.log("this is request ",req.files);
+     console.log("this is request ",req.files)
+     
      const newArray = []
     for (let i = 0; i < req.files.length; i++){
         const{path,originalname} = req.files[i]
@@ -192,20 +164,9 @@ app.post('/uploading',multerData.array('pictures',100),(req,res)=> {//multerData
         fy.renameSync(path,newPath)
         newArray.push(newPath.replace('photoUploads\\' , ''))
     }
-    res.json(newArray) //req.files contains info about the files. 
-     
+    console.log(newArray)
+    res.json(newArray) 
    
-    // const newArray = []
-    // for (let i = 0; i < req.files.length; i++) {
-    //     const {path,originalname} = req.files[i];
-    //     const prts = originalname.split('.')
-    //     const ext = prts[prts.length - 1]
-    //     const updatePath = path + '.' + ext 
-    //     fy.renameSync(path,updatePath)
-    //     newArray.push(updatePath.replace('photoUploads\\' , ''))
-        
-        
-    // }
 
 
 })
@@ -438,17 +399,17 @@ app.post('/logout', (req,res)=>{
 //     res.json({"user": ["userOne", "userTwo", "userThree"]});
 // })
 
-app.put('/getOwner/:id', async (req,res)=>{
-    const {id} = req.params;
-    try {
-        if(id){
-            const userDoc = await User.findById(id)
-            res.status(200).json(userDoc)
-        }
-    } catch (error) {
-        res.status(400).json(error)
-    }
-})
+// app.put('/getOwner/:id', async (req,res)=>{
+//     const {id} = req.params;
+//     try {
+//         if(id){
+//             const userDoc = await User.findById(id)
+//             res.status(200).json(userDoc)
+//         }
+//     } catch (error) {
+//         res.status(400).json(error)
+//     }
+// })
 
 app.post('/bookingReq', async (req,res)=>{
     const {title1, priceCheck, category1, ownerId, approval} = req.body; 
@@ -504,9 +465,9 @@ app.get('/getBookings/:id',async (req,res)=>{
     }
 })
 
-app.post('/sendContactInfo', getBill,(req,res)=>{
+// app.post('/sendContactInfo', getBill,(req,res)=>{
     
-})
+// })
 
 app.delete('/cancelBooking/:id',async (req,res)=>{
     const {id} = req.params
@@ -522,6 +483,18 @@ app.delete('/cancelBooking/:id',async (req,res)=>{
         res.status(400).json('Deletion unsuccessful')
     }
 
+})
+
+app.delete('/endBooking/:id', async (req,res)=>{
+ const {id} = req.params;
+
+ try {
+    const deleting = await Booking.findByIdAndRemove(id)
+    console.log(deleting)
+    res.status(200).json('Booking has Ended')
+ } catch (error) {
+    res.status(400).json('Cannot end Booking')
+ }
 })
 
 app.delete('/cancelReservation/:id', async (req,res)=>{
@@ -572,44 +545,8 @@ app.listen(4000, ()=> console.log("Server started at port 4000"));
 
 
 
-// const webSoc = new ws.WebSocketServer({server})
 
-// webSoc.on('connection',async (connection,req)=>{ //this connection is between our server and one specific client 
-// console.log('====================================');
-// console.log('connected');
-// console.log('====================================');
-// // const cookie = req.headers.cookie;
-// // const queryParameters = url.parse(req.url, true).query;
-// //   const owner = queryParameters.id;
-// //   const ownerDoc = await User.findById(owner)
-// //   console.log(ownerDoc.name)
-// //   console.log(owner)
-//   if (cookie) {
-//     const token = cookie.split('=')[1];
-
-//     try {
-//       const userDoc = jsonToken.verify(token, jsonSecret);
-
-//       const { id, name } = userDoc;
-
-//       connection.id = id;
-//       connection.name = name;
-//     }
-//     catch (error) {
-//               console.error('Error verifying token:', error);
-//             }
-//         }
-//        console.log('====================================');
-//        webSoc.clients.forEach(client => {    //we use forEach and not map bec it does not create a new array when executing a function on each element
-//         // Broadcast the array of client names to all connected clients
-//         client.send(JSON.stringify({ active:[...webSoc.clients].map(c =>( {id:c.id,name:c.name} ))}));
-//         //JSON.Stringify is used to convert JS object into string to the client 
-//         //data is sent typically as string bec websocket msgs support text frames
-//     });
         
         
-//        console.log('====================================');
-// }
-// )
 
 

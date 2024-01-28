@@ -55,6 +55,10 @@ export default function AdDetails() {
 
   function booking(ev){
     ev.preventDefault();
+    if(!priceCheck){
+     return  alert('Choose Slot for Booking')
+    }
+    
     const sendData =  {
       title1,priceCheck, category1, ownerId, approval
     }

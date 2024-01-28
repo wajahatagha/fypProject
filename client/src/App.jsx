@@ -21,6 +21,8 @@ import Venues from './AllPages/Venues'
 import VenueForm from './AllPages/VenueForm'
 import AdDetails from './AllPages/AdDetails'
 import Inbox from './AllPages/Inbox'
+import Booking from './AllPages/Booking'
+import Reservations from './AllPages/Reservations'
 
 
 
@@ -46,10 +48,9 @@ function App() {
    <Route path='/ads/:id' element={<AdDetails />}/>
    <Route path='/signup' element={<Signup />}/>
    <Route path='/accPage' element={<Account />}/>
-   <Route path='/accPage/venues/new' element={<VenueForm />}/>
-   <Route path='/venues' element={<Venues/>}/>
+   {/* <Route path='/accPage/venues/new' element={<VenueForm />}/> */}
    <Route path='/accPage/:nestPage' element={<Account />}/>   
-   <Route path='/accPage/:nestPage/:event' element={<Account />}/>
+   <Route path='/accPage/:nestPage/:event' element={<VenueForm />}/>
    <Route path='/contact' element={<Contact/>}/>
    <Route path='/about' element={<About/>}/>
    <Route path='/inbox' element={<Inbox/>}/>

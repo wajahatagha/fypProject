@@ -68,11 +68,11 @@ function FirstPage() {
       </div>
 
       <div>
-        <section class="py-10 bg-w sm:py-16 lg:py-24 z-40 relative">
-          <div class="container mx-auto">
-            <h2 class="text-3xl font-light text-center   text-black sm:text-4xl lg:text-5xl ">
+        <section className="py-10 bg-w sm:py-16 lg:py-24 z-40 relative">
+          <div className="container mx-auto">
+            <h2 className="text-3xl font-light text-center   text-black sm:text-4xl lg:text-5xl ">
               Our{" "}
-              <span class="block w-full font-light text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-purple-500 lg:inline">
+              <span className="block w-full font-light text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-purple-500 lg:inline">
                 Services
               </span>
             </h2>
