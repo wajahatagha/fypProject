@@ -24,7 +24,7 @@ app.use('/photoUploads', express.static(__dirname+'/photoUploads'))
 
 app.use(cors({
     credentials:true,
-    origin:'http://127.0.0.1:5173'
+    origin:'http://localhost:5173'
 }))
 
 app.get('/run', (req,res)=> { //in get method, parameters are passed by binding them into URL
@@ -412,22 +412,30 @@ app.post('/logout', (req,res)=>{
 // })
 
 app.post('/bookingReq', async (req,res)=>{
-    const {title1, priceCheck, category1, ownerId, approval} = req.body; 
+    const {id, title1, priceCheck, category1, ownerId, dayDate, nightDate, approval} = req.body; 
    
     const {token} = req.cookies;
     const user = jsonToken.verify(token, jsonSecret)
-    console.log(user)
+    console.log("Day date", dayDate)
+    console.log("Night date", nightDate)
     try {
         if (user){
             const bookingDetail = await Booking.create({
-                ownerId: ownerId, userId: user.id, Price:priceCheck, title:title1, category:category1, approval:approval 
+              venueId:id,  ownerId: ownerId, userId: user.id, Price:priceCheck, title:title1, category:category1, bookingDayDate:dayDate, bookingNightDate:nightDate, approval:approval 
             })
     
-            console.log(bookingDetail)
+            // console.log('your booking',bookingDetail)
+           const vUpdate = await Venue.findByIdAndUpdate(id, {
+            $addToSet: {
+                bookingDateDay: dayDate,
+                bookingDateNight: nightDate
+            }
+            })
+            console.log('Your venue', vUpdate)
             res.status(200).json(bookingDetail)
         }
         else{
-            res.status(400).json('User Not Found')
+            res.status(400).json('User Not Found') 
         }
         
     } catch (error) {
@@ -444,7 +452,7 @@ app.get('/getReservation/:id', async (req,res)=>{
     try {
         if(id){
             const details = await Booking.find({userId:id})
-            console.log(details)
+            // console.log(details)
             res.status(200).json(details)
         }
         
@@ -503,9 +511,20 @@ const {id} = req.params
 console.log(id)    
 
 try {
-    const deleting = await Booking.findByIdAndRemove(id)
-    console.log(deleting)
+    const deleting = await Booking.findById(id)
+    console.log('finding',deleting)
 
+   const {venueId, bookingDayDate, bookingNightDate} = deleting
+   
+  const removing =   await Booking.findByIdAndRemove(id)
+    console.log('removing',removing)
+  const updating = await Venue.findByIdAndUpdate(venueId, {
+    $pull: {
+        bookingDateDay: { $in:  [bookingDayDate] }, // Remove the dayDate from bookingDateDay array
+        bookingDateNight: { $in: [bookingNightDate] } // Remove the nightDate from bookingDateNight array
+    }
+   })
+   console.log('your venueeee',updating)
     res.status(200).json('Booking deleted')
 
 } catch (error) {

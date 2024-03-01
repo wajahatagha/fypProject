@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function AdDetails() {
   
@@ -11,7 +13,16 @@ export default function AdDetails() {
   const [category1, setCategory1] = useState('')
   const [approval, setApproval] = useState(false)
   const [bookingDone, setBookingDone] = useState(false)
+  const [selectDate, setSelectDate] = useState(null)
+  const [dayDate, setDayDate] = useState(new Date())
+  const [nightDate, setNightDate] = useState(new Date())
+  const [receivedDayArr, setReceivedDayArr] = useState([])
+  const [receivedNightArr, setReceivedNightArr] = useState([])
 
+
+
+  const [openCalender, setOpenCalender] = useState(false)
+  const [shiftName, setShiftName] = useState(null)
   
   const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -28,79 +39,107 @@ export default function AdDetails() {
       setOwnerId(data.owner)
       setTitle1(data.title)
       setCategory1(data.category)
-      // console.log('====================================');
-      // console.log(data.owner);
-      // console.log('====================================');
       console.log('====================================');
-      console.log('this is ad data',data);
+      console.log('this is ad data',data.bookingDateDay, data.bookingNightDay);
       console.log('====================================');
-    //  setOwnerId(data.map(({owner})=>owner))
-    //  console.log('this is owner', owner);
+      setReceivedDayArr(data.bookingDateDay);
+      console.log('received arrayy',receivedDayArr);
+      setReceivedNightArr(data.bookingNightDay);
+      console.log('received night arrayy', receivedNightArr)
+    
       return setAds([data])
 
       })
+
+
     }
 
+console.log(selectDate)
 
+  },[idFromQuery, selectDate])
 
-  },[idFromQuery])
-  // console.log('====================================');
-  // console.log(ads);
-  // console.log('====================================');
-  
 
   function handlePrice(event){
      setPriceCheck(event.target.value)
   }
 
+  
   function booking(ev){
     ev.preventDefault();
     if(!priceCheck){
-     return  alert('Choose Slot for Booking')
+      return  alert('Choose Slot for Booking')
     }
     
     const sendData =  {
-      title1,priceCheck, category1, ownerId, approval
+     id: idFromQuery, title1,priceCheck, category1, ownerId, dayDate, nightDate, approval
     }
-   axios.post('/bookingReq', sendData).then((response)=>{
-    const {data} = response;
-    
-    setBookingDone(true);
-    console.log(data)
-   })
+    axios.post('/bookingReq', sendData).then((response)=>{
+      const {data} = response;
+      
+      setBookingDone(true);
+      console.log(data)
+    })
   }
-
+  
   if (bookingDone){
     navigate('/accPage/reservations')
   }
-
-  // return (
-  //   <>
-  //   { ads.length >0 && ads.map((item)=>{
+  
+  function handleDateChange(date){
     
+    const converted = date.toISOString().split('T')[0] 
+    if(shiftName == 'day'){
+      setDayDate(converted)
+      setSelectDate(converted)
+      console.log('this is day date', dayDate)
+      console.log('this is night date', nightDate)
+      setNightDate(null)
+    }
+    else if(shiftName == 'night'){
+      setNightDate(converted)
+      setDayDate(null)
+      setSelectDate(converted)
+      console.log('selecting night', nightDate)
+    }
+ 
+    setOpenCalender(false)
+    
+  }
+  const handleCheckbox = (event) => {
+
+    const {checked, value} = event.target
+    setShiftName( checked?value :null ) 
+    setOpenCalender(checked) 
+    
+  }
+
+    function handleFilterDate(date){
+      const datePicked = date.toISOString().split('T')[0]
+      
+      if (
+        (!receivedDayArr || !receivedDayArr.includes(datePicked)) &&
+        (!receivedNightArr || !receivedNightArr.includes(datePicked))
+      ) {
+        return true; // Return true to disable the date
+      } else {
+        return false; // Return false to enable the date
+      }
+      }
+
+
       return(
         <>
         {ads.map((item)=>{ 
           return(
-            <form onSubmit={booking}>
-    <div key={item._id} className="bg-gray-100 p-4 ">
-  <div className="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md grid grid-cols-2">
+            <form key={item._id} onSubmit={booking}>
+    <div className="bg--100 p-4 ">
+  {/* <div className="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md grid grid-cols-2"> */}
     <h1 className="text-2xl font-bold mb-4">Venue Details</h1>
-{/* <Link to={`/inbox/?id=${item.owner}`} className='flex justify-end items-center gap-2'>
-  <span className='font-bold text-2xl'>Chat with Owner</span>
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-</svg>
 
-</Link> */}
-
-
-
-
- <div className='col-span-2 grid grid-cols-1'>
+ <div className=''>
   
  
-    <div className="grid grid-cols-2 gap-4">
+    <div className="flex flex-col gap-4">
       <div>
       <div>
       
@@ -128,12 +167,12 @@ export default function AdDetails() {
       </div>
       </div>
 
-      <div className="col-span-2">
+      <div className="">
         <p className="text-gray-600 font-bold text-xl">Description:</p>
         <p className="text-black">{item.description}</p>
       </div>
 
-      <div className="col-span-2">
+      <div className="">
         <p className="text-gray-600 gap-2 font-bold text-xl">Amenities</p>
         {
           item.amenities.map((amenity)=>{
@@ -146,15 +185,15 @@ export default function AdDetails() {
         }
         
       </div>
-      <div className="col-span-2">
+      <div className="">
         <p className="text-gray-600 font-bold text-xl">Guests Capacity</p>
         <p className="mt-2 text-black text-xl">No. of people: {item.capacity}</p>
       </div>
-      <div className="col-span-2">
+      <div className="">
         <p className="text-gray-600 font-bold text-xl">Some Additional Information</p>
         <p className="mt-2 text-black text-xl">{item.addInfo}</p>
       </div>
-      
+     <div className='flex justify-between'> 
       <div>
         <p className="text-gray-600 font-bold text-xl">Booking duration for Day Package:</p>
         <p className="text-black font-semibold">{item.timeFrom}</p>
@@ -163,7 +202,53 @@ export default function AdDetails() {
         <p className="text-gray-600 font-bold text-xl">Booking duration for Night Package:</p>
         <p className="text-black font-semibold">{item.timeTo}</p>
       </div>
-      <div className="col-2-span">
+      </div>
+      <div className='flex m-8'>
+      <div className='flex-col ml-16'>
+        <label className='text-black text-xl font-bold'>Select booking date</label>
+        <div className='flex gap-4 items-center'>
+          <input 
+          type='checkbox' 
+          className='h-4 w-4'
+          value={'day'}
+          onChange={handleCheckbox}
+          checked={shiftName == 'day'}
+          />
+          <label>Day Package</label>
+        
+          <input 
+          type='checkbox' 
+          className='h-4 w-4'
+          value={'night'}
+          onChange={handleCheckbox}
+          checked={shiftName == 'night'}
+          />
+          <label>Night Package</label>
+        
+        </div>
+        { openCalender && (
+        <DatePicker open={true}  onChange={handleDateChange} selected={shiftName === 'day'
+        ? dayDate
+        : shiftName === 'night'
+        ? nightDate
+        : new Date()} 
+        className='relative mb-4'
+        filterDate={handleFilterDate}
+        />
+        )
+        }
+        {
+          selectDate ? (
+          
+            <p className='p-2 text-lg font-bold'>Your Booking Date is {selectDate}</p>
+          ) : (
+            <p className='p-2 text-lg font-bold'>No date has been selected</p>
+          )
+
+        }
+      </div>
+      </div>
+      <div className="flex justify-content mt-72 ">
         <label className="text-gray-600 text-2xl font-bold flex">
           <input type='checkbox' checked={priceCheck == item.dayPrice} value={item.dayPrice} onChange={handlePrice} className='h-5 rounded-full'/>
           Price on Day Time</label>
@@ -183,14 +268,13 @@ export default function AdDetails() {
     </div>
   </div>
 
-</div>
+
 </form>
         )})}
 
 </>
     
-//   })
-// }
+
       
       ) 
       
