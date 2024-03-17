@@ -5,10 +5,13 @@ import PicturesComp from "../PicturesComp";
 import AmenityComp from "../AmenityComp";
 import VenueForm from "./VenueForm";
 import Account from "./Account";
+import Calenderr from "./Calenderr";
+import { useNavigate } from "react-router-dom";
 
 function Venues() {
   const { event } = useParams();
   const [venueData, setVenueData] = useState([]);
+  const navigate = useNavigate()
   // console.log(event);
 
   useEffect(() => {
@@ -32,6 +35,10 @@ function Venues() {
     } catch (error) {
       console.log({ error: "deletion unsuccessful" });
     }
+  }
+
+  function handleCalender(id){
+    navigate(`/accPage/calender/?id=${id}`)
   }
 
   return (
@@ -65,7 +72,7 @@ function Venues() {
                 return (
                   <div
                     key={data._id}
-                    className="card m-2  shadow-lg rounded-xl text-2xl"
+                    className="card m-2  shadow-lg rounded-xl text-xl"
                     style={{ width: "18rem" }}
                   >
                     <img
@@ -83,6 +90,11 @@ function Venues() {
                         >
                           {data.category}
                         </Link>
+                        <button onClick={()=> handleCalender(data._id)} className=" bg-green-500 text-white mt-2 px-2 rounded-xl flex items-center">
+                        
+                        Block Dates
+                        
+                        </button>
                         <button
                           onClick={() => deleting(data._id)}
                           className="mt-2 ml-1 btn bg-red-600 text-white rounded-2xl"

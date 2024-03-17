@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { UserContext } from '../UserContext';
 
 export default function AdDetails() {
   
@@ -18,7 +19,8 @@ export default function AdDetails() {
   const [nightDate, setNightDate] = useState(new Date())
   const [receivedDayArr, setReceivedDayArr] = useState([])
   const [receivedNightArr, setReceivedNightArr] = useState([])
-
+  const {user} = useContext(UserContext)
+  
 
 
   const [openCalender, setOpenCalender] = useState(false)
@@ -44,7 +46,7 @@ export default function AdDetails() {
       console.log('====================================');
       setReceivedDayArr(data.bookingDateDay);
       console.log('received arrayy',receivedDayArr);
-      setReceivedNightArr(data.bookingNightDay);
+      setReceivedNightArr(data.bookingDateNight);
       console.log('received night arrayy', receivedNightArr)
     
       return setAds([data])
@@ -73,12 +75,17 @@ console.log(selectDate)
     const sendData =  {
      id: idFromQuery, title1,priceCheck, category1, ownerId, dayDate, nightDate, approval
     }
+    if(user){
     axios.post('/bookingReq', sendData).then((response)=>{
       const {data} = response;
       
       setBookingDone(true);
       console.log(data)
     })
+  }
+  else{
+    navigate('/logging') 
+  }
   }
   
   if (bookingDone){
@@ -116,22 +123,40 @@ console.log(selectDate)
     function handleFilterDate(date){
       const datePicked = date.toISOString().split('T')[0]
       
-      if (
-        (!receivedDayArr || !receivedDayArr.includes(datePicked)) &&
-        (!receivedNightArr || !receivedNightArr.includes(datePicked))
-      ) {
-        return true; // Return true to disable the date
-      } else {
-        return false; // Return false to enable the date
+      // if (
+      //   (!receivedDayArr || !receivedDayArr.includes(datePicked)) &&
+      //   (!receivedNightArr || !receivedNightArr.includes(datePicked))
+      // ) {
+      //   return true; // Return true to disable the date
+      // } else {
+      //   return false; // Return false to enable the date
+      // }    
+
+      if(shiftName == 'day'){
+        if(!receivedDayArr || !receivedDayArr.includes(datePicked)){
+          return true;
+        }                
+        else{ 
+          return false;
+        }
       }
+      else if(shiftName == 'night'){
+       if (!receivedNightArr || !receivedNightArr.includes(datePicked)){
+          return true;
+        }
+        else{
+          return false;
+        }
       }
+
+      } 
 
 
       return(
         <>
         {ads.map((item)=>{ 
           return(
-            <form key={item._id} onSubmit={booking}>
+            <form key={item._id}>
     <div className="bg--100 p-4 ">
   {/* <div className="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md grid grid-cols-2"> */}
     <h1 className="text-2xl font-bold mb-4">Venue Details</h1>
@@ -263,7 +288,7 @@ console.log(selectDate)
     </div>
 
     <div className="mt-8">
-      <button className="bg-blue-500 text-white px-4 py-2 rounded-md" >Book Now</button>
+      <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={booking} >Book Now</button>
     </div>
     </div>
   </div>

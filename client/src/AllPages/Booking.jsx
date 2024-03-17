@@ -8,6 +8,8 @@ const {user} = useContext(UserContext)
 
 const [bookingsData, setBookingsData] = useState([])
 const [loading, setLoading] = useState(false)
+const [bookerName, setBookerName] = useState({})
+const [status, setStatus] = useState('')
 
 
 
@@ -16,21 +18,51 @@ const [loading, setLoading] = useState(false)
 
 useEffect(  () => {
   
-     axios.get(`/getBookings/${user.id}`).then((response=>{
+    axios.get(`/getBookings/${user.id}`).then((response=>{
 //    console.log(response)
 const{data} = response
 if(data.length!=0){
   setLoading(true)
   setTimeout(() => {
     setLoading(false)
-  }, 1000);
+  }, 1000)
+ 
+
 }
+
+
+
+
  setBookingsData(data)
-   console.log('res ok',data)
+
+
+
+
+
+   console.log('res okk',bookingsData)
+
+  
+   data.forEach( (booking)=>{
+   axios.post(`/getBooker`, {id: booking.userId}).then((response)=> {
+      const {data} = response;
+      setBookerName({
+        name: data.name,
+        email: data.email
+      })
+      
+   })
+   
+
+   
+   })
    
 }))
+
+
   
 }, [])
+
+
 
 async function Cancel(id) {
   try {
@@ -52,11 +84,28 @@ try {
   prevItems.map((bookingItem) =>
     bookingItem._id == id ? { ...bookingItem, approval: true } : bookingItem
   )
-);
   
-  // setBookingsData((prevItems)=> prevItems.map((booking)=>{
-  //   booking._id === id ? { ...booking, approval: true } : booking
-  // }))
+  
+  );
+  const {data} = response 
+  const bookingDayDate = new Date(data.bookingDayDate).getTime()
+  const bookingNightDate = new Date(data.bookingNightDate).getTime()
+
+  if(bookingDayDate!==0){
+    if(bookingDayDate > new Date().getTime())
+    setStatus('Arriving')
+    else{
+      setStatus('Stay Completed')
+    } 
+  }
+  else if(bookingNightDate!==0){
+    if(bookingNightDate > new Date().getTime())
+    setStatus('Arriving')
+    else{
+      setStatus('Stay Completed')
+    } 
+  }
+  
   
 } catch (error) {
   
@@ -72,6 +121,9 @@ async function End(id){
     console.log({error: 'Cannot end booking'})
   }
 }
+
+
+
   
 
   return (
@@ -81,20 +133,66 @@ async function End(id){
         return(
     <div key={booking._id} className='flex flex-col m-4'>
     <div className="card m-2  shadow-lg rounded-xl text-2xl bg-purple-700 text-white" >
+      <div className='flex mr-4'>
   {/* <img src={`http://127.0.0.1:4000/photoUploads/${data.existingPhotos[0]}`} className="card-img-top" alt="..." /> */}
   <div className="card-body">
     <h5 className="card-title">{booking.category}</h5>
     <p className="card-text">{booking.title}</p>
     <p className='card-text text-3xl '>{booking.Price}</p>
-    { booking.approval == false ? 
+
+    {
+      booking.bookingDayDate ? (
+        <>
+        <p className='card-text text-xl '>Booking Shift: Day Shift</p>
+        <p className='card-text text-xl '>Booking Date: {booking.bookingDayDate}</p>
+        </>
+      ) : (
+        <>
+        <p className='card-text text-xl '>Booking Shift: Night Shift</p>
+        <p className='card-text text-xl '>Booking Date: {booking.bookingNightDate}</p>
+        </>
+      )
+    }
+    <p className='card-text text-xl '>Booked By: {bookerName.name}</p>
+    <p className='card-text text-xl ml-28'>{bookerName.email}</p>
+  
+
+   
+    {/* <Link to={`/accPage/venues/new?id=${data._id}`} className="mt-2 btn bg-purple-700 text-white text-xl">{data.category}</Link> */}
+  </div>
+  <div className='ml-'>
+  { booking.approval == false ? 
     <div>
     <button className=' mt-8 bg-red-600 p-3 rounded-xl' onClick={()=> Cancel(booking._id)}>Cancel Reservation</button>
     <button className=' mt-8 bg-green-600 p-3 rounded-xl mx-3' onClick={()=>  {Approve(booking._id)}}>Approve Reservation</button>
-    </div> : <button className='p-3 bg-gray-500 text-white' onClick={()=> End(booking._id)}>End This Booking</button>
+    </div> : 
+        
+     booking.bookingDayDate ? 
+          (new Date(booking.bookingDayDate) > new Date()) ?
+          <>
+          <p>Status: Arriving</p>
+          
+          </>
+          :<>
+          <p>Status: Stay Over</p>
+           <button className='p-3 bg-gray-500 text-white' onClick={()=> End(booking._id)}>End This Booking</button>
+           </>
+    : (new Date(booking.bookingDayDate) > new Date()) ?
+    <>
+    <p>Status: Arriving</p>
+   
+    </>
+    :<>
+    <p>Status: Stay Over</p>
+    <button className='p-3 bg-gray-500 text-white' onClick={()=> End(booking._id)}>End This Booking</button>
+    </>
     }
-    {/* <Link to={`/accPage/venues/new?id=${data._id}`} className="mt-2 btn bg-purple-700 text-white text-xl">{data.category}</Link> */}
-  </div>
+
+
 </div>
+</div>
+</div>
+{/*  */}
 </div>
         )
 })

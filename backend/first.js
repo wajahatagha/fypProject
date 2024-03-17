@@ -89,7 +89,7 @@ app.post('/logging', async (req, res) => {
             //     } else {
                 //     }
                 // }) // Create a JSON Web Token and set a cookie
-        const time = { expiresIn: '1h' };
+        const time = { expiresIn: '5h' };
                const token =  jsonToken.sign({name:userDetails.name,email:userDetails.email,id:userDetails._id,password:userDetails.password},jsonSecret,time)
                 console.log(token);
                 res.cookie('token', token);
@@ -296,6 +296,34 @@ app.get('/getMyVenue/:id', async (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+  app.get('/getMyBookedDates/:id', async (req,res)=>{
+    const {id} = req.params;
+    const venue = await Venue.findById(id)
+
+    res.status(200).json({dayArray: venue.bookingDateDay, nightArray: venue.bookingDateNight})
+  })
+
+  app.post('/blockDates', async (req,res)=>{
+    const {id, day, night} = req.body;
+    console.log('idd',id)
+
+    try {
+        
+       const dayUpdate = await Venue.findByIdAndUpdate(id, { $addToSet: { bookingDateDay: { $each: day } } });
+    
+            // Update bookingDateNight array
+       const nightUpdate = await Venue.findByIdAndUpdate(id, { $addToSet: { bookingDateNight: { $each: night } } });
+        console.log('successfully blocked',  nightUpdate)
+        res.status(200).json('Successfully blocked')
+    } catch (error) {
+        console.log('error in getting dates blocked')
+        res.status(400).json("Error in Blocking")
+    }
+
+    
+    
+  })
   
 
 app.put('/updateMyVenue/:id',async (req,res)=>{
@@ -389,28 +417,6 @@ app.post('/logout', (req,res)=>{
 })
 
 
-//////////////////////////////////////////////////
-
-
-
-
-
-// app.get('/test', (req,res)=>{
-//     res.json({"user": ["userOne", "userTwo", "userThree"]});
-// })
-
-// app.put('/getOwner/:id', async (req,res)=>{
-//     const {id} = req.params;
-//     try {
-//         if(id){
-//             const userDoc = await User.findById(id)
-//             res.status(200).json(userDoc)
-//         }
-//     } catch (error) {
-//         res.status(400).json(error)
-//     }
-// })
-
 app.post('/bookingReq', async (req,res)=>{
     const {id, title1, priceCheck, category1, ownerId, dayDate, nightDate, approval} = req.body; 
    
@@ -471,6 +477,19 @@ app.get('/getBookings/:id',async (req,res)=>{
     } catch (error) {
         res.status(400).json({error:'server error'})   
     }
+})
+
+app.post('/getBooker', async (req,res)=>{
+    const {id} = req.body;
+    // console.log('bookerId',req.body)
+
+    const booker = await User.findById(id)
+
+    console.log('this is booker', booker)
+
+    res.status(200).send(booker)
+
+
 })
 
 // app.post('/sendContactInfo', getBill,(req,res)=>{

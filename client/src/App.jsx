@@ -20,9 +20,10 @@ import Ads from './AllPages/Ads'
 import Venues from './AllPages/Venues'
 import VenueForm from './AllPages/VenueForm'
 import AdDetails from './AllPages/AdDetails'
-import Inbox from './AllPages/Inbox'
 import Booking from './AllPages/Booking'
 import Reservations from './AllPages/Reservations'
+import Calenderr from './AllPages/Calenderr'
+
 
 
 
@@ -54,8 +55,9 @@ function App() {
    <Route path='/accPage/:nestPage/:event' element={<VenueForm />}/>
    <Route path='/contact' element={<Contact/>}/>
    <Route path='/about' element={<About/>}/>
-   <Route path='/inbox' element={<Inbox/>}/>
-   <Route path='/inbox/:id' element={<Inbox/>}/>
+
+
+   
 
    </Route>
   

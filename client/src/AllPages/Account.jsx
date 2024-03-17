@@ -6,6 +6,7 @@ import Venues from "./Venues";
 import ProfileDetail from "../ProfileDetail";
 import Reservations from "./Reservations";
 import Booking from "./Booking";
+import Calenderr from "./Calenderr";
 
 function Account() {
   const { user, setUser } = useContext(UserContext);
@@ -136,6 +137,11 @@ function Account() {
            {nestPage == 'reservations' && (
             <Reservations />
             )}
+            {
+              nestPage == 'calender' && (
+                <Calenderr />
+              )
+            }
 
           </>
       ) : (
