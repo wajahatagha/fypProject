@@ -17,6 +17,7 @@ export default function AdDetails() {
   const [selectDate, setSelectDate] = useState(null)
   const [dayDate, setDayDate] = useState(new Date())
   const [nightDate, setNightDate] = useState(new Date())
+  const [dateToggle, setDateToggle] = useState(false)
   const [receivedDayArr, setReceivedDayArr] = useState([])
   const [receivedNightArr, setReceivedNightArr] = useState([])
   const {user} = useContext(UserContext)
@@ -25,12 +26,18 @@ export default function AdDetails() {
 
   const [openCalender, setOpenCalender] = useState(false)
   const [shiftName, setShiftName] = useState(null)
+  const [shiftToggle, setShiftToggle] = useState(false)
+
+
+
   
   const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const idFromQuery = searchParams.get('id');
 
     const navigate = useNavigate()
+
+    let increasedDate = ''
 
   useEffect(()=>{
 
@@ -56,7 +63,7 @@ export default function AdDetails() {
 
     }
 
-console.log(selectDate)
+
 
   },[idFromQuery, selectDate])
 
@@ -94,19 +101,53 @@ console.log(selectDate)
   
   function handleDateChange(date){
     
-    const converted = date.toISOString().split('T')[0] 
+       
     if(shiftName == 'day'){
-      setDayDate(converted)
-      setSelectDate(converted)
-      console.log('this is day date', dayDate)
-      console.log('this is night date', nightDate)
-      setNightDate(null)
+      if(dateToggle==false){ 
+        const datee = new Date(date);
+        datee.setDate(date.getDate() + 1);
+         increasedDate = date.toISOString().split('T')[0];
+        console.log('increased date', increasedDate)
+        setDayDate(increasedDate)
+        setSelectDate(increasedDate)
+        console.log('selected date', selectDate)
+        setDateToggle(true)
+        setNightDate(null) 
+       
+      }
+      else{
+        const converted = date.toISOString().split('T')[0] 
+
+        setDayDate(converted)
+        setSelectDate(converted)
+        console.log('this is day datee', dayDate)
+        console.log('this is night date', nightDate)
+        setNightDate(null)
+      }
     }
     else if(shiftName == 'night'){
-      setNightDate(converted)
-      setDayDate(null)
-      setSelectDate(converted)
-      console.log('selecting night', nightDate)
+      if(dateToggle==false){ 
+        const datee = new Date(date);
+        datee.setDate(date.getDate() + 1);
+         increasedDate = date.toISOString().split('T')[0];
+        console.log('increased date', increasedDate)
+        setNightDate(increasedDate)
+        setSelectDate(increasedDate)
+        console.log('selected date', selectDate)
+        setDateToggle(true)
+        setDayDate(null)
+       
+      }
+      else{
+        const converted = date.toISOString().split('T')[0] 
+
+        setNightDate(converted)
+        setSelectDate(converted)
+        console.log('this is day datee', dayDate)
+        console.log('this is night date', nightDate)
+        setDayDate(null)
+      }
+      
     }
  
     setOpenCalender(false)
@@ -117,11 +158,16 @@ console.log(selectDate)
     const {checked, value} = event.target
     setShiftName( checked?value :null ) 
     setOpenCalender(checked) 
+    setShiftToggle(true)
+    
     
   }
 
     function handleFilterDate(date){
-      const datePicked = date.toISOString().split('T')[0]
+      const newDate = new Date(date)
+      newDate.setDate(newDate.getDate() + 1)
+      const datePicked = newDate.toISOString().split('T')[0]
+        
       
       // if (
       //   (!receivedDayArr || !receivedDayArr.includes(datePicked)) &&
@@ -157,9 +203,9 @@ console.log(selectDate)
         {ads.map((item)=>{ 
           return(
             <form key={item._id}>
-    <div className="bg--100 p-4 ">
+    <div className=" flex  flex-col items-center mt-12  ">
   {/* <div className="max-w-2xl mx-auto bg-white p-6 rounded-md shadow-md grid grid-cols-2"> */}
-    <h1 className="text-2xl font-bold mb-4">Venue Details</h1>
+    <h1 className="text-2xl font-bold  mb-4">Venue Details</h1>
 
  <div className=''>
   
@@ -168,41 +214,41 @@ console.log(selectDate)
       <div>
       <div>
       
-        <p className="text-black font-semibold">{item.title}</p>
+        <p className="text-black text-3xl font-semibold">{item.title}</p>
       </div>
       <div>
         
-        <p className="text-black font-semibold">{item.category}</p>
+        <p className="text-black text-3xl font-semibold">{item.category}</p>
       </div>
       {item.existingPhotos.map((image)=>{
         return (
         
-        <div key={image} className=''>
-        <img src={`http://127.0.0.1:4000/photoUploads/${image}`} className='w-100 h-44 my-3 rounded-xl ' />
+        <div key={image} className='flex flex-wrap'>
+        <img src={`http://127.0.0.1:4000/photoUploads/${image}`} className='w-96 h-96 my-3 rounded-xl ' />
         </div>
         )
       })}
       <div className='gap-2 mb-6'>
-        <p className="text-gray-600 font-bold text-xl">Owner Name:</p>
-        <p className="text-black font-semibold text-xl">{item.ownerName}</p>
+        <p className="text-gray-600 font-bold text-2xl">Owner Name:</p>
+        <p className="text-black text-3xl font-semibold text-2xl">{item.ownerName}</p>
       </div>
       <div>
-        <p className="text-gray-600 font-bold text-xl">Location:</p>
-        <p className="text-black font-semibold">{item.address}</p>
+        <p className="text-gray-600 font-bold text-2xl">Location:</p>
+        <p className="text-black text-3xl font-semibold">{item.address}</p>
       </div>
       </div>
 
       <div className="">
-        <p className="text-gray-600 font-bold text-xl">Description:</p>
-        <p className="text-black">{item.description}</p>
+        <p className="text-gray-600 font-bold text-2xl">Description:</p>
+        <p className="text-black text-3xl">{item.description}</p>
       </div>
 
       <div className="">
-        <p className="text-gray-600 gap-2 font-bold text-xl">Amenities</p>
+        <p className="text-gray-600 gap-2 font-bold text-2xl">Amenities</p>
         {
           item.amenities.map((amenity)=>{
             return(
-              <div key={amenity} className='text-lg'>
+              <div key={amenity} className='text-xl'>
                 <p>{amenity}</p>
               </div>
             )
@@ -211,26 +257,26 @@ console.log(selectDate)
         
       </div>
       <div className="">
-        <p className="text-gray-600 font-bold text-xl">Guests Capacity</p>
-        <p className="mt-2 text-black text-xl">No. of people: {item.capacity}</p>
+        <p className="text-gray-600 font-bold text-2xl">Guests Capacity</p>
+        <p className="mt-2 text-black text-3xl text-2xl">No. of people: {item.capacity}</p>
       </div>
       <div className="">
-        <p className="text-gray-600 font-bold text-xl">Some Additional Information</p>
-        <p className="mt-2 text-black text-xl">{item.addInfo}</p>
+        <p className="text-gray-600 font-bold text-2xl">Some Additional Information</p>
+        <p className="mt-2 text-black text-3xl text-2xl">{item.addInfo}</p>
       </div>
      <div className='flex justify-between'> 
       <div>
-        <p className="text-gray-600 font-bold text-xl">Booking duration for Day Package:</p>
-        <p className="text-black font-semibold">{item.timeFrom}</p>
+        <p className="text-gray-600 font-bold text-2xl">Booking duration for Day Package:</p>
+        <p className="text-black text-3xl font-semibold">{item.timeFrom}</p>
       </div>
       <div>
-        <p className="text-gray-600 font-bold text-xl">Booking duration for Night Package:</p>
-        <p className="text-black font-semibold">{item.timeTo}</p>
+        <p className="text-gray-600 font-bold text-2xl">Booking duration for Night Package:</p>
+        <p className="text-black text-3xl font-semibold">{item.timeTo}</p>
       </div>
       </div>
       <div className='flex m-8'>
       <div className='flex-col ml-16'>
-        <label className='text-black text-xl font-bold'>Select booking date</label>
+        <label className='text-black text-3xl text-3xl font-bold'>Choose Your Slot</label>
         <div className='flex gap-4 items-center'>
           <input 
           type='checkbox' 
@@ -252,7 +298,7 @@ console.log(selectDate)
         
         </div>
         { openCalender && (
-        <DatePicker open={true}  onChange={handleDateChange} selected={shiftName === 'day'
+        <DatePicker open={true}  onChange={(date)=>handleDateChange(date)} selected={shiftName === 'day'
         ? dayDate
         : shiftName === 'night'
         ? nightDate
@@ -263,7 +309,7 @@ console.log(selectDate)
         )
         }
         {
-          selectDate ? (
+          selectDate!==null ? (
           
             <p className='p-2 text-lg font-bold'>Your Booking Date is {selectDate}</p>
           ) : (
@@ -273,16 +319,23 @@ console.log(selectDate)
         }
       </div>
       </div>
-      <div className="flex justify-content mt-72 ">
+      <div className="flex items-center mt-72 ">
+      { shiftName == 'day' ? 
+        <>
         <label className="text-gray-600 text-2xl font-bold flex">
-          <input type='checkbox' checked={priceCheck == item.dayPrice} value={item.dayPrice} onChange={handlePrice} className='h-5 rounded-full'/>
-          Price on Day Time</label>
-        <p className="m-3 text-black text-4xl font-bold">Rs. {item.dayPrice}</p>
-     
+          <input type='checkbox' checked={priceCheck == item.dayPrice} value={item.dayPrice} onChange={handlePrice} className='mx-4' required/>
+          Price</label>
+        <p className="m-3 text-black text-3xl text-4xl font-bold">Rs. {item.dayPrice}</p>
+        </> 
+        : shiftName == 'night' ? 
+        <>
         <label className="text-gray-600 text-2xl font-bold flex">
-          <input type='checkbox' checked={priceCheck == item.nightPrice} value={item.nightPrice} onChange={handlePrice} className='h-5 rounded-full'/>
-          Price on Day Time</label>
-        <p className="m-3 text-black text-4xl font-bold">Rs. {item.nightPrice}</p>
+          <input type='checkbox' checked={priceCheck == item.nightPrice} value={item.nightPrice} onChange={handlePrice} className='mx-4' required/>
+          Price</label>
+        <p className="m-3 text-black text-3xl text-4xl font-bold">Rs. {item.nightPrice}</p>
+        </>
+        : <p className='font-bold text-2xl'>No Package Selected</p>
+      }
       </div>
 
     </div>

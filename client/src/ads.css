@@ -1,0 +1,88 @@
+.container {
+    margin-bottom: 20px;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 15px;
+  }
+  
+  .search-name,
+  .search-address,
+  .price-filter {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-buttons,
+  .drop-buttons {
+    padding: 8px 16px;
+    background-color: #6B46C1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: bold;
+  }
+  .searchbox{
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    margin-left: 10px;
+    width: 300px;
+  }
+  
+  .drop-down {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    margin-left: 10px;
+    width: 300px;
+  }
+  
+  .category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .button {
+    padding: 8px 15px;
+    width: 150px;
+    height: 40px;
+    border-radius: 15px;
+    background-color: #6B46C1;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 17px;
+    font-weight: bold;
+    
+  }
+  
+  .card {
+    margin: 10px;
+  }
+  
+  .card-img-top {
+    border-radius: 10px;
+  }
+  
+  .card-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .btn-primary {
+    text-decoration: none;
+  }

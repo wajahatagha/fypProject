@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -17,6 +18,9 @@ function Calenderr() {
   const [blockButtonToggle, setBlockButtonToggle] = useState(false)
 
 
+  const navigate = useNavigate();
+
+
 
   const searchParams = new URLSearchParams(location.search);
     const idFromQuery = searchParams.get('id');
@@ -27,8 +31,20 @@ function Calenderr() {
 
        const {dayArray, nightArray} = data;
 
-         
-        setBookedDay(dayArray)
+       dayArray.forEach(element => {
+        element  = new Date(element)
+        element.setDate(element.getDate() - 1)
+        element.toISOString().split('T')[0]
+       });  
+
+       console.log('dayArray', dayArray)
+       
+       setBookedDay(dayArray)
+       nightArray.forEach(element => {
+        element  = new Date(element)
+        element.setDate(element.getDate() - 1)
+        element.toISOString().split('T')[0]
+       });  
         setBookedNight(nightArray)
 
 
@@ -61,12 +77,12 @@ function Calenderr() {
   }
 
   function handleShift(event){
-    setShiftName(event.target.value)
     const {checked} = event.target
     console.log('checkingg',checked)
     if(checked){
-        setOpenCalender(true)
+      setShiftName(event.target.value)
     }
+    setOpenCalender(true)
 
   }
 
@@ -96,13 +112,17 @@ function handleCalender(date){
                 }
             //we could also do setBlockDates([...blockDates, newData]) but as usestates default behavior is asynchronous, using functional update pattern ensures
             // the most upto date data
-            console.log('block dates',blockDates)
+          
             setOpenCalender(false)
 }
 
 
 function handleFilterCalender(date){
-    const datePicked = date.toISOString().split('T')[0]
+  
+  const newDate = new Date(date)
+  newDate.setDate(newDate.getDate() + 1)
+  const datePicked = newDate.toISOString().split('T')[0]
+    
     if(shiftName=='day'){
         if(!bookedDay || !bookedDay.includes(datePicked)){
             return true
@@ -127,7 +147,14 @@ async function Block(){
         day: blockDayDates,
         night: blockNightDates
     }
-    await axios.post('/blockDates', datesChosen)
+    const res = await axios.post('/blockDates', datesChosen)
+    if(res){
+    navigate('/accPage/venues')
+    alert('Successfully Updated!')
+    }
+    else{
+      alert('Unsuccessful')
+    }
 }
 
 
@@ -149,7 +176,7 @@ async function Block(){
                     <>
                     
                     
-              <div className='flex justify-between mt-4'>     
+              <div  className='flex justify-between mt-4'>     
               <p>{dateItem}</p>
                 {deleteToggle && (
                     <>
@@ -197,8 +224,8 @@ async function Block(){
         </div>
         <div className='flex flex-col '>
         <div className='flex mt-36 text-white text-xl  '>
-        Day<input type='checkbox' value='day' onChange={(event)=>handleShift(event)} checked={shiftName=='day' ? true : false}/>
-            Night<input type='checkbox' value='night' onChange={(event)=>handleShift(event)} checked={shiftName=='night' ? true : false}/>
+        Day<input type='checkbox' value='day' onChange={handleShift} checked={shiftName=='day' ? true : false}/>
+            Night<input type='checkbox' value='night' onChange={handleShift} checked={shiftName=='night' ? true : false}/>
             </div>
       <div className=''>
 

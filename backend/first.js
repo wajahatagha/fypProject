@@ -308,6 +308,14 @@ app.get('/getMyVenue/:id', async (req, res) => {
     const {id, day, night} = req.body;
     console.log('idd',id)
 
+    day.forEach(element => {
+       element  = new Date(element)
+       element.setDate(element.getDate() - 1)
+       element.toISOString().split('T')[0]
+
+    });
+
+    console.log('blocking day', day)
     try {
         
        const dayUpdate = await Venue.findByIdAndUpdate(id, { $addToSet: { bookingDateDay: { $each: day } } });
@@ -315,7 +323,7 @@ app.get('/getMyVenue/:id', async (req, res) => {
             // Update bookingDateNight array
        const nightUpdate = await Venue.findByIdAndUpdate(id, { $addToSet: { bookingDateNight: { $each: night } } });
         console.log('successfully blocked',  nightUpdate)
-        res.status(200).json('Successfully blocked')
+        res.status(200).json(dayUpdate)
     } catch (error) {
         console.log('error in getting dates blocked')
         res.status(400).json("Error in Blocking")
@@ -424,30 +432,72 @@ app.post('/bookingReq', async (req,res)=>{
     const user = jsonToken.verify(token, jsonSecret)
     console.log("Day date", dayDate)
     console.log("Night date", nightDate)
-    try {
-        if (user){
-            const bookingDetail = await Booking.create({
-              venueId:id,  ownerId: ownerId, userId: user.id, Price:priceCheck, title:title1, category:category1, bookingDayDate:dayDate, bookingNightDate:nightDate, approval:approval 
-            })
-    
-            // console.log('your booking',bookingDetail)
-           const vUpdate = await Venue.findByIdAndUpdate(id, {
-            $addToSet: {
-                bookingDateDay: dayDate,
-                bookingDateNight: nightDate
-            }
-            })
-            console.log('Your venue', vUpdate)
-            res.status(200).json(bookingDetail)
-        }
-        else{
-            res.status(400).json('User Not Found') 
-        }
+    if(dayDate!=null){
+        const newDayDate = new Date(dayDate) 
+        newDayDate.setDate(newDayDate.getDate())
+        const finalDayDate = newDayDate.toISOString().split('T')[0]
+
+        console.log('final day date', finalDayDate)
+
+        try {
+            if (user){
+                const bookingDetail = await Booking.create({
+                  venueId:id,  ownerId: ownerId, userId: user.id, Price:priceCheck, title:title1, category:category1, bookingDayDate:dayDate, bookingNightDate:nightDate, approval:approval 
+                })
         
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({error:'Server Error'})
+                // console.log('your booking',bookingDetail)
+               const vUpdate = await Venue.findByIdAndUpdate(id, {
+                $addToSet: {
+                    bookingDateDay: finalDayDate,
+                    bookingDateNight: nightDate
+                }
+                })
+                console.log('Your venue', vUpdate)
+                res.status(200).json(bookingDetail)
+            }
+            else{
+                res.status(400).json('User Not Found') 
+            }
+            
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({error:'Server Error'})
+        }
     }
+    else if(nightDate!=null){
+        const newNightDate = new Date(nightDate)
+        newNightDate.setDate(newNightDate.getDate() )
+        const finalNightDate = newNightDate.toISOString().split('T')[0]
+        try {
+            if (user){
+                const bookingDetail = await Booking.create({
+                  venueId:id,  ownerId: ownerId, userId: user.id, Price:priceCheck, title:title1, category:category1, bookingDayDate:dayDate, bookingNightDate:nightDate, approval:approval 
+                })
+        
+                // console.log('your booking',bookingDetail)
+               const vUpdate = await Venue.findByIdAndUpdate(id, {
+                $addToSet: {
+                    bookingDateDay: dayDate,
+                    bookingDateNight: finalNightDate
+                }
+                })
+                console.log('Your venue', vUpdate)
+                res.status(200).json(bookingDetail)
+            }
+            else{
+                res.status(400).json('User Not Found') 
+            }
+            
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({error:'Server Error'})
+        }
+    }
+
+
+
+    
+
 })
 
 app.get('/getReservation/:id', async (req,res)=>{
@@ -501,6 +551,14 @@ app.delete('/cancelBooking/:id',async (req,res)=>{
     console.log(id)
 
     try {
+        const finding = await Booking.findById(id)
+        const {venueId, bookingDayDate, bookingNightDate} = finding
+        await Venue.findByIdAndUpdate(venueId,  {
+            $pull: {
+                bookingDateDay: { $in:  [bookingDayDate] }, // Remove the dayDate from bookingDateDay array
+                bookingDateNight: { $in: [bookingNightDate] } // Remove the nightDate from bookingDateNight array
+            }
+           })
         const deleting = await Booking.findByIdAndRemove(id)
         console.log(deleting)
 
