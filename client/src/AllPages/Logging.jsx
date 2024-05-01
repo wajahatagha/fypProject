@@ -16,8 +16,11 @@ const navigatee = useNavigate()
   const {user, setUser} = useContext(UserContext); //destructuring setUser from UserContext.Provider in value prop
     
   if(user){
-    console.log("USer found");
+    console.log("USer found", user);
      navigatee('/')
+     if(user.email == 'admin@gmail.com'){
+      navigatee('/admin')
+     }
     
   }
   else{

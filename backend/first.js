@@ -634,6 +634,31 @@ app.put('/approveBooking/:id',async (req,res)=>{
 
 })
 
+//ADMIN APIS
+
+app.get('/adminVenues', async (req,res)=>{
+    
+    try {
+        const venues = await Venue.find()
+        const bookings = await Booking.find()
+
+        const info = {
+            venueData: venues,
+            bookingdata: bookings
+        }
+        console.log('admin venues', venues)
+        res.status(200).send(info)
+    } catch (error) {
+        res.status(400).send(error).json('error')
+    }
+    
+})
+
+app.post('/adminLogout', (req,res)=>{
+    res.cookie('token', '').json(true);
+
+})
+
 
 app.listen(4000, ()=> console.log("Server started at port 4000"));
 
