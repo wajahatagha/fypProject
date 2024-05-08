@@ -636,23 +636,94 @@ app.put('/approveBooking/:id',async (req,res)=>{
 
 //ADMIN APIS
 
-app.get('/adminVenues', async (req,res)=>{
+// app.get('/adminVenues', async (req,res)=>{
     
-    try {
-        const venues = await Venue.find()
-        const bookings = await Booking.find()
+//     try {
+//         const venues = await Venue.find()
+//         const bookings = await Booking.find()
 
-        const info = {
-            venueData: venues,
-            bookingdata: bookings
-        }
-        console.log('admin venues', venues)
-        res.status(200).send(info)
-    } catch (error) {
-        res.status(400).send(error).json('error')
-    }
+//         const info = {
+//             venueData: venues,
+//             bookingdata: bookings
+//         }
+//         console.log('admin venues', venues)
+//         res.status(200).send(info)
+//     } catch (error) {
+//         res.status(400).send(error).json('error')
+//     }
     
-})
+// })
+
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({}, { name: 1, email: 1, password: 1 }); // Fetching only name, email, and password fields
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.delete('/users/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedUser = await User.findByIdAndRemove(id);
+        res.status(200).json(deletedUser);
+    } catch (error) {
+        res.status(400).json({ error: 'Failed to delete user' });
+    }
+});
+
+app.get('/adminVenues', async (req, res) => {
+    try {
+      const venues = await Venue.find();
+      res.json(venues);
+    } catch (error) {
+      console.error('Error fetching venues:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.delete('/adminVenues/:id', async (req, res) => {
+    try {
+      const deletedVenue = await Venue.findByIdAndDelete(req.params.id);
+      if (!deletedVenue) {
+        return res.status(404).json({ message: 'Venue not found' });
+      }
+      res.status(200).json({ message: 'Venue deleted successfully', deletedVenue });
+    } catch (error) {
+      console.error('Error deleting venue:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.get('/adminBookings', async (req, res) => {
+    try {
+      const bookings = await Booking.find();
+      res.status(200).json(bookings);
+      console.log(bookings);
+    } catch (error) {
+      console.error('Error getting bookings:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.delete('/adminBookings/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedBooking = await Booking.findByIdAndDelete(id); // Find and delete the booking by ID
+        if (!deletedBooking) {
+            return res.status(404).json({ error: 'Booking not found' });
+        }
+        res.json({ message: 'Booking deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting booking:', error);
+        res.status(500).json({ error: 'Internal server error' }); // Send error response
+    }
+});
+
+
+
 
 app.post('/adminLogout', (req,res)=>{
     res.cookie('token', '').json(true);

@@ -1,42 +1,98 @@
-import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../UserContext'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import { UserContext } from '../UserContext';
 
 export default function AdminHome() {
+    const [users, setUsers] = useState([]);
+    const [showUsers, setShowUsers] = useState(true); 
+    const navigate = useNavigate();
+    // const {user} = useContext(UserContext)
 
-const [venuesData, setVenuesData] = useState([])
-const [bookingsData, setBookingsData] = useState([])
+    useEffect(() => {
+    
+        if (showUsers) {
+            axios.get('/users')
+                .then((res) => {
+                    setUsers(res.data);
+                })
+                .catch((error) => {
+                    console.error('Error fetching users:', error);
+                });
+        }
+        // if (user.name !== 'Admin') {
+        //     navigate('/'); // Redirect to general user route if not admin
+        //   }
+    }, [showUsers]);
 
-const {user, setUser} = useContext(UserContext)
+    async function handleLogout() {
+        await axios.post('/adminLogout');
+        navigate('/');
+    }
 
-const navigate = useNavigate();
+    function Venues(){
+        navigate('adminvenues');
+    }
+    function Bookings(){
+        navigate('adminbookings');
+    }
 
+    function handleShowUsers() {
+        setShowUsers(!showUsers); // Toggle showUsers state
+    }
 
-useEffect(() => {
-  
-axios.get('/adminVenues').then((res)=> {
-    const {venueData, bookingdata} = res.data
-    setVenuesData(venueData)
-    setBookingsData(bookingdata)
-})
-  
-}, [])
+    async function handleDeleteUser(id) {
+        try {
+            await axios.delete(`/users/${id}`);
+            setUsers(users.filter(user => user._id !== id)); // Remove the deleted user from state
+        } catch (error) {
+            console.error('Error deleting user:', error);
+        }
+    }
 
-async function handleLogout (){
-    await axios.post('/adminLogout')
-    // setUser(null)
-    navigate('/')
+    return (
+        <div className="container">
+            <h1 className='font-bold text-5xl'>ADMIN DASHBOARD</h1>
 
-}
+            <button onClick={handleLogout} className='btn btn-primary mt-3 wide-button'style={{ width: '200px'}}>
+                Logout
+            </button>
 
-  return (
-    <div>
-        
-        AdminHome
-<button onClick={handleLogout} className='bg-purple-500 text-white rounded-full p-3'>
-    Logout
-</button>
-    </div>
-  )
+            <button onClick={Venues} className='btn btn-primary mt-3 ml-3'style={{ width: '200px' }} >Venues</button>
+            <button onClick={Bookings} className='btn btn-primary mt-3 ml-3' style={{ width: '200px' }}>Bookings</button>
+            {showUsers && (
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <h2 className='font-bold text-3xl'>Users</h2>
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" className="p-4">#</th>
+                                <th scope="col" className="px-6 py-3">Name</th>
+                                <th scope="col" className="px-6 py-3">Email</th>
+                                <th scope="col" className="px-6 py-3">Password</th>
+                                <th scope="col" className="px-6 py-3">Delete</th>
+                                <th scope="col" className="px-6 py-3">Update</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map((user, index) => (
+                                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td className="w-4 p-4">{index + 1}</td>
+                                    <td className="px-6 py-4 font-bold text-black">{user.name}</td>
+                                    <td className="px-6 py-4 font-bold text-black">{user.email}</td>
+                                    <td className="px-6 py-4 font-bold text-black">{user.password}</td>
+                                    <td className="px-6 py-4">
+                                        <button onClick={() => handleDeleteUser(user._id)} className='btn btn-danger'>Delete</button>
+                                    </td>
+                                    <td>
+                                        <button className='btn btn-primary'>Edit</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+        </div>
+    );
 }

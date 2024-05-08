@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Head from "../Head";
 import img1 from "../Pictures/farm1.webp";
 import img2 from "../Pictures/farm2.jpg";
@@ -12,8 +12,10 @@ import img8 from "../Pictures/farm3.jpg";
 import img9 from "../Pictures/wat.jpg";
 import "../FirstPage.css";
 import Carousel from "react-bootstrap/Carousel";
+import { UserContext } from "../UserContext";
 
 function FirstPage() {
+  
   return (
     <>
       <Carousel data-bs-theme="dark">

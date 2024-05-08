@@ -5,9 +5,32 @@ import Foot from '../Foot'
 export default function AdminLayout() {
   return (
     <div>
-        <h1>This is Admin</h1>
+      
         <Outlet />
         
     </div>
   )
 }
+
+// import React, { useContext, useEffect } from 'react';
+// import { Outlet, useNavigate } from 'react-router-dom';
+// import { UserContext } from '../UserContext';
+
+// export default function AdminLayout() {
+//   const { user } = useContext(UserContext);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     // If the user is not an admin, navigate to the home page
+//     if (user?.name !== 'Admin') {
+//       navigate('/'); // Redirect to the general user route
+//     }
+//   }, [user, navigate]); // Dependency array includes 'user' and 'navigate'
+
+//   if (user?.name === 'Admin') {
+//     return <Outlet />; // Allow admin access
+//   }
+
+//   // Return null or some fallback UI while redirection happens
+//   return null;
+// }

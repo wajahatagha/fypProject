@@ -1,0 +1,61 @@
+.ad{
+    background: url('https://media.istockphoto.com/id/1171755644/photo/gray-color-gradient-abstract-background.jpg?s=612x612&w=0&k=20&c=umV42heOil2IKfiIAzbmSqTVsLTPOEYBggqtW6V7YDY=');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    background-position:center;
+}
+
+.ad .form-containersss{
+    padding: 2rem 1rem;
+    margin: 50px auto;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--box-shadow);
+    color: var(--black);
+    border-radius: 10px;
+    width: 700px;
+    height: 1650px;
+}
+ .title-info{
+    border: 2px solid rgba(255,255,255,.2);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background: transparent;
+    border: 1px solid;
+}
+
+.title-info input[type="text"] {
+    border: none;
+    background: transparent;
+    outline: none;
+    color: black;
+    width: 100%; /* or adjust width as needed */
+}
+
+.title-label{
+    display: block;
+    font-weight: bold;
+    color: var(--black);
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.info-button{
+    width: 47%;
+    padding: 20px 20px;
+    font-size: 1.5em; /* Adjust the font size as needed */
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 20px auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
