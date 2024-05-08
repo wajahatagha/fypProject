@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Head from "../Head";
 import img1 from "../Pictures/farm1.webp";
@@ -15,7 +15,19 @@ import Carousel from "react-bootstrap/Carousel";
 import { UserContext } from "../UserContext";
 
 function FirstPage() {
+  const {user} = useContext(UserContext)
+  const navigate = useNavigate()
   
+  useEffect(() => {
+    if(user == null){
+      navigate('/logging')
+    }
+    else if(user.name=='Admin'){
+      navigate('/admin')
+    }
+    console.log('admin check', user)
+  
+  }, [])
   return (
     <>
       <Carousel data-bs-theme="dark">

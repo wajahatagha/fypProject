@@ -5,11 +5,13 @@ import AdminLayout from './AdminLayout'
 import AdminHome from './AdminHome'
 import AdminVenues from './AdminVenues'
 import AdminBookings from './AdminBookings'
+import UserContextProvider from '../UserContext'
 
 
 export default function AdminRoutes() {
   return (
     <div>
+      <UserContextProvider>
         <Routes>
             {/* <Route path='/' element={App}/> */}
             <Route path='/' element={<AdminLayout />}>
@@ -20,6 +22,7 @@ export default function AdminRoutes() {
 
             </Route>
         </Routes>
+        </UserContextProvider> 
     </div>
   )
 }

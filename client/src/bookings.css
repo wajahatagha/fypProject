@@ -103,8 +103,8 @@
   }
   
   .booking-card:hover {
-    background-color: #6B46C1;
-    color: white; 
+    /* background-color: #6B46C1;
+    color: white;  */
   }
 
   
@@ -160,8 +160,8 @@
   }
   
   .card-button .cancel:hover {
-    background-color: rgb(164, 14, 14);
-    color: white;
+    /* background-color: rgb(164, 14, 14);
+    color: white; */
   }
   
   .card-button .approve {

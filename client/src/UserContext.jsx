@@ -1,44 +1,37 @@
-import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import axios from 'axios';
+import { createContext, useEffect, useState } from 'react';
 
-export const UserContext = createContext({});
+export const UserContext = createContext();
 
-import React from 'react'
-import { Navigate } from "react-router-dom";
+function UserContextProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-function UserContextProvider({children}) { //These children are routes in App.jsx that are sent as props and received over here
-  const [user, setUser ] = useState(null)
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-useEffect(() => {
-
-  const fetchData = async () => {
-    if (!user) {
+  useEffect(() => {
+    const fetchUser = async () => {
       try {
         const response = await axios.get('/profile');
-        const data = response.data;
-        setUser(data);
-        console.log('User set in state:', data);
+        setUser(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching user data:', error);
+        setIsLoading(false); // Even on error, set isLoading to false
       }
-    }
-  };
+    };
 
-  fetchData();
- 
-}, [user])
+    fetchUser(); // Fetch user data on mount
+  console.log('context', user)
+  }, []);
 
+  if (isLoading) {
+    return <div>Loading...</div>; // Render a loading indicator while fetching data
+  }
 
-
-
-
-
- 
-    return (
-    <UserContext.Provider value={{user,setUser}}>
-      {children}
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children} {/* Render children when not loading */}
     </UserContext.Provider>
-  )
+  );
 }
 
-export default UserContextProvider
+export default UserContextProvider;

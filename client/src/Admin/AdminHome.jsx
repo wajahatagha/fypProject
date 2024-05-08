@@ -7,7 +7,7 @@ export default function AdminHome() {
     const [users, setUsers] = useState([]);
     const [showUsers, setShowUsers] = useState(true); 
     const navigate = useNavigate();
-    // const {user} = useContext(UserContext)
+    const {user} = useContext(UserContext);
 
     useEffect(() => {
     
@@ -20,9 +20,10 @@ export default function AdminHome() {
                     console.error('Error fetching users:', error);
                 });
         }
-        // if (user.name !== 'Admin') {
-        //     navigate('/'); // Redirect to general user route if not admin
-        //   }
+        if (user.name !== 'Admin') {
+            navigate('/'); // Redirect to general user route if not admin
+          }
+       
     }, [showUsers]);
 
     async function handleLogout() {
