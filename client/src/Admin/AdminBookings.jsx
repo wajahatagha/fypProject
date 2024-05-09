@@ -8,16 +8,19 @@ const AdminBookings = () => {
     const navigate = useNavigate(); 
     useEffect(() => {
         fetchBookings();
+        
     }, []);
 
     const fetchBookings = () => {
         axios.get('/adminBookings')
             .then((res) => {
                 setBookings(res.data);
+                
             })
             .catch((error) => {
                 console.error('Error fetching bookings:', error);
             });
+            
     };
 
     async function handleLogout() {
@@ -80,7 +83,7 @@ const AdminBookings = () => {
                                     <td className="px-6 py-4 font-bold text-black">{booking.category}</td>
                                     <td className="px-6 py-4 font-bold text-black">{booking.bookingDayDate}</td>
                                     <td className="px-6 py-4 font-bold text-black">{booking.bookingNightDate}</td>
-                                    <td className="px-6 py-4 font-bold text-black">{booking.approval}</td>
+                                    <td className="px-6 py-4 font-bold text-black">{booking.approval==true ? "True":"False"}</td>
                                 <td className="px-6 py-4">
                                     <button onClick={() => handleDeleteBookings(booking._id)} className='btn btn-danger'>Delete</button>
                                 </td>

@@ -15,19 +15,20 @@ import Carousel from "react-bootstrap/Carousel";
 import { UserContext } from "../UserContext";
 
 function FirstPage() {
-  const {user} = useContext(UserContext)
-  const navigate = useNavigate()
+  // const {user} = useContext(UserContext)
+  // const navigate = useNavigate()
   
-  useEffect(() => {
-    if(user == null){
-      navigate('/logging')
-    }
-    else if(user.name=='Admin'){
-      navigate('/admin')
-    }
-    console.log('admin check', user)
+  // useEffect(() => {
+    
+  //    if(user.name=='Admin'){
+  //     navigate('/admin')
+  //   }
+  //   else{
+  //     navigate('/')
+  //   }
+  //   console.log('admin check', user)
   
-  }, [])
+  // }, [])
   return (
     <>
       <Carousel data-bs-theme="dark">

@@ -162,27 +162,60 @@ async function Block(){
 
   
   return (
-    <div className=' pb-96 flex justify-evenly mt-16 bg-purple-700'>
-        <div className=' text-3xl text-white mt-16 font-bold flex flex-col'>
+    <div className=' border border-solid border-2 border-black m-20 p-6 flex justify-evenly'>
+      <div>
+        <div className=' text-3xl text-black mt-16 font-bold flex flex-col'>
             Select Dates that you want to Block
 
             {
                 <div className='flex flex-col '>
                 
-            { 
+        
+              </div>
+            }
+
+
+        </div>
+        <div className='flex flex-col '>
+        <div className='flex mt-36 text-black text-xl  '>
+        Day<input type='checkbox' value='day' onChange={handleShift} checked={shiftName=='day' ? true : false}/>
+            Night<input type='checkbox' value='night' onChange={handleShift} checked={shiftName=='night' ? true : false}/>
+            </div>
+            </div>
+  
+      </div>
+      <div className=''>
+
+            
+{
+    openCalender && (
+        <DatePicker 
+           
+          onChange={(date) => {handleCalender(date)}} 
+          open={true} 
+          selected={datee ? datee : new Date()} 
+          className='mt-16'
+          filterDate={handleFilterCalender}
+          
+          
+        />
+
+    )
+}
+{ 
               totalDates && totalDates.map((dateItem)=>{
                 
                 return( 
                     <>
                     
                     
-              <div  className='flex justify-between mt-4'>     
+              <div  className='flex justify-between mt-16 text-3xl  text-black '>     
               <p>{dateItem}</p>
                 {deleteToggle && (
                     <>
                 <button
                 onClick={()=>handleDeleteButton(dateItem) }
-                className=" btn w-12 flex justify-center bg-red-600 text-white rounded-2xl"
+                className=" btn w-12 flex justify-center bg-white text-black rounded-2xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -211,41 +244,13 @@ async function Block(){
                 )
 }) 
 }
-              </div>
-            }
 {
     blockButtonToggle && (
 <div >
-    <button onClick={()=>Block()} className='bg-green-600 p-2 rounded-2xl mt-8'>Block Dates</button>
+    <button onClick={()=>Block()} className='bg-red-900 text-white text-2xl p-2 rounded-2xl mt-8'>Block Dates</button>
 </div>
     )
 }
-
-        </div>
-        <div className='flex flex-col '>
-        <div className='flex mt-36 text-white text-xl  '>
-        Day<input type='checkbox' value='day' onChange={handleShift} checked={shiftName=='day' ? true : false}/>
-            Night<input type='checkbox' value='night' onChange={handleShift} checked={shiftName=='night' ? true : false}/>
-            </div>
-      <div className=''>
-
-            
-{
-    openCalender && (
-        <DatePicker 
-           
-          onChange={(date) => {handleCalender(date)}} 
-          open={true} 
-          selected={datee ? datee : new Date()} 
-          className='mt-16'
-          filterDate={handleFilterCalender}
-          
-          
-        />
-
-    )
-}
-      </div>
       </div>
     </div>
   );
