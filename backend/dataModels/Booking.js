@@ -11,7 +11,8 @@ const BookingSchema = new mongoose.Schema({
     // bookingDateNight: [String],
     bookingDayDate: String,
     bookingNightDate: String,
-    approval: Boolean  
+    approval: Boolean,  
+    
 }); 
 
 const bookingModel = mongoose.model('Booking', BookingSchema);

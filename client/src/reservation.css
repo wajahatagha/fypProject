@@ -14,10 +14,10 @@
     box-sizing: border-box;
   }
   
-  .reservation-card:hover {
+  /* .reservation-card:hover {
     background-color: #6f42c1;
     color: white;
-  }
+  } */
   
   .reservation-card-title {
     font-size: 24px;

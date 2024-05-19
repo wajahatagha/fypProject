@@ -23,6 +23,7 @@ import AdDetails from './AllPages/AdDetails'
 import Booking from './AllPages/Booking'
 import Reservations from './AllPages/Reservations'
 import Calenderr from './AllPages/Calenderr'
+import ReviewPage from './AllPages/ReviewPage'
 
 
 
@@ -55,7 +56,7 @@ function App() {
    <Route path='/accPage/:nestPage/:event' element={<VenueForm />}/>
    <Route path='/contact' element={<Contact/>}/>
    <Route path='/about' element={<About/>}/>
-
+   <Route path='/ads/ads/reviewPage/:id' element={<ReviewPage />}/>
 
    
 

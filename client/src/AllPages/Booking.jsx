@@ -20,7 +20,18 @@ function Booking() {
           setLoading(false);
         }, 1000);
       }
-      setBookingsData(data);
+      const bookingWithStatus = data.map((booking)=>{
+        let status;
+        if(booking.bookingDayDate){
+        status = new Date(booking.bookingDayDate) < new Date() ? 'Stay Completed' : "Guests Are Arriving" 
+        }
+        else if(booking.bookingNightDate){
+          status = new Date(booking.bookingNightDate) < new Date() ? 'Stay Completed' : "Guests Are Arriving" 
+          }
+          return {...booking,status}
+      })
+      setBookingsData(bookingWithStatus)
+      // setBookingsData(data);
       data.forEach((booking) => {
         axios.post(`/getBooker`, { id: booking.userId }).then((response) => {
           const { data } = response;
@@ -31,6 +42,11 @@ function Booking() {
         });
       });
     });
+
+    
+
+
+
   }, []);
 
   async function Cancel(id) {
@@ -73,6 +89,7 @@ function Booking() {
       setBookingsData((prevItems) =>
         prevItems.filter((booking) => booking._id !== id)
       );
+      
     } catch (error) {
       console.log({ error: "Cannot end booking" });
     }
@@ -133,34 +150,52 @@ function Booking() {
                   </button>
                 </div>
               ) : booking.bookingDayDate ? (
-                new Date(booking.bookingDayDate) > new Date() ? (
-                  <>
-                    <p>Status: Arriving</p>
-                  </>
-                ) : (
-                  <>
-                    <p>Status: Stay Over</p>
-                    <button
-                      className="p-3 bg-gray-500 text-white"
-                      onClick={() => End(booking._id)}
-                    >
-                      End This Booking
-                    </button>
-                  </>
-                )
-              ) : new Date(booking.bookingNightDate) > new Date() ? (
+                // new Date(booking.bookingDayDate) > new Date() ? (
+                //   <>
+                //     <p>Status: Arriving</p>
+                //   </>
+                // ) : (
+                //   <>
+                //     {/* <p>Status: Stay Over</p> */}
+                //     {/* <button
+                //       className="p-3 bg-gray-500 text-white"
+                //       onClick={() => End(booking._id)}
+                //     >
+                //       End This Booking
+                //     </button> */}
+                //   </>
+                // ) 
                 <>
-                  <p>Status: Arriving</p>
-                </>
+                <div class="animate-pulse flex space-x-4">
+                      <div class="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto bg-gray-700">
+                
+                          <p className="bg-gray-700 text-white p-2 rounded-2xl">
+                            Status: {booking.status}
+                          </p>
+                        </div>
+                      </div>
+              </>
+              // ) : new Date(booking.bookingNightDate) > new Date() ? (
+              //   <>
+              //     <p>Status: Arriving</p>
+              //   </>
               ) : (
                 <>
-                  <p>Status: Stay Over</p>
-                  <button
+                  {/* <p>Status: Stay Over</p> */}
+                  {/* <button
                     className="p-3 bg-gray-500 text-white"
                     onClick={() => End(booking._id)}
                   >
                     End This Booking
-                  </button>
+                  </button> */}
+                    <div class="animate-pulse flex space-x-4">
+                      <div class="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto bg-gray-700">
+                
+                          <p className="bg-gray-700 text-white p-2 rounded-2xl">
+                            Status: {booking.status}
+                          </p>
+                        </div>
+                      </div>
                 </>
               )}
             </div>

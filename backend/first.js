@@ -8,6 +8,7 @@ require('dotenv').config()
 const User = require('./dataModels/User.js')
 const Venue = require('./dataModels/Venue.js')
 const Booking = require('./dataModels/Booking.js')
+const Rating = require('./dataModels/Rating.js')
 const bcrypt = require('bcryptjs')
 const jsonToken = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
@@ -392,7 +393,12 @@ app.get('/displayAds', async (req,res)=>{
     try {
         
         const ad = await Venue.find();
-        res.status(200).json(ad)
+        const reviews = await Rating.find()
+        const adInfo = {
+            ad: ad,
+            reviews: reviews
+        }
+        res.status(200).json(adInfo)
         
     } catch (error) {
         res.status(400).json(error);
@@ -571,8 +577,7 @@ app.delete('/cancelBooking/:id',async (req,res)=>{
 })
 
 app.delete('/endBooking/:id', async (req,res)=>{
- const {id} = req.params;
-
+const {id} = req.params
  try {
     const deleting = await Booking.findByIdAndRemove(id)
     console.log(deleting)
@@ -728,6 +733,41 @@ app.get('/adminVenues', async (req, res) => {
 app.post('/adminLogout', (req,res)=>{
     res.cookie('token', '').json(true);
 
+})
+
+app.post('/sendReview', async (req,res)=>{
+   const {venueId, stars, text} = req.body;
+   const{token} = req.cookies
+   const user = jsonToken.verify(token, jsonSecret)
+
+    try {
+       const ratingDoc =  await Rating.create({
+            userID: user.id,
+            userName: user.name,
+            venueID: venueId,
+            stars: stars,
+            text: text,
+        })
+        
+        res.status(200).json(ratingDoc)
+    } catch (error) {
+        res.status(400).json('Error in Rating', error)
+    }
+   
+})
+
+app.get('/getReviews/:id', async(req,res)=>{
+    try {
+        const {id} = req.params;
+        
+        const reviews = await Rating.find({venueID: id})
+        // console.log('getreviews', reviews)
+        
+        res.status(200).send(reviews)
+        
+    } catch (error) {
+        res.status(400).json(error)
+    }
 })
 
 

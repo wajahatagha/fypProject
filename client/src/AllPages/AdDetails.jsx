@@ -57,7 +57,7 @@ export default function AdDetails() {
   function booking(ev){
     ev.preventDefault();
     if(!priceCheck){
-      return  alert('Choose Slot for Booking')
+      return  alert('Details missing')
     }
     
     const sendData =  {
