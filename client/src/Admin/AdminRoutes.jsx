@@ -6,6 +6,8 @@ import AdminHome from './AdminHome'
 import AdminVenues from './AdminVenues'
 import AdminBookings from './AdminBookings'
 import UserContextProvider from '../UserContext'
+import AdminEditUser from './AdminEditUser'
+import AdminEditVenue from './AdminEditVenue'
 
 
 export default function AdminRoutes() {
@@ -18,8 +20,8 @@ export default function AdminRoutes() {
               <Route index element={<AdminHome/>} />
               <Route path='adminvenues' element={<AdminVenues/>}/>
               <Route path='adminbookings' element={<AdminBookings/>} />
-
-
+              <Route path='adminedituser/:id' element={<AdminEditUser/>} />
+              <Route path='adminvenues/:id' element={<AdminEditVenue/>}/>
             </Route>
         </Routes>
         </UserContextProvider> 

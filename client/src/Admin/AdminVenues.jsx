@@ -37,6 +37,11 @@ const AdminVenues = () => {
         navigate('/admin/adminbookings');
     }
 
+    function handleEditVenue(id) {
+        navigate(`adminvenues/${id}`);
+
+    }
+
     return (
         <div className="container">
              <h1 className='font-bold text-5xl'>ADMIN DASHBOARD</h1>
@@ -94,7 +99,7 @@ const AdminVenues = () => {
                                     <button onClick={() => handleDeleteVenue(venue._id)} className='btn btn-danger'>Delete</button>
                                 </td>
                                 <td>
-                                        <button className='btn btn-primary'>Edit</button>
+                                <button onClick={() => handleEditVenue(venue._id)} className='btn btn-primary'>Edit</button>
                                 </td>
                             </tr>
                         ))}

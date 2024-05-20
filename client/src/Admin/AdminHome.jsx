@@ -7,10 +7,9 @@ export default function AdminHome() {
     const [users, setUsers] = useState([]);
     const [showUsers, setShowUsers] = useState(true); 
     const navigate = useNavigate();
-    const {user} = useContext(UserContext);
+    // const {user} = useContext(UserContext)
 
     useEffect(() => {
-    
         if (showUsers) {
             axios.get('/users')
                 .then((res) => {
@@ -20,10 +19,9 @@ export default function AdminHome() {
                     console.error('Error fetching users:', error);
                 });
         }
-        if (user.name !== 'Admin') {
-            navigate('/'); // Redirect to general user route if not admin
-          }
-       
+        // if (user.name !== 'Admin') {
+        //     navigate('/'); // Redirect to general user route if not admin
+        // }
     }, [showUsers]);
 
     async function handleLogout() {
@@ -51,15 +49,19 @@ export default function AdminHome() {
         }
     }
 
+    function handleEditUser(id) {
+        navigate(`adminedituser/${id}`);
+    }
+
     return (
         <div className="container">
             <h1 className='font-bold text-5xl'>ADMIN DASHBOARD</h1>
 
-            <button onClick={handleLogout} className='btn btn-primary mt-3 wide-button'style={{ width: '200px'}}>
+            <button onClick={handleLogout} className='btn btn-primary mt-3 wide-button' style={{ width: '200px'}}>
                 Logout
             </button>
 
-            <button onClick={Venues} className='btn btn-primary mt-3 ml-3'style={{ width: '200px' }} >Venues</button>
+            <button onClick={Venues} className='btn btn-primary mt-3 ml-3' style={{ width: '200px' }} >Venues</button>
             <button onClick={Bookings} className='btn btn-primary mt-3 ml-3' style={{ width: '200px' }}>Bookings</button>
             {showUsers && (
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -86,7 +88,7 @@ export default function AdminHome() {
                                         <button onClick={() => handleDeleteUser(user._id)} className='btn btn-danger'>Delete</button>
                                     </td>
                                     <td>
-                                        <button className='btn btn-primary'>Edit</button>
+                                        <button onClick={() => handleEditUser(user._id)} className='btn btn-primary'>Edit</button>
                                     </td>
                                 </tr>
                             ))}
