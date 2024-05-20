@@ -739,7 +739,7 @@ app.get('/users/:id', async (req, res) => {
     }
 });
 
-// Update user by ID
+
 app.put('/users/:id', async (req, res) => {
     const { name, email } = req.body;
     try {
@@ -754,6 +754,65 @@ app.put('/users/:id', async (req, res) => {
         res.json(user);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
+app.get('/adminVenues/:id', async (req, res) => {
+    try {
+        const venue = await Venue.findById(req.params.id);
+        if (!venue) {
+            return res.status(404).json({ message: 'Venue not found' });
+        }
+        res.json(venue);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
+
+
+
+app.put('/adminVenues/:id', async (req, res) => {
+    const { ownerName, category, title, address, description, amenities, addInfo, timeFrom, timeTo, capacity, dayPrice, nightPrice } = req.body;
+    try {
+        const venue = await Venue.findByIdAndUpdate(
+            req.params.id,
+            { ownerName, category, title, address, description, amenities, addInfo, timeFrom, timeTo, capacity, dayPrice, nightPrice },
+            { new: true }
+        );
+        if (!venue) {
+            return res.status(404).json({ message: 'Venue not found' });
+        }
+        res.json(venue);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.get('/adminBookings/:id', async (req,res) => {
+    try{
+        const booking = await Booking.findById(req.params.id);
+        if(!booking){
+            return res.status(404).json({ message: 'booking not found' });
+        }
+        res.json(booking);
+    }catch(error){
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.put('/adminBookings/:id', async (req, res) => {
+    const { id } = req.params;
+    const updatedBookingData = req.body;
+
+    try {
+        const updatedBooking = await Booking.findByIdAndUpdate(id, updatedBookingData, { new: true });
+        res.json(updatedBooking);
+    } catch (error) {
+        console.error('Error updating booking:', error);
+        res.status(500).json({ error: 'Error updating booking' });
     }
 });
 

@@ -38,7 +38,7 @@ const AdminVenues = () => {
     }
 
     function handleEditVenue(id) {
-        navigate(`adminvenues/${id}`);
+        navigate(`/admin/adminvenues/${id}`);
         
     }
 
