@@ -39,7 +39,7 @@ const AdminVenues = () => {
 
     function handleEditVenue(id) {
         navigate(`adminvenues/${id}`);
-
+        
     }
 
     return (
