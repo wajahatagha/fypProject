@@ -1,3 +1,5 @@
+
+
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -5,6 +7,7 @@ import { UserContext } from '../UserContext';
 
 export default function AdminHome() {
     const [users, setUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); // State for search term
     const [showUsers, setShowUsers] = useState(true); 
     const navigate = useNavigate();
     // const {user} = useContext(UserContext)
@@ -53,6 +56,11 @@ export default function AdminHome() {
         navigate(`adminedituser/${id}`);
     }
 
+    const filteredUsers = users.filter(user => 
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="container">
             <h1 className='font-bold text-5xl'>ADMIN DASHBOARD</h1>
@@ -66,6 +74,13 @@ export default function AdminHome() {
             {showUsers && (
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <h2 className='font-bold text-3xl'>Users</h2>
+                    <input 
+                        type="text" 
+                        placeholder="Search by name or email" 
+                        className="input input-bordered mt-3 mb-3"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -78,7 +93,7 @@ export default function AdminHome() {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user, index) => (
+                            {filteredUsers.map((user, index) => (
                                 <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td className="w-4 p-4">{index + 1}</td>
                                     <td className="px-6 py-4 font-bold text-black">{user.name}</td>
@@ -99,3 +114,4 @@ export default function AdminHome() {
         </div>
     );
 }
+
