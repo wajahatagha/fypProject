@@ -17,6 +17,7 @@ function Ads() {
   const [removeFilter, setRemoveFilter] = useState([]);
   const [filterToggle, setFilterToggle] = useState(false)
   const [reviews, setReviews] = useState([])
+  const [adTemp, setAdTemp] = useState([])
 
   useEffect(() => {
     axios.get("/displayAds").then((response) => {
@@ -25,6 +26,8 @@ function Ads() {
       // console.log(data)
 
       setRemoveFilter(data.ad);
+      setReviews(data.reviews)
+      
       
       
       const updatingAds =  data.ad.map((ad)=>{
@@ -43,6 +46,8 @@ function Ads() {
           return {...ad,rating,starAvg}
           
       }) 
+
+      console.log('updating ads', updatingAds)
       setAds(updatingAds)
       
     });
@@ -79,7 +84,24 @@ function Ads() {
   };
 
   const handleSearch = () => {
-    setAds([...infoRef.current.filter((item) => item.title.toLowerCase().includes(searchTitle.toLowerCase()))]);
+   const app =  infoRef.current.map((ad)=>{
+      let rating = 0;
+      let stars = 0;
+      let starAvg = 0;
+      reviews.map((rev)=>{
+        if(ad._id===rev.venueID){
+          rating++
+          stars = stars + rev.stars 
+
+        }
+
+      })
+      starAvg = stars / rating;
+      return {...infoRef.current.filter((item) => item.title.toLowerCase().includes(searchTitle.toLowerCase())),rating,starAvg}
+      
+  })
+  setAds(app);
+
   };
 
   const filterByPriceRange = () => {
@@ -210,42 +232,44 @@ function Ads() {
 
   </div>
     </div>
-    <div className="flex flex-wrap ">
-      {ads.length > 0 &&
-        ads.map((data) => (
-          <div key={data._id} className=" m-4 h-full shadow-lg rounded-xl text-xl w-80 hover:scale-105 hover:duration-150 duration-150">
-            <div className="relative">
-              <img
-                src={`http://127.0.0.1:4000/photoUploads/${data.existingPhotos[0]}`}
-                className=" rounded-xl w-80 h-80"
-                alt="..."
-              />
-            </div>
-        
-            <div
-  className="flex flex-col gap-2 m-3  "
->
-  <div className="flex justify-between items-center ">
-  <p className="text-2xl">{data.title}</p>
-<p>{data.category}</p>
-  </div>
-  <p>{data.address.slice(0,100)}</p>
-  <Link to={`ads/reviewPage/${data._id}`} className="flex items-center gap-2">
-  <Rating name="read-only" value={data.starAvg} precision={0.5} readOnly/>
-  {`(${data.rating})`}
-  </Link>
+  
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+  {ads.map((data) => (
+    <div key={data._id} className="m-4 shadow-lg rounded-xl text-xl w-80 hover:scale-105 hover:duration-150 duration-150">
+      <div className="relative">
+        <img
+          src={`http://127.0.0.1:4000/photoUploads/${data.existingPhotos[0]}`}
+          className="rounded-xl w-80 h-80"
+          alt="..."
+        />
+      </div>
 
-  <Link to={`ads/?id=${data._id}`} className="m-4 p-2 bg-purple-900 text-white rounded-2xl flex items-center justify-center " >View Details</Link>
- 
+      <div className="grid grid-rows-3 m-3">
+        <div className="row-span-1 flex justify-between items-center">
+          <p className="text-2xl font-semibold">{data.title}</p>
+          <p className="text-lg">{data.category}</p>
+        </div>
+        <div className="row-span-1">
+          <p className="text-lg">{data.address.slice(0, 100)}</p>
+        </div>
+        <div className="mt-16 ml-6">
+          <Link to={`ads/reviewPage/${data._id}`} className="flex items-center gap-2">
+            <Rating name="read-only" value={data.starAvg} precision={0.5} readOnly />
+            {`(${data.rating})`}
+          </Link>
+        </div>
+        <div className="row-span-1">
+          <Link to={`ads/?id=${data._id}`} className="m-4 p-2 bg-purple-900 text-white rounded-2xl flex items-center justify-center">
+            View Details
+          </Link>
+        </div>
+      </div>
+    </div>
+  ))}
 </div>
 
 
-
-
-
-          </div>
-        ))}
-    </div>
+    
     </>
   );
 }
