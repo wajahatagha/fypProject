@@ -21,10 +21,10 @@ function Ads() {
   useEffect(() => {
     axios.get("/displayAds").then((response) => {
       const { data } = response;
-      infoRef.current = data;
+      infoRef.current = data.ad;
       // console.log(data)
 
-      setRemoveFilter(data);
+      setRemoveFilter(data.ad);
       
       
       const updatingAds =  data.ad.map((ad)=>{
@@ -98,6 +98,9 @@ function Ads() {
   const RemovingFilter = () => {
     setActiveCategory('');
     setSelectedCapacity('');
+    setSearchTerm('')
+    setSearchTitle('')
+    setPriceRange('')
     setAds(removeFilter);
     setFilterToggle(false)
   };
