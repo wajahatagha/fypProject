@@ -14,6 +14,7 @@ const jsonToken = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const multer = require('multer') 
 const fy = require('fs');
+const {getBill}=require('./Mail/MailMiddleware.js')
 
 
 const jsonSecret = 'asbcnkvjnaknvka'
@@ -227,7 +228,7 @@ app.post('/editProfile',async (req,res)=>{
 
 app.post('/createMyVenue', async (req,res)=>{
     const {info} = req.body
-    const {category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
+    const {category,ownerContact, title, address, description, amenities, existingPhotos, addInfo, timeFrom,
         timeTo, capacity, dayPrice, nightPrice} = info;
     const {token} = req.cookies;
     // console.log("this is title",title); 
@@ -239,6 +240,7 @@ app.post('/createMyVenue', async (req,res)=>{
        const venueDetails = await Venue.create({
             owner:id,
             ownerName:name,
+            ownerContact,
             category, title, address, description, amenities, existingPhotos, addInfo, timeFrom,
         timeTo, capacity, dayPrice, nightPrice
     
@@ -342,7 +344,7 @@ app.put('/updateMyVenue/:id',async (req,res)=>{
     const {info} = req.body
 
     const {
-        category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
+        category,ownerContact, title, address, description, amenities, existingPhotos, addInfo, timeFrom,
 timeTo, capacity, dayPrice, nightPrice
     } = info;
     
@@ -361,7 +363,7 @@ timeTo, capacity, dayPrice, nightPrice
                 
                 
                 venueDoc.set({
-                    category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
+                    category,title, ownerContact, address, description, amenities, existingPhotos, addInfo, timeFrom,
             timeTo, capacity, dayPrice, nightPrice
                 })
     
@@ -432,7 +434,7 @@ app.post('/logout', (req,res)=>{
 
 
 app.post('/bookingReq', async (req,res)=>{
-    const {id, title1, priceCheck, category1, ownerId, dayDate, nightDate, approval} = req.body; 
+    const {id, title1,userr, priceCheck, category1, ownerId, dayDate, nightDate, approval} = req.body; 
    
     const {token} = req.cookies;
     const user = jsonToken.verify(token, jsonSecret)
@@ -445,10 +447,12 @@ app.post('/bookingReq', async (req,res)=>{
 
         console.log('final day date', finalDayDate)
 
+        console.log('this is userrrrr ', userr)
+
         try {
             if (user){
                 const bookingDetail = await Booking.create({
-                  venueId:id,  ownerId: ownerId, userId: user.id, Price:priceCheck, title:title1, category:category1, bookingDayDate:dayDate, bookingNightDate:nightDate, approval:approval 
+                  venueId:id,  ownerId: ownerId, userName:userr.name, userId: userr.id, Price:priceCheck, title:title1, category:category1, bookingDayDate:dayDate, bookingNightDate:nightDate, approval:approval 
                 })
         
                 // console.log('your booking',bookingDetail)
@@ -537,7 +541,7 @@ app.get('/getBookings/:id',async (req,res)=>{
 
 app.post('/getBooker', async (req,res)=>{
     const {id} = req.body;
-    // console.log('bookerId',req.body)
+    console.log('bookerId',req.body)
 
     const booker = await User.findById(id)
 
@@ -548,9 +552,9 @@ app.post('/getBooker', async (req,res)=>{
 
 })
 
-// app.post('/sendContactInfo', getBill,(req,res)=>{
+app.post('/sendContactInfo', getBill,(req,res)=>{
     
-// })
+})
 
 app.delete('/cancelBooking/:id',async (req,res)=>{
     const {id} = req.params
@@ -826,23 +830,36 @@ app.post('/adminLogout', (req,res)=>{
 })
 
 app.post('/sendReview', async (req,res)=>{
-   const {venueId, stars, text} = req.body;
+   const {venueId, stars, text, userName, bookingID} = req.body;
    const{token} = req.cookies
    const user = jsonToken.verify(token, jsonSecret)
+    console.log('user review', userName)
+    console.log('token rev', user)
+    console.log('review booking id', bookingID) 
+    
 
-    try {
+    
+        const ratingData = await Rating.findOne({bookingID:bookingID})
+        console.log('rating data', ratingData)
+        
+        if(ratingData){
+        return res.status(400).json('Review of same booking found')
+        }
+        
        const ratingDoc =  await Rating.create({
             userID: user.id,
             userName: user.name,
+            
             venueID: venueId,
+            bookingID: bookingID,
             stars: stars,
             text: text,
         })
-        
+    
         res.status(200).json(ratingDoc)
-    } catch (error) {
-        res.status(400).json('Error in Rating', error)
-    }
+   
+   
+
    
 })
 

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const VenueSchema = new mongoose.Schema({
     owner:{type: mongoose.Schema.Types.ObjectId, ref:'User'},
     ownerName: String,
+    ownerContact: Number,
     category: String,
     title: String,
     address: String,

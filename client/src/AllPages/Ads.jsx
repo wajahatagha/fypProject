@@ -74,17 +74,59 @@ function Ads() {
 
   const filterAds = () => {
     let filteredAds = infoRef.current;
+    
     if (activeCategory !== '') {
       filteredAds = filteredAds.filter((item) => item.category === activeCategory);
+      const app =  filteredAds.map((ad)=>{
+        let rating = 0;
+        let stars = 0;
+        let starAvg = 0;
+        reviews.map((rev)=>{
+          if(ad._id===rev.venueID){
+            rating++
+            stars = stars + rev.stars 
+  
+          }
+  
+        })
+        starAvg = stars / rating;
+        
+        
+        return {...ad,rating,starAvg}
+        
+    })
+    setAds(app);
+
     }
     if (selectedCapacity !== '') {
       filteredAds = filteredAds.filter((item) => item.capacity >= parseInt(selectedCapacity));
+      const app =  filteredAds.map((ad)=>{
+        let rating = 0;
+        let stars = 0;
+        let starAvg = 0;
+        reviews.map((rev)=>{
+          if(ad._id===rev.venueID){
+            rating++
+            stars = stars + rev.stars 
+  
+          }
+  
+        })
+        starAvg = stars / rating;
+        
+        
+        return {...ad,rating,starAvg}
+        
+    })
+    setAds(app);
     }
-    setAds(filteredAds);
   };
 
   const handleSearch = () => {
-   const app =  infoRef.current.map((ad)=>{
+
+
+    const filterAd = infoRef.current.filter((item) => item.title.toLowerCase().includes(searchTitle.toLowerCase()))
+   const app =  filterAd.map((ad)=>{
       let rating = 0;
       let stars = 0;
       let starAvg = 0;
@@ -97,9 +139,12 @@ function Ads() {
 
       })
       starAvg = stars / rating;
-      return {...infoRef.current.filter((item) => item.title.toLowerCase().includes(searchTitle.toLowerCase())),rating,starAvg}
+      
+      
+      return {...ad,rating,starAvg}
       
   })
+  console.log('filter ad', app)
   setAds(app);
 
   };
@@ -109,12 +154,54 @@ function Ads() {
       setAds(infoRef.current);
     } else {
       const [min, max] = priceRange.split('-').map(Number);
-      setAds([...infoRef.current.filter((item) => item.dayPrice >= min && item.dayPrice <= max)]);
+      
+      const filterAd = infoRef.current.filter((item) => item.dayPrice >= min && item.dayPrice <= max)
+   const app =  filterAd.map((ad)=>{
+      let rating = 0;
+      let stars = 0;
+      let starAvg = 0;
+      reviews.map((rev)=>{
+        if(ad._id===rev.venueID){
+          rating++
+          stars = stars + rev.stars 
+
+        }
+
+      })
+      starAvg = stars / rating;
+      
+      
+      return {...ad,rating,starAvg}
+      
+  })
+  console.log('filter ad', app)
+  setAds(app);
     }
   };
 
   const filterByAddress = () => {
-    setAds([...infoRef.current.filter((item) => item.address.toLowerCase().includes(searchTerm.toLowerCase()))]);
+    const filterAd = infoRef.current.filter((item) => item.address.toLowerCase().includes(searchTerm.toLowerCase()))
+   const app =  filterAd.map((ad)=>{
+      let rating = 0;
+      let stars = 0;
+      let starAvg = 0;
+      reviews.map((rev)=>{
+        if(ad._id===rev.venueID){
+          rating++
+          stars = stars + rev.stars 
+
+        }
+
+      })
+      starAvg = stars / rating;
+      
+      
+      return {...ad,rating,starAvg}
+      
+  })
+  console.log('filter ad', app)
+  setAds(app);
+    
   };
 
   const RemovingFilter = () => {
@@ -123,7 +210,25 @@ function Ads() {
     setSearchTerm('')
     setSearchTitle('')
     setPriceRange('')
-    setAds(removeFilter);
+    const app =  removeFilter.map((ad)=>{
+      let rating = 0;
+      let stars = 0;
+      let starAvg = 0;
+      reviews.map((rev)=>{
+        if(ad._id===rev.venueID){
+          rating++
+          stars = stars + rev.stars 
+
+        }
+
+      })
+      starAvg = stars / rating;
+      
+      
+      return {...ad,rating,starAvg}
+      
+  })
+    setAds(app);
     setFilterToggle(false)
   };
 
@@ -131,9 +236,9 @@ function Ads() {
     <>
     <div className="flex flex-wrap justify-center">
     <div className="container">
-    <div className="search-container">
+    <div className="flex justify-center border p-3 rounded-full border-white shadow-md bg-gray-100">
       <div className="search-name">
-        <input className="searchbox"
+        <input className="rounded-2xl p-2 ml-3  border bg-white w-96"
           type="text"
           placeholder="Search by title"
           value={searchTitle}
@@ -145,7 +250,7 @@ function Ads() {
       </div>
 
       <div className="search-address">
-        <input className="searchbox"
+        <input className="rounded-2xl p-2 ml-3  border bg-white w-96"
           type="text"
           placeholder="Enter address..."
           value={searchTerm}
@@ -157,7 +262,7 @@ function Ads() {
       </div>
 
       <div className="price-filter">
-        <select className="drop-down"
+        <select className="rounded-2xl p-2 ml-3  border bg-white w-96"
           value={priceRange}
           onChange={(e) => setPriceRange(e.target.value)}
         >
@@ -174,10 +279,16 @@ function Ads() {
     </div>
 
     <div className="category-buttons">
+      <div className="flex w-full m-3">
+    <button className="cursor-pointer flex items-center justify-center p-2 h-12  bg-purple-800 rounded-xl text-md font-semibold text-white" onClick={RemovingFilter}>
+      All Venues
+    </button>
+    </div>
     {
 
       !filterToggle ? 
       <>
+      <div className="flex items-center justify-center mt-4 gap-8">
     <button className="flex justify-center gap-2  px-36 py-3 bg-gray-200 rounded-2xl " onClick={()=> setFilterToggle(true)}>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
@@ -185,22 +296,24 @@ function Ads() {
 
         Advanced Filter Search
        </button>
+      
+    </div>
 </> 
 : <>
-    <div className="flex items-center font-bold text-3xl my-16 "> Choose Category
-      <div className={`button ${activeCategory === "Farm" ? "active" : ""}`} onClick={() => 
+    <div className="flex items-center font-bold text-2xl my-16 gap-3 "> Choose Category
+      <div className={`cursor-pointer p-3 bg-purple-800 rounded-xl text-lg font-semibold text-white ${activeCategory === "Farm" ? "active" : ""}`} onClick={() => 
         {
         categories('Farm')
-       
+        
       }
         }>
         FarmHouses
       </div>
 
-      <div className={`button ${activeCategory === "Beach Huts" ? "active" : ""}`} onClick={() => categories('Beach Huts')}>
+      <div className={`cursor-pointer p-3 bg-purple-800 rounded-xl text-lg font-semibold text-white ${activeCategory === "Beach Huts" ? "active" : ""}`} onClick={() => categories('Beach Huts')}>
         Beach Huts
       </div>
-      <div className={`button ${activeCategory === "Wedding Halls" ? "active" : ""}`} onClick={() => categories('Wedding Halls')}>
+      <div className={`cursor-pointer p-3 bg-purple-800 rounded-xl text-lg font-semibold text-white ${activeCategory === "Wedding Halls" ? "active" : ""}`} onClick={() => categories('Wedding Halls')}>
         Wedding Halls
       </div>
       </div> 
@@ -226,9 +339,7 @@ function Ads() {
       </div>
     )}
 
-    <div className="button" onClick={RemovingFilter}>
-      All Venues
-    </div>
+
 
   </div>
     </div>

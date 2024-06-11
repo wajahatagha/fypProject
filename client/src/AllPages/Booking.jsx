@@ -22,7 +22,10 @@ function Booking() {
       }
       const bookingWithStatus = data.map((booking)=>{
         let status;
-        if(booking.bookingDayDate){
+        if (booking.approval === false) {
+          status = "Pending Approval";
+        }
+        else if(booking.bookingDayDate){
         status = new Date(booking.bookingDayDate) < new Date() ? 'Stay Completed' : "Guests Are Arriving" 
         }
         else if(booking.bookingNightDate){
@@ -32,15 +35,15 @@ function Booking() {
       })
       setBookingsData(bookingWithStatus)
       // setBookingsData(data);
-      data.forEach((booking) => {
-        axios.post(`/getBooker`, { id: booking.userId }).then((response) => {
-          const { data } = response;
-          setBookerName({
-            name: data.name,
-            email: data.email,
-          });
-        });
-      });
+      // data.forEach((booking) => {
+      //   axios.post(`/getBooker`, { id: booking.userId }).then((response) => {
+      //     const { data } = response;
+      //     setBookerName({
+      //       name: data.name,
+      //       email: data.email,
+      //     });
+      //   });
+      // });
     });
 
     
@@ -99,7 +102,7 @@ function Booking() {
     <div className="booking-container">
       {" "}
       {/* Add class to the top-level container */}
-      <p className="text-center font-bold text-5xl my-4">Your Bookings</p>
+      <p className="text-center font-bold text-5xl my-12">Your Bookings</p>
       {loading === true ? (
         <p className="text-3xl flex justify-center">
           Waiting for data retrieval...
@@ -128,8 +131,8 @@ function Booking() {
                   </p>
                 </>
               )}
-              <p className="card-text text-xl ">Booked By: {bookerName.name}</p>
-              <p className="card-text text-xl ml-28">{bookerName.email}</p>
+              <p className="card-text text-xl ">Booked By: {booking.userName}</p>
+              {/* <p className="card-text text-xl ">Email: {bookerName.email}</p> */}
             </div>
             <div className="ml- status">
               {booking.approval == false ? (
@@ -150,21 +153,7 @@ function Booking() {
                   </button>
                 </div>
               ) : booking.bookingDayDate ? (
-                // new Date(booking.bookingDayDate) > new Date() ? (
-                //   <>
-                //     <p>Status: Arriving</p>
-                //   </>
-                // ) : (
-                //   <>
-                //     {/* <p>Status: Stay Over</p> */}
-                //     {/* <button
-                //       className="p-3 bg-gray-500 text-white"
-                //       onClick={() => End(booking._id)}
-                //     >
-                //       End This Booking
-                //     </button> */}
-                //   </>
-                // ) 
+              
                 <>
                 <div class="animate-pulse flex space-x-4">
                       <div class="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto bg-gray-700">
@@ -175,20 +164,11 @@ function Booking() {
                         </div>
                       </div>
               </>
-              // ) : new Date(booking.bookingNightDate) > new Date() ? (
-              //   <>
-              //     <p>Status: Arriving</p>
-              //   </>
+             
               ) : (
                 <>
-                  {/* <p>Status: Stay Over</p> */}
-                  {/* <button
-                    className="p-3 bg-gray-500 text-white"
-                    onClick={() => End(booking._id)}
-                  >
-                    End This Booking
-                  </button> */}
-                    <div class="animate-pulse flex space-x-4">
+                  
+                    <div class="animate-pulse flex ">
                       <div class="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto bg-gray-700">
                 
                           <p className="bg-gray-700 text-white p-2 rounded-2xl">

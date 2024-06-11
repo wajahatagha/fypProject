@@ -31,7 +31,10 @@ function Reservations() {
 
         const bookingWithStatus = data.map((booking) => {
           let status;
-          if (booking.bookingDayDate) {
+          
+          if (booking.approval === false) {
+            status = "Pending Approval";
+          } else if (booking.bookingDayDate) {
             status =
               new Date(booking.bookingDayDate) < new Date()
                 ? "Stay Completed"
@@ -40,12 +43,15 @@ function Reservations() {
             status =
               new Date(booking.bookingNightDate) < new Date()
                 ? "Stay Completed"
-                : "Yet to visit";
+                : "Yet to Visit";
           }
+        
           return { ...booking, status };
         });
+        
         setBookingData(bookingWithStatus);
         // console.log('status', status)
+        
       }
 
       // Move the console.log statement here
@@ -65,8 +71,8 @@ function Reservations() {
     }
   }
 
-  function handleRating(){
-
+  function handleRating(bookingId){
+    console.log('give review',bookingId)
     setDialogToggle(true)
     setOpen(true)
     
@@ -75,7 +81,7 @@ function Reservations() {
   
   return (
     <div className="reservations-container">
-      <p className="text-center font-bold text-5xl my-4">Reservations</p>
+      <p className="text-center font-bold text-5xl my-12">My Reservations</p>
       {loading === true ? (
         <p className="text-3xl flex justify-center">
           Waiting for data retrieval...
@@ -156,7 +162,7 @@ function Reservations() {
               <div className="mt-3">
               {
                         booking.status == 'Stay Completed' && (
-                          <button className=" p-2 bg-yellow-300 font-bold rounded-2xl text-2xl" onClick={handleRating}>
+                          <button className=" p-2 bg-yellow-300 font-bold rounded-2xl text-2xl" onClick={()=>handleRating(booking._id)}>
                             Give a Review!
                           </button>
                         )
@@ -164,7 +170,7 @@ function Reservations() {
                       {
                         dialogToggle && (
                           <>
-                          <DraggableDialog open={open} setOpen={setOpen} venueId={booking.venueId} />
+                          <DraggableDialog open={open} setOpen={setOpen} venueId={booking.venueId} bookingID={booking._id}/>
                           </>
                         )
                       }

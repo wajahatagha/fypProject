@@ -13,13 +13,15 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from './UserContext';
+import { useContext } from 'react';
 
 
 function PaperComponent(props) {
   return (
     <Draggable
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
+    handle="#draggable-dialog-title"
+    cancel={'[class*="MuiDialogContent-root"]'}
     >
       <Paper {...props} />
     </Draggable>
@@ -27,9 +29,11 @@ function PaperComponent(props) {
 }
 
 export default function DraggableDialog(props) {
-    const {open, setOpen, venueId} = props 
+  const {user} = useContext(UserContext)
+    const {open, setOpen, venueId,bookingID} = props 
     const navigate = useNavigate();
-
+  console.log('booking iddddd', bookingID)
+  
   const [text, setText] = useState('')
 
   const [stars, setStars] = useState(4)
@@ -45,20 +49,32 @@ export default function DraggableDialog(props) {
   };
 
   async function SubmitReview(){
+
     const review = {
-        stars: stars,
-        text: text,
-        venueId: venueId,
-    }
-    const res = await axios.post('/sendReview', review)
+      stars: stars,
+      text: text,
+      venueId: venueId,
+      userName: user,
+      bookingID: bookingID,
+  }
 
-    if(res){
-        alert('Review Posted')
-        setOpen(false)
-    }
 
-    navigate('/ads')
+    try {
+      const res = await axios.post('/sendReview', review);
 
+      if (res.status === 200) {
+          alert('Review Posted');
+          setOpen(false);
+          navigate('/ads');
+      } else if(res.status== 400) {
+          console.log('Review of Same booking found', res);
+          alert('Review of Same booking found');
+      }
+  } catch (error) {
+    console.log('Review of Same booking found');
+    alert('Review of Same booking found');
+      navigate('/ads')
+  }
   }
 
   return (
