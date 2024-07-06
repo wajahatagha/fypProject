@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState,useEffect } from 'react'
-import { Link, Navigate, useParams, useLocation } from 'react-router-dom'
+import { Link, Navigate, useParams, useLocation, useNavigate } from 'react-router-dom'
 import PicturesComp from '../PicturesComp';
 import AmenityComp from '../AmenityComp';
+import { UserContext } from "../UserContext";
+import { useContext } from "react";
 function VenueForm() {
-  
+    const {user } = useContext(UserContext)
     const [redirect, setRedirect] = useState(false)
   
   
@@ -20,6 +22,8 @@ function VenueForm() {
     const [timeTo, setTimeTo] = useState('09:00 PM - 06:00 AM')
     const [capacity, setCapacity] = useState(1)
   const [dayPrice, setDayPrice] = useState(10000)
+  const [ownerContact, setOwnerContact] = useState()
+  const [lastValidContact, setLastValidContact] = useState('');
   const [nightPrice, setNightPrice] = useState(10000)
     
 
@@ -27,7 +31,7 @@ function VenueForm() {
     const searchParams = new URLSearchParams(location.search);
     const idFromQuery = searchParams.get('id');
     console.log(idFromQuery);
-    
+    const navigate = useNavigate()
     useEffect( () => {
  
       if (!idFromQuery) {
@@ -40,6 +44,7 @@ function VenueForm() {
         const{data} = response;
         setCategory(data.category)
         setTitle(data.title)
+        setOwnerContact(data.ownerContact)
         setAddress(data.address)
         setDescription(data.description)
         setAmenities(data.amenities)
@@ -70,9 +75,11 @@ function VenueForm() {
   async function savingVenue (ev){
   ev.preventDefault() //we do not want to use default functionality of form
   const info = {
-    category,title, address, description, amenities, existingPhotos, addInfo, timeFrom,
+    category,ownerContact, title, address, description, amenities, existingPhotos, addInfo, timeFrom,
     timeTo, capacity, dayPrice, nightPrice
   }
+
+  if(user.name !== 'Admin'){
 
   if(idFromQuery){
    const res = await axios.put('/updateMyVenue/'+idFromQuery,{info}) //if info not sent in an object then it will show undefined at endpoint.
@@ -87,7 +94,10 @@ function VenueForm() {
   setRedirect(true)
 
   }
-  
+}
+else{
+navigate('/logging')
+}
 }
     
   
@@ -96,7 +106,22 @@ function VenueForm() {
       return <Navigate to={"/accPage/venues"} />
     }
   
-  
+  function ContactNumber(ev){
+    const { value } = ev.target;
+    const partialRegex = /^03\d{0,9}$/;
+    const fullRegex = /^03\d{9}$/;
+
+    if (partialRegex.test(value) || value === '') {
+      setOwnerContact(value);
+      setLastValidContact(value);
+    }
+
+    if (value.length === 11 && !fullRegex.test(value)) {
+      alert('Invalid number. It should start with 03 and be 11 digits long.');
+      setOwnerContact(lastValidContact);
+    }
+
+  }
 
     return (
     <div className='venues'>
@@ -141,12 +166,23 @@ function VenueForm() {
 
                       <div className="venue-details">
                         <span className='details'>Title</span>
-                        <input value={title} onChange={ev=>setTitle(ev.target.value)} type="text"  placeholder='Title of Venue '/>
+                        <input value={title} onChange={ev=>setTitle(ev.target.value)} type="text"  placeholder='Title of Venue ' required/>
                       </div>
 
                       <div className="venue-details">
                         <span className='details'>Address</span>
-                        <input value={address} onChange={ev=>setAddress(ev.target.value)} type="text"  placeholder='Venue Address'/>
+                        <input value={address} onChange={ev=>setAddress(ev.target.value)} type="text"  placeholder='Venue Address' required/>
+                      </div>
+
+                      <div className="venue-details">
+                        <span className='details'>Add Your Contact Number</span>
+                        <input 
+        value={ownerContact} 
+        onChange={ContactNumber} 
+        type="text" 
+        placeholder='03000000000' 
+        required
+      />
                       </div>
 
                    {/* Photos */}

@@ -14,30 +14,30 @@ function Head() {
 
   return (
     <div>
-      <section className="header">
-        <Link to={"/"} className="text-4xl text-purple-900 font-bold ">
+      <section className="flex items-center  justify-between p-2">
+        <Link to={"/"} className="text-4xl text-purple-900 font-bold ml-3">
           Pak-Venues
         </Link>
         {/* <div className='flex rounded-full border border-gray-600 px-4 mt-2 mr-2 items-center shadow-md shadow-gray-400'> */}
-        <div className="nav-head">
-          <nav className="navbar">
+        <div className="flex justify-between sm:flex ">
+          <nav className="md:w-full text-2xl  sm:w-full sm:flex  justify-evenly lg:gap-8  ">
             <div>
-              <Link to={"/"} className="px-4 font-bold">
+              <Link to={"/"} className="px-4">
                 Home
               </Link>
             </div>
             <div>
-              <Link to={"/ads"} className="px-4 font-bold">
+              <Link to={"/ads"} className="px-4 ">
                 Venues
               </Link>
             </div>
             <div>
-              <Link to={"/about"} className="px-4 font-bold">
+              <Link to={"/about"} className="px-4 ">
                 About us
               </Link>
             </div>
             <div>
-              <Link to={"/contact"} className="px-4 font-bold">
+              <Link to={"/contact"} className="px-4 ">
                 Contact us
               </Link>
             </div>

@@ -15,7 +15,7 @@ export default function AdminRoutes() {
   return (
     <div>
       <UserContextProvider>
-        <Routes>
+        <Routes> 
             {/* <Route path='/' element={App}/> */}
             <Route path='/' element={<AdminLayout />}>
               <Route index element={<AdminHome/>} />
